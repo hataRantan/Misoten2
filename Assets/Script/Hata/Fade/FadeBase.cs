@@ -13,6 +13,9 @@ public abstract class FadeBase : MonoBehaviour
         //メインカメラを設定する
         canvas = this.gameObject.GetComponent<Canvas>();
         canvas.worldCamera = Camera.main;
+
+        //キャンバスとの距離を近づける
+        canvas.planeDistance = 1.0f;
     }
     //処理するキャンバス
     protected Canvas canvas = null;

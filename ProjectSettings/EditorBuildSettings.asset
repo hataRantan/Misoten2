@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Hata/FadeTest/New Scene.unity
     guid: 038e3280ca5da6d4587b407365444d33
   - enabled: 1
-    path: Assets/Scenes/Hata/FaceScene.unity
+    path: Assets/Scenes/Hata/FaceTest/FaceScene.unity
     guid: 91f6c9118335b264fbb1fb06ee3c9e85
   m_configObjects: {}

@@ -33,7 +33,9 @@ public class DefaultFade : FadeBase
         base.Awake();
     }
 
-
+    /// <summary>
+    /// フェードイン処理
+    /// </summary>
     public override IEnumerator FadeIn()
     {
         //初期位置の記憶
@@ -64,8 +66,9 @@ public class DefaultFade : FadeBase
                 if (timer.TotalSeconds > startIdx * intervelTime)
                 {
                     //移動開始
-                    StartCoroutine(MoveImage(nonLookPos, firstX[startIdx], startIdx, true));
-                    StartCoroutine(MoveImage(-nonLookPos, -firstX[startIdx], startIdx, false));
+                    StartCoroutine(RightMoveImage(nonLookPos, firstX[startIdx], startIdx, false));
+                    
+                    StartCoroutine(LeftMoveImage(-nonLookPos, -firstX[startIdx], startIdx, true));
                     startIdx++;
                 }
             }
@@ -80,29 +83,61 @@ public class DefaultFade : FadeBase
 
     public override IEnumerator FadeOut()
     {
-
-
-
-        yield return null;
-    }
-
-    private IEnumerator MoveImage(float _startX, float _endX, int _idx, bool right)
-    { 
-        //操作対象
-        //rightがtrueならrightを、falseならleftを参照
-        RectTransform target = (right) ? rightImages[_idx] : leftImages[_idx];
+        //初期位置の記憶
+        for (int idx = 0; idx < rightImages.Count; idx++)
+        {
+            firstX.Add(rightImages[idx].anchoredPosition.x);
+        }
 
         //計測開始
         ProcessTimer timer = new ProcessTimer();
         timer.Restart();
 
-        Vector2 pos = new Vector2(nonLookPos, 0.0f);
-        while (timer.TotalSeconds < moveTime)
+        //最後尾から開始
+        int startIdx = rightImages.Count - 1;
+
+        while (timer.TotalSeconds < rightImages.Count * intervelTime + moveTime)
         {
-            if (right)
-                pos.x = -Easing.QuartInOut(timer.TotalSeconds, moveTime, -_startX, -_endX);
-            else
+            if ((rightImages.Count - 1 - startIdx) * intervelTime < timer.TotalSeconds)
+            {
+                if (startIdx >= 0)
+                {
+                    //移動開始
+                    StartCoroutine(RightMoveImage(firstX[startIdx], nonLookPos, startIdx, false));
+                    StartCoroutine(LeftMoveImage(-firstX[startIdx], -nonLookPos, startIdx, false));
+                }
+                startIdx--;
+
+                Debug.Log("呼び出し自機：" + timer.TotalSeconds + " 、カウント:" + (rightImages.Count - 1 - startIdx));
+            }
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// 右側のイメージ移動
+    /// </summary>
+    /// <param name="_startX"> スタート位置 </param>
+    /// <param name="_endX"> ゴール位置 </param>
+    /// <param name="_idx"> 移動させたい画像番号 </param>
+    /// <param name="_isBig"> _startXが_endXより大きいならtrue </param>
+    private IEnumerator RightMoveImage(float _startX,float _endX,int _idx,bool _isBig)
+    {
+        RectTransform target = rightImages[_idx];
+
+        ProcessTimer timer = new ProcessTimer();
+        timer.Restart();
+
+        Vector2 pos = new Vector2(_startX, 0.0f);
+        while (timer.TotalSeconds<moveTime)
+        {
+            if (_isBig)
                 pos.x = Easing.QuartInOut(timer.TotalSeconds, moveTime, _startX, _endX);
+            else
+                pos.x = -Easing.QuartInOut(timer.TotalSeconds, moveTime, -_startX, -_endX);
 
             target.anchoredPosition = pos;
 
@@ -113,4 +148,36 @@ public class DefaultFade : FadeBase
         pos.x = _endX;
         target.anchoredPosition = pos;
     }
+    /// <summary>
+    /// 左側のイメージ移動
+    /// </summary>
+    /// <param name="_startX"> スタート位置 </param>
+    /// <param name="_endX"> ゴール位置 </param>
+    /// <param name="_idx"> 移動させたい画像番号 </param>
+    /// <param name="_isBig"> _startXが_endXより大きいならtrue </param>
+    private IEnumerator LeftMoveImage(float _startX,float _endX,int _idx,bool _isBig)
+    {
+        RectTransform target = leftImages[_idx];
+
+        ProcessTimer timer = new ProcessTimer();
+        timer.Restart();
+
+        Vector2 pos = new Vector2(_startX, 0.0f);
+        while (timer.TotalSeconds < moveTime)
+        {
+            if (_isBig)
+                pos.x = Easing.QuartInOut(timer.TotalSeconds, moveTime, _startX, _endX);
+            else
+                pos.x = -Easing.QuartInOut(timer.TotalSeconds, moveTime, -_startX, -_endX);
+
+            target.anchoredPosition = pos;
+
+            yield return null;
+        }
+
+        //位置調整
+        pos.x = _endX;
+        target.anchoredPosition = pos;
+    }
+    
 }

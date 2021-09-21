@@ -133,7 +133,7 @@ public class SceneLoader : Singleton<SceneLoader>
             Debug.LogError("フェードキャンバスにFadeBaseが存在しない");
         }
 
-        //yield return StartCoroutine(fader.FadeOut());
+        yield return StartCoroutine(fader.FadeOut());
         
         //フェードキャンバスを破棄
         Destroy(fader.gameObject);

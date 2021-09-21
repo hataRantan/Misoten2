@@ -45,4 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_minLoadTime: 2
   faderCanves:
-  - {fileID: 8307723639672981523, guid: d6f30be44935e2b49a33e7ff3c292586, type: 3}
+  - {fileID: 1558868655274230263, guid: d6f30be44935e2b49a33e7ff3c292586, type: 3}

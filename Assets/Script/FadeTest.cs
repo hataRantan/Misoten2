@@ -15,12 +15,17 @@ public class FadeTest : MonoBehaviour
         
     }
 
+    bool flg = true;
+
     // Update is called once per frame
     void Update()
     {
+        if (!flg) return; 
+
         if(Input.GetKeyDown(KeyCode.Return))
         {
             SceneLoader.Instance.CallLoadSceneDefault(next);
+            flg = false;
         }
 
         if(Input.GetKeyDown(KeyCode.L))

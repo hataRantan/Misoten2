@@ -5,77 +5,112 @@ using UnityEngine.UI;
 
 public class DefaultFade : FadeBase
 {
-    [SerializeField] Image fadeIn = null;
-    [SerializeField] Image fadeOut = null;
+    [Header("Imageそれぞれの移動時間")]
+    [Range(0.1f, 1.0f)]
+    [SerializeField] float moveTime = 1.0f;
 
-    [Range(1.0f, 2.0f)]
-    [SerializeField] float fadeTime = 1.0f;
+    [Header("Imageそれぞれの移動の開始間隔")]
+    [Range(0.0f, 1.0f)]
+    [SerializeField] float intervelTime = 0.1f;
+
+    [Header("フェード後のカラー")]
+    [SerializeField] Color fadeColor = new Color(0.15f, 0.15f, 0.15f, 1.0f);
+
+    [Header("右のフェードイメージ群")]
+    [SerializeField] List<RectTransform> rightImages = new List<RectTransform>();
+
+    [Header("左のフェードイメージ群")]
+    [SerializeField] List<RectTransform> leftImages = new List<RectTransform>();
+
+    //Imageが見えない位置
+    private float nonLookPos = 1400.0f;
+
+    //初期位置の記憶
+    List<float> firstX = new List<float>();
 
     public new void Awake()
     {
         base.Awake();
     }
 
+
     public override IEnumerator FadeIn()
     {
-        fadeIn.fillAmount = 0.0f;
+        //初期位置の記憶
+        for (int idx = 0; idx < rightImages.Count; idx++)
+        {
+            firstX.Add(rightImages[idx].anchoredPosition.x);
+        }
 
-        fadeIn.gameObject.SetActive(true);
-        fadeOut.gameObject.SetActive(false);
+        Vector2 outSide = new Vector2(nonLookPos, 0.0f);
+        //全ての画像をCanvas外に設定
+        for (int idx = 0; idx < rightImages.Count; idx++)
+        {
+            rightImages[idx].anchoredPosition = outSide;
+            leftImages[idx].anchoredPosition = -outSide;
+        }
 
-        //Debug.Log("来たよ");
-        //while(true)
-        //{
-        //    yield return null;
-        //}
-
-
+        //計測開始
         ProcessTimer timer = new ProcessTimer();
         timer.Restart();
 
-        Debug.Log("タイム：" + timer.TotalSeconds);
-
-        //ToDo：Easing導入すれば変わるか？
-        while (timer.TotalSeconds < 1.0f)
+        int startIdx = 0;
+        while (timer.TotalSeconds < rightImages.Count * intervelTime + moveTime)
         {
-            fadeIn.fillAmount = Easing.QuadIn(timer.TotalSeconds, 1.0f, 0.0f, 1.0f);
-           // Debug.Log("Timer：" + timer.TotalSeconds);
 
-            //if(fadeIn.fillAmount>0.5f)
-            //{
-            //    Debug.Log("fillObj" + fadeIn.gameObject.name);
-            //    Debug.Log("fill：" + fadeIn.fillAmount);
-            //    UnityEditor.EditorApplication.isPaused = true;
-            //}
+            if (startIdx < rightImages.Count)
+            {
+                //間隔を超えたらコルーチン開始
+                if (timer.TotalSeconds > startIdx * intervelTime)
+                {
+                    //移動開始
+                    StartCoroutine(MoveImage(nonLookPos, firstX[startIdx], startIdx, true));
+                    StartCoroutine(MoveImage(-nonLookPos, -firstX[startIdx], startIdx, false));
+                    startIdx++;
+                }
+            }
 
             yield return null;
         }
 
-        fadeIn.fillAmount = 1.0f;
+        Debug.Log("終了時間：" + timer.TotalSeconds);
 
-        Debug.Log("タイム2：" + timer.TotalSeconds);
+        yield return null;
     }
 
     public override IEnumerator FadeOut()
     {
-        fadeOut.fillAmount = 1.0f;
 
-        fadeIn.gameObject.SetActive(false);
-        fadeOut.gameObject.SetActive(true);
 
-        float fill = 1.0f;
 
+        yield return null;
+    }
+
+    private IEnumerator MoveImage(float _startX, float _endX, int _idx, bool right)
+    { 
+        //操作対象
+        //rightがtrueならrightを、falseならleftを参照
+        RectTransform target = (right) ? rightImages[_idx] : leftImages[_idx];
+
+        //計測開始
         ProcessTimer timer = new ProcessTimer();
         timer.Restart();
 
-        while (timer.TotalSeconds < fadeTime)
+        Vector2 pos = new Vector2(nonLookPos, 0.0f);
+        while (timer.TotalSeconds < moveTime)
         {
-            fill = 1.0f - timer.TotalSeconds;
-            fadeOut.fillAmount = fill;
+            if (right)
+                pos.x = -Easing.QuartInOut(timer.TotalSeconds, moveTime, -_startX, -_endX);
+            else
+                pos.x = Easing.QuartInOut(timer.TotalSeconds, moveTime, _startX, _endX);
+
+            target.anchoredPosition = pos;
 
             yield return null;
         }
 
-        fadeOut.fillAmount = 0.0f;
+        //位置調整
+        pos.x = _endX;
+        target.anchoredPosition = pos;
     }
 }

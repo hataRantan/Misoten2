@@ -6,12 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : Singleton<SceneLoader>
 {
     //したいこと
-    //シーン読み込みを非同期で行う
-    //前のシーンに戻る
-    //シーン遷移完了を伝える
-    //シーンの破棄をしないで保持する
-    //シーンの破棄をして読み込む
-
+  
     /// <summary>
     /// シーン読み込みに掛ける最低限の時間
     /// </summary>
@@ -89,17 +84,17 @@ public class SceneLoader : Singleton<SceneLoader>
     /// <param name="_fadeOutIdx"> フェードアウトの番号 </param>
     private IEnumerator LoadScene(string _scene,int _fadeInIdx,int _fadeOutIdx)
     {
+        //現在シーンを前回シーンとして記憶
+        m_lastScene = SceneManager.GetActiveScene().name;
+
         //キャンバスを生成
         FadeBase fader = Instantiate(faderCanves[_fadeInIdx]).GetComponent<FadeBase>();
-
         //フェードイン処理
-        fader = faderCanves[_fadeInIdx].GetComponent<FadeBase>();
         if (fader == null)
         {
             Debug.LogError("フェードキャンバスにFadeBaseが存在しない");
         }
 
-        yield return null;
         yield return StartCoroutine(fader.FadeIn());
 
         //計測器生成
@@ -138,7 +133,7 @@ public class SceneLoader : Singleton<SceneLoader>
             Debug.LogError("フェードキャンバスにFadeBaseが存在しない");
         }
 
-        yield return StartCoroutine(fader.FadeOut());
+        //yield return StartCoroutine(fader.FadeOut());
         
         //フェードキャンバスを破棄
         Destroy(fader.gameObject);

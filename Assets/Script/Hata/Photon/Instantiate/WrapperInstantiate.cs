@@ -63,24 +63,33 @@ namespace Pun2
                 generate = Instantiate(m_generateObj, _position, _rotation);
             }
 
+            //生成したオブジェクトの(Clone)を削除
+            generate.name = _prefabId;
+
             //PhotonNetworkの内部で正しく初期化されてから自動的にアクティブ状態に戻される
             generate.SetActive(false);
 
             return generate;
         }
 
+        /// <summary>
+        /// オブジェクトの削除 *実際にDestroyするのではなく、activeをfalseにするだけなので注意
+        /// </summary>
         public void Destroy(GameObject _obj)
         {
+            //生成したオブジェクトに付いている(Clone)を削除
+            string poolName = _obj.name.Replace("(Clone)", "");
+
             //プールの有無の確認
-            if(!m_generatedPool.ContainsKey(_obj.name))
+            if (!m_generatedPool.ContainsKey(poolName))
             {
                 //プール生成
-                ObjPool pool = new ObjPool(_obj.name);
-                m_generatedPool.Add(_obj.name, pool);
+                ObjPool pool = new ObjPool(poolName);
+                m_generatedPool.Add(poolName, pool);
             }
 
             //プールに追加
-            m_generatedPool[_obj.name].Push(_obj);
+            m_generatedPool[poolName].Push(_obj);
 
             // PhotonNetworkの内部で既に非アクティブ状態にされているので、以下の処理は不要
             // _obj.gameObject.SetActive(false);

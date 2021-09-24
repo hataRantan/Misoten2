@@ -10,7 +10,7 @@ public class RunTimeInit
     private static void InitBeforeSceneLoad()
     {
         //生成するオブジェクトリストの呼び込み
-        RunTimeInitObjects list = Resources.Load("Init/RunTimeInit") as RunTimeInitObjects;
+        RunTimeInitObjects list = Resources.Load("Hata/Init/RunTimeInit") as RunTimeInitObjects;
 
         if (list == null) return;
 

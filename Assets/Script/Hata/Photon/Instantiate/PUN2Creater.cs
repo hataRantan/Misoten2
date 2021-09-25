@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// ネットワークオブジェクトを作成するシングルトンクラス
 /// </summary>
-public class PUN2Instantiate : Singleton<PUN2Instantiate>
+public class PUN2Creater : Singleton<PUN2Creater>
 {
     //ネットワークオブジェクト生成クラス
     private Pun2.WrapperInstantiate objCreator = null;

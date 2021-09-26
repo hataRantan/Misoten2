@@ -69,6 +69,17 @@ namespace Pun2
             //PhotonNetworkの内部で正しく初期化されてから自動的にアクティブ状態に戻される
             generate.SetActive(false);
 
+            //ネットワークオブジェクトの初期化コンポーネントを起動
+            Pun2Obj init = generate.GetComponent<Pun2Obj>();
+            if(init!=null)
+            {
+                init.enabled = true;
+            }
+            else
+            {
+                Debug.LogError("ネットワークオブジェクトなのに、PhotonObjコンポーネントが存在しない");
+            }
+
             return generate;
         }
 

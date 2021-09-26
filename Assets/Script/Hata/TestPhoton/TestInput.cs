@@ -8,6 +8,16 @@ public class TestInput : MonoBehaviourPunCallbacks
 {
     Transform transform = null;
 
+    public void Init()
+    {
+        Debug.Log("TestInput初期化してみた");
+    }
+
+    public void Disble()
+    {
+        Debug.Log("TestInput破棄してみた");
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -57,13 +57,11 @@ public class SimplePun : MonoBehaviourPunCallbacks
         //PhotonNetwork.Instantiate("none", Vector3.zero, Quaternion.identity);
 
         //testObj = PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
-        testObj.name = "My";
+        //testObj.name = "My";
     }
 
     public void Update()
     {
-        if (!photonView.IsMine) return;
-
         if(Input.GetKeyDown(KeyCode.Return))
         {
             PUN2Creater.Instance.Destroy(testObj);

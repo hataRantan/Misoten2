@@ -16,6 +16,8 @@ public class TestInput : MonoBehaviourPunCallbacks
 
     public void Init()
     {
+        if (!photonView.IsMine) return;
+
         GameObject obj = PUN2Creater.Instance.CreateNetworkObj(uiTest, Vector3.zero, Quaternion.identity);
         ui = obj.GetComponent<PhotonUITest>();
         ui.SetPlayer(this.gameObject.transform);

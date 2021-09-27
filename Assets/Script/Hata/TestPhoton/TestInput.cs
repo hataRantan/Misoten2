@@ -8,14 +8,23 @@ public class TestInput : MonoBehaviourPunCallbacks
 {
     Transform transform = null;
 
+    [Header("テスト用オブジェクト")]
+    [SerializeField] GameObject uiTest = null;
+    PhotonUITest ui = null;
+
+    float uiFill = 1.0f;
+
     public void Init()
     {
-        Debug.Log("TestInput初期化してみた");
+        GameObject obj = PUN2Creater.Instance.CreateNetworkObj(uiTest, Vector3.zero, Quaternion.identity);
+        ui = obj.GetComponent<PhotonUITest>();
+        ui.SetPlayer(this.gameObject.transform);
+        
     }
 
     public void Disble()
     {
-        Debug.Log("TestInput破棄してみた");
+
     }
 
     // Start is called before the first frame update
@@ -31,21 +40,41 @@ public class TestInput : MonoBehaviourPunCallbacks
         //photonView.IsMine	自身（ローカルプレイヤー）が管理者かどうか
         if (!photonView.IsMine) return;
 
-        if(Input.GetKey(KeyCode.W))
+        bool flg = true;
+
+        if (Input.GetKey(KeyCode.W))
         {
             transform.position += Vector3.forward * 1.0f;
+            flg = false;
+            uiFill -= Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
             transform.position -= Vector3.forward * 1.0f;
+            flg = false;
+            uiFill -= Time.deltaTime;
         }
-        if(Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             transform.position -= Vector3.right * 1.0f;
+            flg = false;
+            uiFill -= Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += Vector3.right * 1.0f;
+            flg = false;
+            uiFill -= Time.deltaTime;
         }
+
+        if (flg)
+        {
+            if (uiFill < 1.0f) uiFill += Time.deltaTime;
+            else uiFill = 1.0f;
+        }
+
+        if (uiFill < 0.0f) uiFill = 0.0f;
+
+        ui.SetFill(uiFill);
     }
 }

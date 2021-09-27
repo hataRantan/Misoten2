@@ -26,6 +26,8 @@ public class Pun2Obj : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
 
+        string name = gameObject.name;
+
         // PhotonNetwork.Instantiateの生成処理後に必要な初期化処理を行う
         foreach(var init in initEvents)
         {

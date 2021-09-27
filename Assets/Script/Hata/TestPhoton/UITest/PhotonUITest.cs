@@ -15,7 +15,7 @@ public class PhotonUITest : MonoBehaviourPunCallbacks
 
     public void Init()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         image = this.gameObject.GetComponent<Image>();
         rect = this.gameObject.GetComponent<RectTransform>();
@@ -38,11 +38,11 @@ public class PhotonUITest : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         Vector2 pos;
 
-       if(target==null)
+        if (target == null)
         {
             int i = 0;
         }

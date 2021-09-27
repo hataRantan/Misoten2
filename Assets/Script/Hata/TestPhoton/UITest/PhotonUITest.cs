@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PhotonUITest : MonoBehaviourPunCallbacks, IPunObservable
+public class PhotonUITest : MonoBehaviourPunCallbacks
+//, IPunObservable
 {
     Image image = null;
     RectTransform rect = null;
-    public Transform target = null;
+    Transform target = null;
     RectTransform canvas = null;
 
 
     public void Init()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         image = this.gameObject.GetComponent<Image>();
         rect = this.gameObject.GetComponent<RectTransform>();
@@ -37,11 +38,15 @@ public class PhotonUITest : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         Vector2 pos;
 
-       
+       if(target==null)
+        {
+            int i = 0;
+        }
+
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, screenPos, Camera.main, out pos);
@@ -50,17 +55,17 @@ public class PhotonUITest : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     //定期的に行われる同期関数です
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            // 自身のアバターのスタミナを送信する
-            stream.SendNext(image.fillAmount);
-        }
-        else
-        {
-            // 他プレイヤーのアバターのスタミナを受信する
-            image.fillAmount = (float)stream.ReceiveNext();
-        }
-    }
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        // 自身のアバターのスタミナを送信する
+    //        stream.SendNext(image.fillAmount);
+    //    }
+    //    else
+    //    {
+    //        // 他プレイヤーのアバターのスタミナを受信する
+    //        image.fillAmount = (float)stream.ReceiveNext();
+    //    }
+    //}
 }

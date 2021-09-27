@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PhotonUITest : MonoBehaviour, IPunObservable
+public class PhotonUITest : MonoBehaviourPunCallbacks, IPunObservable
 {
     Image image = null;
     RectTransform rect = null;
@@ -14,6 +14,8 @@ public class PhotonUITest : MonoBehaviour, IPunObservable
 
     public void Init()
     {
+        if (!photonView.IsMine) return;
+
         image = this.gameObject.GetComponent<Image>();
         rect = this.gameObject.GetComponent<RectTransform>();
         canvas = GameObject.Find("Canvas").GetComponent<RectTransform>();
@@ -35,6 +37,8 @@ public class PhotonUITest : MonoBehaviour, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         Vector2 pos;
 
        

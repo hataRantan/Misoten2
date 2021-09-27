@@ -18,9 +18,9 @@ public class TestInput : MonoBehaviourPunCallbacks
     {
         //if (!photonView.IsMine) return;
 
-        //GameObject obj = PUN2Creater.Instance.CreateNetworkObj(uiTest, Vector3.zero, Quaternion.identity);
-        //ui = obj.GetComponent<PhotonUITest>();
-        //ui.SetPlayer(this.gameObject.transform);
+        GameObject obj = PUN2Creater.Instance.CreateNetworkObj(uiTest, Vector3.zero, Quaternion.identity);
+        ui = obj.GetComponent<PhotonUITest>();
+        ui.SetPlayer(this.gameObject.transform);
 
     }
 
@@ -41,13 +41,6 @@ public class TestInput : MonoBehaviourPunCallbacks
         //自身が生成したオブジェクトで無ければ、処理しない
         //photonView.IsMine	自身（ローカルプレイヤー）が管理者かどうか
         //if (!photonView.IsMine) return;
-
-        if (Input.GetKey(KeyCode.O))
-        {
-            GameObject obj = PUN2Creater.Instance.CreateNetworkObj(uiTest, Vector3.zero, Quaternion.identity);
-            ui = obj.GetComponent<PhotonUITest>();
-            ui.SetPlayer(this.gameObject.transform);
-        }
 
         bool flg = true;
 
@@ -84,6 +77,9 @@ public class TestInput : MonoBehaviourPunCallbacks
 
         if (uiFill < 0.0f) uiFill = 0.0f;
 
-        if (ui != null) ui.SetFill(uiFill);
+        if (ui != null)
+        {
+            ui.SetFill(uiFill);
+        }
     }
 }

@@ -10,6 +10,9 @@ public class SimplePun : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject Player = null;
 
+    [SerializeField]
+    GameObject imageTest = null;
+
     GameObject testObj = null;
 
     //[Header("テストCube")]
@@ -56,19 +59,24 @@ public class SimplePun : MonoBehaviourPunCallbacks
         //GameObject monster = PhotonNetwork.Instantiate("Hata/Photon/Cube", Vector3.zero, Quaternion.identity, 0);
         //PhotonNetwork.Instantiate("none", Vector3.zero, Quaternion.identity);
 
-        testObj = PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
-        testObj.name = "My";
+        //GameObject image = PUN2Creater.Instance.CreateNetworkObj(imageTest, Vector3.zero, Quaternion.identity);
+
+        GameObject cube = PhotonNetwork.Instantiate(Player.name, Vector3.zero, Quaternion.identity);
+        GameObject image = PhotonNetwork.Instantiate(imageTest.name, Vector3.zero, Quaternion.identity);
+
+        cube.GetComponent<TestInput>().SetUI(image.GetComponent<PhotonUITest>());
+        image.GetComponent<PhotonUITest>().SetPlayer(cube.transform);
     }
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            PUN2Creater.Instance.Destroy(testObj);
-        }
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
-        }
+        //if(Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    PUN2Creater.Instance.Destroy(testObj);
+        //}
+        //if(Input.GetKeyDown(KeyCode.L))
+        //{
+        //    PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
+        //}
     }
 }

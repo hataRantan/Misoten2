@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
+//キャンバスをネットワークオブジェクトにすべきでは？
 public class PhotonUITest : MonoBehaviourPunCallbacks
 //, IPunObservable
 {
@@ -47,25 +48,31 @@ public class PhotonUITest : MonoBehaviourPunCallbacks
             int i = 0;
         }
 
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
+        Vector2 screenPos = Vector2.zero;
+        pos = screenPos;
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, screenPos, Camera.main, out pos);
+        if (target != null)
+        {
+            screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
 
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, screenPos, Camera.main, out pos);
+        }
+         
         rect.localPosition = pos;
     }
 
     //定期的に行われる同期関数です
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        // 自身のアバターのスタミナを送信する
-    //        stream.SendNext(image.fillAmount);
-    //    }
-    //    else
-    //    {
-    //        // 他プレイヤーのアバターのスタミナを受信する
-    //        image.fillAmount = (float)stream.ReceiveNext();
-    //    }
-    //}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // 自身のアバターのスタミナを送信する
+            stream.SendNext(image.fillAmount);
+        }
+        else
+        {
+            // 他プレイヤーのアバターのスタミナを受信する
+            image.fillAmount = (float)stream.ReceiveNext();
+        }
+    }
 }

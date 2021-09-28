@@ -66,6 +66,13 @@ public class SimplePun : MonoBehaviourPunCallbacks
 
         cube.GetComponent<TestInput>().SetUI(image.GetComponent<PhotonUITest>());
         image.GetComponent<PhotonUITest>().SetPlayer(cube.transform);
+
+        // オブジェクト同期の頻度を調整する
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            PhotonNetwork.SendRate = 30; // 1秒間にメッセージ送信を行う回数
+            PhotonNetwork.SerializationRate = 30; // 1秒間にオブジェクト同期を行う回数
+        }
     }
 
     public void Update()

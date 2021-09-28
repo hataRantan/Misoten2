@@ -11,8 +11,8 @@ namespace Pun2
     {
         //生成対象のプール
         private Dictionary<string, ObjPool> m_generatedPool = new Dictionary<string, ObjPool>();
-        //生成したいオブジェクト(プールが無い時に使用する )
-        private GameObject m_generateObj = null;
+        //生成予定のオブジェクト一覧
+        private Dictionary<string, GameObject> m_generateObjects = new Dictionary<string, GameObject>();
 
         private void Start()
         {
@@ -21,12 +21,15 @@ namespace Pun2
         }
 
         /// <summary>
-        /// 生成したオブジェクトを設定 (Instantiateの前に必ず使用すること)
+        /// 生成したオブジェクトを設定 
         /// </summary>
         /// <param name="_obj"> 生成したいオブジェクト </param>
-        public void SetObj(GameObject _obj)
+        public void SetObjectList(List<GameObject> _networkObjList)
         {
-            m_generateObj = _obj;
+            foreach(var obj in _networkObjList)
+            {
+                m_generateObjects.Add(obj.name, obj);
+            }
         }
 
         /// <summary>
@@ -38,6 +41,13 @@ namespace Pun2
         /// <returns> 生成または取り出したオブジェクト </returns>
         public GameObject Instantiate(string _prefabId, Vector3 _position, Quaternion _rotation)
         {
+#if UNITY_EDITOR
+            if (!m_generateObjects.ContainsKey(_prefabId))
+            {
+                Debug.LogError(_prefabId + "のプレハブは、PUN2Createに設定されていません");
+            }
+#endif
+
             //生成オブジェクトの入れ物
             GameObject generate = null;
 
@@ -53,14 +63,14 @@ namespace Pun2
                 else
                 {
                     //プールにスタックが無い為、生成
-                    generate = Instantiate(m_generateObj, _position, _rotation);
+                    generate = Instantiate(m_generateObjects[_prefabId], _position, _rotation);
                 }
 
             }
             else
             {
                 //プールが無いため、生成
-                generate = Instantiate(m_generateObj, _position, _rotation);
+                generate = Instantiate(m_generateObjects[_prefabId], _position, _rotation);
             }
 
             //生成したオブジェクトの(Clone)を削除
@@ -115,7 +125,8 @@ namespace Pun2
             //nullを入れることで、次のGCの対象になるらしい
             m_generatedPool.Add("none", null);
 
-            m_generateObj = null;
+            m_generatedPool.Clear();
+            m_generateObjects.Add("none", null);
         }
     }
 }

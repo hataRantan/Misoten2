@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 
 //キャンバスをネットワークオブジェクトにすべきでは？
-public class PhotonUITest : MonoBehaviourPunCallbacks
-//, IPunObservable
+public class PhotonUITest : MonoBehaviourPunCallbacks, IPunObservable
 {
     Image image = null;
     RectTransform rect = null;

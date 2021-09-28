@@ -52,9 +52,9 @@ namespace Pun2
             GameObject generate = null;
 
             //プールの確認
-            if(m_generatedPool.ContainsKey(_prefabId))
+            if (m_generatedPool.ContainsKey(_prefabId))
             {
-                if(m_generatedPool[_prefabId].GetCnt()>0)
+                if (m_generatedPool[_prefabId].GetCnt() > 0)
                 {
                     //プールから取り出す
                     generate = m_generatedPool[_prefabId].Pop();
@@ -81,7 +81,7 @@ namespace Pun2
 
             //ネットワークオブジェクトの初期化コンポーネントを起動
             Pun2Obj init = generate.GetComponent<Pun2Obj>();
-            if(init!=null)
+            if (init != null)
             {
                 init.enabled = true;
             }

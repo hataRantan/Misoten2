@@ -287,6 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiTest: {fileID: 5615567823847910394, guid: 0ee498f1f0cadea4eae210c70e9a42b8, type: 3}
+  bullet: {fileID: 2958571903350244759, guid: c841166cc1efea24fa5944e061b57f40, type: 3}
 --- !u!114 &-6442691256274838804
 MonoBehaviour:
   m_ObjectHideFlags: 0

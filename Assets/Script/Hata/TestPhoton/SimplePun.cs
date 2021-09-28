@@ -61,18 +61,19 @@ public class SimplePun : MonoBehaviourPunCallbacks
 
         //GameObject image = PUN2Creater.Instance.CreateNetworkObj(imageTest, Vector3.zero, Quaternion.identity);
 
-        GameObject cube = PhotonNetwork.Instantiate(Player.name, Vector3.zero, Quaternion.identity);
+        GameObject cube = PhotonNetwork.Instantiate(Player.name, new Vector3(0.0f,0.0f,10.0f), Quaternion.identity);
         GameObject image = PhotonNetwork.Instantiate(imageTest.name, Vector3.zero, Quaternion.identity);
 
         cube.GetComponent<TestInput>().SetUI(image.GetComponent<PhotonUITest>());
         image.GetComponent<PhotonUITest>().SetPlayer(cube.transform);
 
         // オブジェクト同期の頻度を調整する
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            PhotonNetwork.SendRate = 30; // 1秒間にメッセージ送信を行う回数
-            PhotonNetwork.SerializationRate = 30; // 1秒間にオブジェクト同期を行う回数
-        }
+        //ToDo：後々変更必要
+        //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    PhotonNetwork.SendRate = 30; // 1秒間にメッセージ送信を行う回数
+        //    PhotonNetwork.SerializationRate = 30; // 1秒間にオブジェクト同期を行う回数
+        //}
     }
 
     public void Update()

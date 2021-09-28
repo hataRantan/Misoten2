@@ -14,6 +14,10 @@ public class TestInput : MonoBehaviourPunCallbacks
 
     float uiFill = 1.0f;
 
+
+    [SerializeField]
+    GameObject bullet = null;
+
     public void Init()
     {
         //if (!photonView.IsMine) return;
@@ -47,29 +51,37 @@ public class TestInput : MonoBehaviourPunCallbacks
         //photonView.IsMine	自身（ローカルプレイヤー）が管理者かどうか
         if (!photonView.IsMine) return;
 
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            Fire(0.0f);
+            
+            //第二引数で実行者など変更可
+            photonView.RPC(nameof(Fire), RpcTarget.AllBuffered, 0.0f);
+        }
+
         bool flg = true;
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += Vector3.forward * 1.0f;
+            transform.position += Vector3.up * 5.0f * Time.deltaTime;
             flg = false;
             uiFill -= Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position -= Vector3.forward * 1.0f;
+            transform.position -= Vector3.up * 5.0f * Time.deltaTime;
             flg = false;
             uiFill -= Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position -= Vector3.right * 1.0f;
+            transform.position -= Vector3.right * 5.0f * Time.deltaTime;
             flg = false;
             uiFill -= Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += Vector3.right * 1.0f;
+            transform.position += Vector3.right * 5.0f * Time.deltaTime;
             flg = false;
             uiFill -= Time.deltaTime;
         }
@@ -86,5 +98,12 @@ public class TestInput : MonoBehaviourPunCallbacks
         {
             ui.SetFill(uiFill);
         }
+    }
+
+    [PunRPC]
+    private void Fire(float angle)
+    {
+        var bu = Instantiate(bullet);
+        bu.GetComponent<BulletTest>().Init(transform.position, angle);
     }
 }

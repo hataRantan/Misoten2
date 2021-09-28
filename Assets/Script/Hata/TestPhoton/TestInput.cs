@@ -14,6 +14,8 @@ public class TestInput : MonoBehaviourPunCallbacks
 
     float uiFill = 1.0f;
 
+    private int nextBulletID = 0;
+
 
     [SerializeField]
     GameObject bullet = null;
@@ -53,10 +55,10 @@ public class TestInput : MonoBehaviourPunCallbacks
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            Fire(0.0f);
-            
+            //Fire(0.0f);
+
             //第二引数で実行者など変更可
-            photonView.RPC(nameof(Fire), RpcTarget.AllBuffered, 0.0f);
+            photonView.RPC(nameof(Fire), RpcTarget.AllBuffered, nextBulletID++, 0.0f);
         }
 
         bool flg = true;
@@ -101,9 +103,9 @@ public class TestInput : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void Fire(float angle)
+    private void Fire(int id,float angle)
     {
         var bu = Instantiate(bullet);
-        bu.GetComponent<BulletTest>().Init(transform.position, angle);
+        bu.GetComponent<BulletTest>().Init(id,photonView.OwnerActorNr,transform.position, angle);
     }
 }

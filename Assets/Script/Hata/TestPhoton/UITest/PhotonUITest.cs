@@ -33,13 +33,15 @@ public class PhotonUITest : MonoBehaviourPunCallbacks
 
     public void SetFill(float fill)
     {
+        if (!photonView.IsMine) return;
+
         image.fillAmount = fill;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (!photonView.IsMine) return;
+        if (!photonView.IsMine) return;
 
         Vector2 pos;
 

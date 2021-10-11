@@ -7,6 +7,8 @@ public class protoInput : MonoBehaviour
     //キーボードかコントローラのどちらかを使うかのフラグ
     public bool isController { get; set; }
 
+   
+
     private void Awake()
     {
         isController = true;

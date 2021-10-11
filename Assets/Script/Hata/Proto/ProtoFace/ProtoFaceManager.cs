@@ -20,11 +20,8 @@ public class ProtoFaceManager : MonoBehaviour
     [Header("移動後のシーン")]
     [SerializeField] SceneObject nextScene = null;
 
-    //撮影開始の合図：マスクは外した方がいいよとか流す
-    //１人目の撮影中：
-    //２人目の撮影中：
-    //失敗の場合は、適当に張る：
-    //次のシーンへ：
+    //入力値
+    private protoInput inputer = null;
 
     private enum ProtoFaceEvent
     {
@@ -37,6 +34,9 @@ public class ProtoFaceManager : MonoBehaviour
 
     private void Start()
     {
+        inputer = gameObject.GetComponent<protoInput>();
+        inputer.isController = false;
+        
         //状態作成
         machine.AddState(ProtoFaceEvent.FIRST_PHOTO, new FirstFace(), this);
         machine.AddState(ProtoFaceEvent.SECOND_PHOTO, new SecondFace(), this);
@@ -82,7 +82,8 @@ public class ProtoFaceManager : MonoBehaviour
             //ネストが深くなって良くないけど、プロトなんで適当に記述
             if (face == null)
             {
-                if (Input.GetKeyDown(KeyCode.Return))
+                //if (Input.GetKeyDown(KeyCode.Return))
+                if(board.inputer.Get_AButtonDown())
                 {
                     //顔を取得
                     face = board.facePhoto.FaceTrimming_Tex2D();
@@ -102,7 +103,7 @@ public class ProtoFaceManager : MonoBehaviour
             else
             {
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (board.inputer.Get_AButtonDown())
                     return ProtoFaceEvent.SECOND_PHOTO;
             }
 
@@ -141,7 +142,7 @@ public class ProtoFaceManager : MonoBehaviour
             //ネストが深くなって良くないけど、プロトなんで適当に記述
             if (face == null)
             {
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (board.inputer.Get_AButtonDown())
                 {
                     //顔を取得
                     face = board.facePhoto.FaceTrimming_Tex2D();
@@ -160,7 +161,7 @@ public class ProtoFaceManager : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (board.inputer.Get_AButtonDown())
                 {
                     board.facePhoto.Release();
                     SceneLoader.Instance.CallLoadSceneDefault(board.nextScene.GetName);

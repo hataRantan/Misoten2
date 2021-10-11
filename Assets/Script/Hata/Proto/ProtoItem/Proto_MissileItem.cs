@@ -19,6 +19,9 @@ public class Proto_MissileItem :Proto_ItemInterface
     //アクション中か
     private bool isAction = false;
 
+    //進行方向を描画する
+    private LineRenderer line = null;
+
     public override void Init()
     {
         rigid = gameObject.GetComponent<Rigidbody>();
@@ -27,6 +30,9 @@ public class Proto_MissileItem :Proto_ItemInterface
 
         rigid.useGravity = false;
         gameObject.transform.position += Vector3.up * 2.0f;
+
+        line = gameObject.GetComponent<LineRenderer>();
+        line.enabled = true;
     }
 
     /// <summary>
@@ -42,6 +48,13 @@ public class Proto_MissileItem :Proto_ItemInterface
 
         rigid.AddTorque(new Vector3(0.0f, rotate, 0.0f), ForceMode.Acceleration);
 
+        //線の位置を設定
+        Vector3 pos = gameObject.transform.position;
+
+        line.SetPositions(new Vector3[] { pos, pos + (-gameObject.transform.up * 30.0f) });
+        line.startWidth = line.endWidth = 1.0f;
+        line.startColor = line.endColor = Color.red;
+        
         //Debug.DrawRay(gameObject.transform.position, -gameObject.transform.up * 50.0f, Color.red);
     }
 
@@ -56,6 +69,8 @@ public class Proto_MissileItem :Proto_ItemInterface
 
         isHit = false;
         isAction = true;
+
+        line.enabled = false;
     }
 
     public override bool Action()

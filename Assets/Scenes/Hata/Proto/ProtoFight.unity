@@ -560,7 +560,7 @@ MonoBehaviour:
   playerPrehub: {fileID: 7591309242837106520, guid: 389a1e7fae8d04b4cbae1dc563011daf,
     type: 3}
   timerText: {fileID: 457347841}
-  fightIntervelTime: 0
+  fightIntervelTime: 2
   blowUI: {fileID: 2133613453}
   playerMaxNum: 2
   playerHps:
@@ -972,10 +972,10 @@ MonoBehaviour:
   itemList:
   - {fileID: 1218652894511529817, guid: e05860377ca91934cbb11011abea5746, type: 3}
   - {fileID: 8785291068038277863, guid: 643e02f5a7875ad4098647010bc3e7e4, type: 3}
-  appearMaxIntervel: 3
-  appearMinInterverl: 1
-  itemTestNum: 1
-  itemType: 0
+  appearMaxIntervel: 1
+  appearMinInterverl: 5
+  itemTestNum: 30
+  itemType: 2
 --- !u!1 &760485136
 GameObject:
   m_ObjectHideFlags: 0

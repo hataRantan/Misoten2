@@ -96,9 +96,9 @@ public class Proto_ItemManager : Singleton<Proto_ItemManager>
                         break;
 
                     case ItemType.ALL:
-                        int itemIdx = Random.Range(0, 1);
+                        int itemIdx = Random.Range(0, 2);
+                        Debug.Log(itemIdx);
                         item = Instantiate(itemList[itemIdx]);
-
                         break;
                 }
                 

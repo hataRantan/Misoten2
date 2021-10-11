@@ -15,6 +15,8 @@ namespace Face
         [Header("カメラを映す対象")]
         [SerializeField]
         private RawImage m_camImage = null;
+        //インスペクターで設定しているRawImageのサイズ
+        private Vector3 m_camSize = Vector3.zero;
 
         //カメラ認証に必要なデータ一覧
         [SerializeField] TextAsset facesAsset;
@@ -59,7 +61,7 @@ namespace Face
 
                 //使用するデバイスのインデックスを取得
                 int cameraIndex = -1;
-                for (int i = 0; i < WebCamTexture.devices.Length && -1 == cameraIndex; i++)
+                for (int i = 0; i < WebCamTexture.devices.Length; i++)
                 {
                     //2021/09/12 hata Webカメラを使用するためにコメントアウト
                     //if (WebCamTexture.devices[i].name == value)
@@ -70,6 +72,7 @@ namespace Face
                 if (-1 != cameraIndex)
                 {
                     m_webCamDev = WebCamTexture.devices[cameraIndex];
+                    //m_webCamTex = new WebCamTexture(m_webCamDev.Value.name, (int)m_camSize.x, (int)m_camSize.y, 30);
                     m_webCamTex = new WebCamTexture(m_webCamDev.Value.name);
 
                     // read device params and make conversion map
@@ -84,12 +87,20 @@ namespace Face
                 }
             }
         }
-
+        
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         private void Awake()
         {
+            //最初のサイズを保存する
+            m_camSize = m_camImage.rectTransform.rect.size;
+
             //デバイスの取得
             if (WebCamTexture.devices.Length > 0)
+            {
                 DeviceName = WebCamTexture.devices[WebCamTexture.devices.Length - 1].name;
+            }
 
             //顔認証の生成
             processor = new OpenCvSharp.Demo.FaceProcessorLive<WebCamTexture>();
@@ -110,12 +121,15 @@ namespace Face
             //n番目のフレームごとに処理する(0なら毎フレーム行う)
             processor.Performance.SkipRate = 0;
 
-
             //レンダリング処理を停止
-            RenderStop();
+            //RenderStop();
+
         }
 
-        private void Update()
+        /// <summary>
+        /// 描画処理
+        /// </summary>
+        public void MyUpdate()
         {
             if (!isRender) return;
 
@@ -138,6 +152,7 @@ namespace Face
         /// </summary>
         public void RenderStart()
         {
+            m_webCamTex.Play();
             isRender = true;
             m_camImage.gameObject.SetActive(true);
         }
@@ -147,8 +162,22 @@ namespace Face
         /// </summary>
         public void RenderStop()
         {
+            m_webCamTex.Pause();
             isRender = false;
             m_camImage.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// 明示的に解放する
+        /// </summary>
+        public void Release()
+        {
+            isRender = false;
+            m_camImage.gameObject.SetActive(false);
+
+
+            m_webCamTex.Stop();
+            Destroy(m_webCamTex);
         }
 
         /// <summary>
@@ -165,15 +194,23 @@ namespace Face
             Cv2.CvtColor(mat, gray, ColorConversionCodes.BGR2GRAY);
 
             // カスケード分類器の準備
-            //ToDo：注意が必要かもしれん
             CascadeClassifier haarCascade = new CascadeClassifier("Assets/OpenCV+Unity/Demo/Face_Detector/haarcascade_frontalface_default.xml");
 
             // 顔検出
             OpenCvSharp.Rect[] faces = haarCascade.DetectMultiScale(gray);
 
-            //ToDo：顔検出が行えない場合の処理が必要
-            //トリミング
-            mat = mat.SubMat(faces[0]);
+            //顔を検出出来たか確認
+            if (faces.Length != 0)
+            {
+                Debug.Log("顔を認識");
+                //トリミング
+                mat = mat.SubMat(faces[0]);
+            }
+            else
+            {
+                Debug.Log("顔検出出来なかった");
+            }
+
 
             // OpenCVのデータをUnityの扱えるデータに変換
             Texture2D outTexture = new Texture2D(mat.Width, mat.Height, TextureFormat.ARGB32, false);
@@ -183,22 +220,31 @@ namespace Face
         }
 
         /// <summary>
+        /// テクスチャ2DをSpriteに変換する
+        /// </summary>
+        /// <param name="_tex2D"> 変換対象 </param>
+        public Sprite Conversion_Tex2D_To_Sprite(Texture2D _tex2D)
+        {
+            return Sprite.Create(_tex2D, new UnityEngine.Rect(0, 0, _tex2D.width, _tex2D.height), Vector2.zero);
+        }
+
+        /// <summary>
         /// Webカメラから顔をトリミングする
         /// </summary>
         /// <returns> Spriteクラスで返却する </returns>
         public Sprite FaceTrimming_Sprite()
         {
-            //ToDo：ここか怪しいので要注意
-            RenderStop();
+            //RenderStop();
 
             //顔のTextrue2Dクラスを取得
             Texture2D faceTex = FaceTrimming_Tex2D();
 
             //Texture2DクラスからSpriteクラスを生成
-            Sprite returnSprite= Sprite.Create(faceTex, new UnityEngine.Rect(0, 0, faceTex.width, faceTex.height), Vector2.zero);
+            Sprite returnSprite = Conversion_Tex2D_To_Sprite(faceTex);
 
             return returnSprite;
         }
+
 
         /// <summary>
         /// OpenCVのためのパラメータの準備
@@ -231,9 +277,10 @@ namespace Face
         {
             if (m_renderTex != null)
             {
-                m_camImage.GetComponent<RawImage>().texture = m_renderTex;
+                m_camImage.texture = m_renderTex;
 
-                m_camImage.GetComponent<RectTransform>().sizeDelta = new Vector2(m_renderTex.width, m_renderTex.height);
+                //最初のサイズに変更
+                m_camImage.FixedSize(m_camSize);
             }
         }
 

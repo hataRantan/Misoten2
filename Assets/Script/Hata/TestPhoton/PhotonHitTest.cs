@@ -27,6 +27,12 @@ public class PhotonHitTest : MonoBehaviourPunCallbacks
         {
             if (bullet.Equals(id, ownerId))
             {
+                // 自身が発射した弾が当たった場合には、自身のスコアを増やす
+                if (ownerId==PhotonNetwork.LocalPlayer.ActorNumber)
+                {
+                    PhotonNetwork.LocalPlayer.AddScore(10);
+                }
+
                 Destroy(bullet.gameObject);
                 Debug.LogError("壊れたよ");
                 break;

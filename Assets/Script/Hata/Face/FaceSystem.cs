@@ -13,6 +13,9 @@ public class FaceSystem : MonoBehaviour
     [Header("トリミング画像を映すオブジェクト")]
     [SerializeField] SpriteRenderer faceRender = null;
 
+    [Header("テクスチャを張るCube")]
+    [SerializeField] GameObject cube = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,9 @@ public class FaceSystem : MonoBehaviour
             if(faceRender!=null)
             {
                 faceRender.sprite = faceSprite;
+
+                //https://mslgt.hatenablog.com/entry/2017/01/18/073342 を参考に
+                cube.GetComponent<Renderer>().material.SetTexture("_MainTex", facePhoto.FaceTrimming_Tex2D());
             }
         }
     }

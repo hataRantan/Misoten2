@@ -31,11 +31,14 @@ public class SceneLoader : Singleton<SceneLoader>
     /// 前回のシーン
     /// </summary>
     private string m_lastScene = "null";
+    public string GetLastScene { get { return m_lastScene; } }
     
     public void Start()
     {
         //最初のシーン名取得
         m_lastScene = SceneManager.GetActiveScene().name;
+
+        isDoneTransition = false;
     }
 
     /// <summary>
@@ -87,6 +90,8 @@ public class SceneLoader : Singleton<SceneLoader>
         //現在シーンを前回シーンとして記憶
         m_lastScene = SceneManager.GetActiveScene().name;
 
+        isDoneTransition = false;
+
         //キャンバスを生成
         FadeBase fader = Instantiate(faderCanves[_fadeInIdx]).GetComponent<FadeBase>();
         //フェードイン処理
@@ -126,6 +131,9 @@ public class SceneLoader : Singleton<SceneLoader>
         //1フレーム待つ
         yield return null;
 
+        //前回のシーンを非同期にアンロード
+        //SceneManager.UnloadSceneAsync(m_lastScene);
+
         //フェードアウト処理
         fader = fader = Instantiate(faderCanves[_fadeOutIdx]).GetComponent<FadeBase>();
         if (fader == null)
@@ -134,14 +142,13 @@ public class SceneLoader : Singleton<SceneLoader>
         }
 
         yield return StartCoroutine(fader.FadeOut());
+
+        //フェード完了
+        isDoneTransition = true;
         
         //フェードキャンバスを破棄
         Destroy(fader.gameObject);
 
-        //ToDo：仕様によっては不必要
-        //前回のシーンを非同期にアンロード
-        //SceneManager.UnloadSceneAsync(m_lastScene);
-        //m_lastScene = SceneManager.GetActiveScene().name;
     }
 
     /// <summary>

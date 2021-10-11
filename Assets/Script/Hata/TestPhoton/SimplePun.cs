@@ -26,6 +26,9 @@ public class SimplePun : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
 
         test = gameObject.GetComponent<PrefubTestNet>();
+
+        //RPCを実行するスクリプトのキャッシュ
+        PhotonNetwork.UseRpcMonoBehaviourCache = true;
     }
 
     void OnGUI()
@@ -52,7 +55,7 @@ public class SimplePun : MonoBehaviourPunCallbacks
     {
         //プレイヤーのニックネームを変更
         //ToDo：プレイヤーごとに共通なため、変更必要だと思われる
-        PhotonNetwork.NickName = "My";
+        //PhotonNetwork.NickName = "My";
 
         //キャラクターを生成
         //第一引数のプレハブは、Resources下にある必要があり
@@ -66,6 +69,12 @@ public class SimplePun : MonoBehaviourPunCallbacks
 
         cube.GetComponent<TestInput>().SetUI(image.GetComponent<PhotonUITest>());
         image.GetComponent<PhotonUITest>().SetPlayer(cube.transform);
+
+        //カスタムプロパティ：プレイヤーorルームに共通するデータ
+        var hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable["Score"] = 0;
+        hashtable["Message"] = "こんにちは";
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
         // オブジェクト同期の頻度を調整する
         //ToDo：後々変更必要

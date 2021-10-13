@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBox: {fileID: 8652866770443176868}
-  standByTime: 1
+  standByTime: 5
 --- !u!114 &6515926703205400437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_data: {fileID: 11400000, guid: ee70bb2245bb328428943fad3bcdd162, type: 2}
-  rotateSpeed: 200
+  rotateSpeed: 150
 --- !u!114 &505832780021456651
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class Proto_MoaiItem : Proto_ItemInterface
     //衝突判定
     bool isHitFloor = false;
     bool isAction = false;
-
+    
     private enum Moai_Type
     {
         JUMP,
@@ -144,13 +144,11 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
         public override void Entry()
         {
-
             //重力を一時停止
             board.rigid.useGravity = false;
 
             //当たり判定を一時停止
-            board.gameObject.GetComponent<BoxCollider>().enabled = false;
-
+            //board.gameObject.GetComponent<BoxCollider>().enabled = false;
         }
 
         public override void Exit()
@@ -195,7 +193,7 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
             //衝突範囲を復活
             board.gameObject.GetComponentInChildren<BoxCollider>().gameObject.layer = LayerMask.NameToLayer("PlayerItem");
-            board.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
+            //board.gameObject.GetComponentInChildren<BoxCollider>().enabled = true;
             board.gameObject.GetComponentInChildren<BoxCollider>().gameObject.transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
 
             board.isHitFloor = false;
@@ -262,7 +260,6 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
             PlayerHit(_other);
 
-            Debug.Log("hit");
         }
         else if(_other.gameObject.layer == LayerMask.NameToLayer("PlayerItem"))
         {
@@ -275,11 +272,9 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
             PlayerHit(_other);
 
-            Debug.Log("hit");
         }
         else if (_other.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
-            Debug.Log("床Hit");
 
             isHitFloor = true;
 
@@ -313,7 +308,6 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
             PlayerHit(_other);
 
-            Debug.Log("hit");
         }
         else if (_other.gameObject.layer == LayerMask.NameToLayer("PlayerItem"))
         {
@@ -326,16 +320,14 @@ public class Proto_MoaiItem : Proto_ItemInterface
 
             PlayerHit(_other);
 
-            Debug.Log("hit");
         }
         else if (_other.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
-            Debug.Log("床Hit");
 
             isHitFloor = true;
 
             //プレイヤーの体の位置を変更
-            playerControl.gameObject.transform.position = gameObject.transform.position;
+            playerControl.gameObject.transform.position = new Vector3(gameObject.transform.position.x, 0.5f, gameObject.transform.position.z);
             //通常状態に変更
             playerControl.SetFirstItem();
             //ヒットボックス復活

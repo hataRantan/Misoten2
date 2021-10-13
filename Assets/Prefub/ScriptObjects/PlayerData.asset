@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   MaxHp: 5
-  Speed: 50
+  Speed: 45

@@ -141,6 +141,11 @@ public class Proto_BasicItem : Proto_ItemInterface
 
         public override BasicAction Update()
         {
+            if(board.playerControl.hitItem==null)
+            {
+                return BasicAction.NONGET;
+            }
+
             if(board.playerControl.hitItem.GetComponentInParent<Proto_ItemStateMachine>().isAcquired)
             {
                 Debug.Log("他プレイヤーに取得された");
@@ -158,7 +163,7 @@ public class Proto_BasicItem : Proto_ItemInterface
             //連打
             if (board.blowsNum < board.getBlowsNum)
             {
-                if (board.playerInput.Get_XButtonDown())
+                if (board.playerInput.Get_AButtonDown())
                 {
                     board.blowsNum++;
 

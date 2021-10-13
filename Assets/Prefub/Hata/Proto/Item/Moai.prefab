@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBox: {fileID: 8785291068992690677}
-  standByTime: 1
+  standByTime: 5
 --- !u!114 &8785291068038277871
 MonoBehaviour:
   m_ObjectHideFlags: 0

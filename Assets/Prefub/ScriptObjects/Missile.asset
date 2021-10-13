@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Missile
   m_EditorClassIdentifier: 
   attack: 5
-  speedFactor: 3
+  speedFactor: 4
   blowsNum: 20

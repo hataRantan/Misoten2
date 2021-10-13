@@ -26,11 +26,11 @@ public abstract class Proto_ItemInterface : MonoBehaviour
 
     public abstract bool Action();
 
-    public bool ActionKey()
-    {
-        if (playerInput.Get_AButtonDown()) return true;
-        else return false;
-    }
+    //public bool ActionKey()
+    //{
+    //    if (playerInput.Get_AButtonDown()) return true;
+    //    else return false;
+    //}
 
     public abstract void Init();
 
@@ -67,7 +67,7 @@ public abstract class Proto_ItemInterface : MonoBehaviour
         Debug.Log("hit");
 
         //プレイヤーの体の位置を変更
-        playerControl.gameObject.transform.position = gameObject.transform.position;
+        playerControl.gameObject.transform.position = new Vector3(gameObject.transform.position.x, 0.5f, gameObject.transform.position.z);
         //通常状態に変更
         playerControl.SetFirstItem();
         //ヒットボックス復活
@@ -98,10 +98,8 @@ public abstract class Proto_ItemInterface : MonoBehaviour
     /// </summary>
     public void PlayerHit(Collider _other)
     {
-        Debug.Log("hit");
-
         //プレイヤーの体の位置を変更
-        playerControl.gameObject.transform.position = gameObject.transform.position;
+        playerControl.gameObject.transform.position = new Vector3(gameObject.transform.position.x, 0.5f, gameObject.transform.position.z);
         //通常状態に変更
         playerControl.SetFirstItem();
         //ヒットボックス復活

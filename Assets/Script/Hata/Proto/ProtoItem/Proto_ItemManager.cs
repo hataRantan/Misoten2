@@ -83,8 +83,7 @@ public class Proto_ItemManager : Singleton<Proto_ItemManager>
                 //出現場所を指定
                 Vector2 pos = GetRandomAppearPos();
 
-                //ToDo：アイテムの選択が必要になる
-                GameObject item = new GameObject();
+                GameObject item = null;
                 switch(itemType)
                 {
                     case ItemType.MISSILE:

@@ -59,7 +59,7 @@ public class ProtoFaceManager : MonoBehaviour
         public override void Entry()
         {
             //テキスト変更
-            board.textPro.text = "撮影中";
+            board.textPro.text = "1P撮影";
             //カメラ描画開始
             board.facePhoto.RenderStart();
 
@@ -97,7 +97,7 @@ public class ProtoFaceManager : MonoBehaviour
                     board.faceImage.gameObject.SetActive(true);
 
                     //テキスト変更
-                    board.textPro.text = "撮影結果";
+                    board.textPro.text = "1P撮影結果";
                 }
             }
             else
@@ -119,7 +119,7 @@ public class ProtoFaceManager : MonoBehaviour
         public override void Entry()
         {
             //テキスト変更
-            board.textPro.text = "撮影中";
+            board.textPro.text = "2P撮影";
             //カメラ描画開始
             board.facePhoto.RenderStart();
 
@@ -156,7 +156,7 @@ public class ProtoFaceManager : MonoBehaviour
                     board.faceImage.gameObject.SetActive(true);
 
                     //テキスト変更
-                    board.textPro.text = "撮影結果";
+                    board.textPro.text = "2P撮影結果";
                 }
             }
             else

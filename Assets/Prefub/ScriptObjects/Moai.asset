@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Moai
   m_EditorClassIdentifier: 
   attack: 2
-  speedFactor: 0.8
+  speedFactor: 0.7
   blowsNum: 5

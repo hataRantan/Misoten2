@@ -22,6 +22,9 @@ public class Proto_MissileItem :Proto_ItemInterface
     //進行方向を描画する
     private LineRenderer line = null;
 
+    //壁と衝突したか
+    private bool isHitWall = false;
+
     public override void Init()
     {
         rigid = gameObject.GetComponent<Rigidbody>();
@@ -60,6 +63,9 @@ public class Proto_MissileItem :Proto_ItemInterface
 
     public override void ActionInit()
     {
+        //回転停止
+        rigid.freezeRotation = true;
+
         //移動方向を決定
         moveDirect = -gameObject.transform.up;
 
@@ -75,6 +81,29 @@ public class Proto_MissileItem :Proto_ItemInterface
 
     public override bool Action()
     {
+
+        if(!isHitWall)
+        {
+            Vector3 direct = moveDirect;
+
+            float rayDis = 5.0f;
+            //rayの可視化
+            Debug.DrawRay(gameObject.transform.position, direct * rayDis, Color.red);
+
+            //rayの衝突判定
+            RaycastHit hit;
+            if (Physics.Raycast(gameObject.transform.position, direct, out hit, rayDis))
+            {
+                //壁の前に来たら速度低下する
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
+                {
+                    rigid.velocity = rigid.velocity / 10.0f;
+                    isHitWall = true;
+                }
+            }
+        }
+        
+
         return isHit;
     }
 

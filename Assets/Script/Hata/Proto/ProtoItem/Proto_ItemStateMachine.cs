@@ -112,14 +112,14 @@ public class Proto_ItemStateMachine : MonoBehaviour
         {
             //取得しようとしているか確認
             bool getFlg = false;
-            foreach(var flg in board.targetPlayer)
+            foreach (var flg in board.targetPlayer)
             {
                 getFlg = flg;
             }
 
-            if(getFlg)
+            if (getFlg)
             {
-                if(board.processTimer < board.standByTime) board.processTimer += Time.deltaTime;
+                if (board.processTimer < board.standByTime) board.processTimer += Time.deltaTime;
                 else board.isGain = false;
             }
             else

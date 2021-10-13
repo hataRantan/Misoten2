@@ -129,10 +129,23 @@ public class Proto_PlayerControl : MonoBehaviour
         {
             //移動
             board.currentItem.Move(board.inputer.Get_LeftStick());
-            //アクション状態に変更
-            if (board.currentItem.ActionKey())
+
+            if (board.currentItem.GetType() == typeof(Proto_BasicItem))
             {
-                if (board.hitItem != null) return Player_Type.ACTION;
+                //アクション状態に変更
+                if (board.inputer.Get_AButtonDown())
+                {
+                    if (board.hitItem != null) return Player_Type.ACTION;
+                }
+            }
+            else
+            {
+                //アクション状態に変更
+                if (board.inputer.Get_XButtonDown())
+                {
+                    if (board.hitItem != null) return Player_Type.ACTION;
+                }
+
             }
 
             return Player_Type.MOVE;
@@ -179,27 +192,43 @@ public class Proto_PlayerControl : MonoBehaviour
     {
         //タイマー
         float timer = 0.0f;
+        //移動時間
+        float endTime = 0.35f;
         //現在位置
         Vector3 currentPos = Vector3.zero;
         //目標値
         Vector3 targetPos = Vector3.zero;
+        //初期位置
+        Vector3 firstPos = Vector3.zero;
+        //操作対象
+        private Rigidbody rigid = null;
+        //速度
+        private float speed = 100.0f;
 
         public override void Entry()
         {
+            //壁との衝突をさせないためにlayerを変更させる
+            board.gameObject.layer = LayerMask.NameToLayer("Default");
+
+            rigid = board.gameObject.GetComponent<Rigidbody>();
+            //重力停止
+            rigid.useGravity = false;
+            //回転の制限を廃止
+            //rigid.constraints = RigidbodyConstraints.None;
+
+            //回転と移動速度を0にする
+            rigid.velocity = Vector3.zero;
+            rigid.angularVelocity = Vector3.zero;
+
             //当たり判定復活
             board.SetHitBox(true);
 
-            //カメラの方向を見る
-            board.gameObject.transform.LookAt(Camera.main.transform);
-
             //カメラから少し離れた所を目標とする
-            targetPos = Camera.main.transform.position;
-            targetPos -= (targetPos).normalized * 3.0f;
-           
-            //現在位置を保存
-            currentPos = board.gameObject.transform.position;
+            targetPos = Camera.main.gameObject.transform.GetChild(0).transform.position;
 
-            board.gameObject.layer = LayerMask.NameToLayer("Default");
+            //現在位置を保存
+            currentPos = firstPos = board.gameObject.transform.position;
+
         }
 
         public override void Exit()
@@ -208,40 +237,35 @@ public class Proto_PlayerControl : MonoBehaviour
 
         public override Player_Type Update()
         {
-            //移動
-            if (timer < 1.0f)
+            //位置を更新
+            currentPos = board.gameObject.transform.position;
+            
+            //カメラを向く
+            board.gameObject.transform.LookAt(Camera.main.transform.position);
+            
+            //一定距離まで近づく
+            if (Vector3.Distance(currentPos, targetPos) > 3.0f)
             {
-                float x, y, z;
-                x = y = z = 0;
-
-                if (currentPos.x <= targetPos.x) x = Easing.CircOut(timer, 3.0f, currentPos.x, targetPos.x);
-                else if (currentPos.x > targetPos.x) x = -Easing.CircOut(timer, 3.0f, -currentPos.x, -targetPos.x);
-
-                if (currentPos.y <= targetPos.y) y = Easing.CircOut(timer, 3.0f, currentPos.y, targetPos.y);
-                else if (currentPos.y > targetPos.y) y = -Easing.CircOut(timer, 3.0f, -currentPos.y, -targetPos.y);
-
-                if (currentPos.z <= targetPos.z) z = Easing.CircOut(timer, 3.0f, currentPos.z, targetPos.z);
-                else if (currentPos.z > targetPos.z) z = -Easing.CircOut(timer, 3.0f, -currentPos.z, -targetPos.z);
-
-                Vector3 pos = new Vector3(x, y, z);
-
-                board.gameObject.transform.position = pos;
-                
+                //移動
+                rigid.AddForce(board.gameObject.transform.forward * speed, ForceMode.Acceleration);
             }
             else
             {
-                //ToDo：ゲーム終了
                 board.gameObject.transform.position = targetPos;
+                rigid.velocity = Vector3.zero;
 
-                if (timer > 3.0f)
+                // 少し待ってから終了
+                if (timer < 3.0f)
                 {
-                    Debug.Log("呼ばれた");
+                    timer += Time.deltaTime;
+                }
+                else
+                {
                     SceneLoader.Instance.CallLoadSceneDefault("ProtoFight");
                     return Player_Type.GAMEEND;
                 }
             }
 
-            timer += Time.deltaTime;
             return Player_Type.DEAD;
         }
     }

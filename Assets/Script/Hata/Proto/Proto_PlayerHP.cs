@@ -28,6 +28,8 @@ public class Proto_PlayerHP : MonoBehaviour
             //大きさを変更
             ui.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
+            ui.transform.LookAt(Camera.main.transform.position);
+
             createdImages.Add(ui.GetComponent<Image>());
         }
     }

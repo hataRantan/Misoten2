@@ -103,9 +103,13 @@ public class TestInput : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void Fire(int id,float angle)
+    private void Fire(int id,float angle,PhotonMessageInfo _info)
     {
         var bu = Instantiate(bullet);
-        bu.GetComponent<BulletTest>().Init(id,photonView.OwnerActorNr,transform.position, angle);
+
+        // PhotonMessageInfoから、RPCを送信した時刻を取得する
+        int timeStamp = _info.SentServerTimestamp;
+
+        bu.GetComponent<BulletTest>().Init(id, photonView.OwnerActorNr, transform.position, angle, timeStamp);
     }
 }

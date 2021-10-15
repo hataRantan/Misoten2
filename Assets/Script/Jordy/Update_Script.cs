@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wrapper : MonoBehaviour
+public class Update_Script : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,6 +17,10 @@ public class Wrapper : MonoBehaviour
        
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
 
 
 }

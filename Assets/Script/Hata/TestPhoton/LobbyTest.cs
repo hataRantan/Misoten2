@@ -4,6 +4,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 
+//マスターが部屋を立てる必要がある最初にルームに参加したものをマスターとする
+//完全オンライン化するためにいくつかのサーバーを選択できるように参加するルームをセットしておく。
 public class LobbyTest : MonoBehaviourPunCallbacks
 {
     [Header("1ルームの最大人数")]

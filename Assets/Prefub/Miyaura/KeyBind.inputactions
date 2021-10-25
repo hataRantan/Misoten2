@@ -43,7 +43,7 @@
                     "id": "6f41d33f-510e-4e13-bc4b-8b12b7ab17fb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "PressArrowDown",
@@ -75,7 +75,7 @@
                     "id": "52382469-bc98-463d-9ead-f891a34a3ed1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=1)"
                 },
                 {
                     "name": "ReleaseArrowDown",
@@ -150,17 +150,17 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "PressEastButton",
+                    "name": "PressWestButton",
                     "type": "Button",
-                    "id": "b85b91d9-f524-4f42-9315-2671efe23594",
+                    "id": "538c3f33-bdef-46f7-a140-232e224ad829",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
                 },
                 {
-                    "name": "PressWestButton",
+                    "name": "PressEastButton",
                     "type": "Button",
-                    "id": "538c3f33-bdef-46f7-a140-232e224ad829",
+                    "id": "b85b91d9-f524-4f42-9315-2671efe23594",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
@@ -182,17 +182,17 @@
                     "interactions": "Press(behavior=1)"
                 },
                 {
-                    "name": "ReleaseEastButton",
+                    "name": "ReleaseWestButton",
                     "type": "Button",
-                    "id": "6045895f-c6a6-4441-9d3e-d880519b62d8",
+                    "id": "c0d7aa1b-835f-43d6-b5a6-cb0906ed061b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)"
                 },
                 {
-                    "name": "ReleaseWestButton",
+                    "name": "ReleaseEastButton",
                     "type": "Button",
-                    "id": "c0d7aa1b-835f-43d6-b5a6-cb0906ed061b",
+                    "id": "6045895f-c6a6-4441-9d3e-d880519b62d8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)"
@@ -214,6 +214,14 @@
                     "interactions": "Hold"
                 },
                 {
+                    "name": "HoldWestButton",
+                    "type": "Button",
+                    "id": "970e1677-f0c7-44c3-addc-9df45b8b4013",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
+                },
+                {
                     "name": "HoldEastButton",
                     "type": "Button",
                     "id": "59d016ee-7196-496a-9485-f086b5466ff0",
@@ -222,19 +230,54 @@
                     "interactions": "Hold"
                 },
                 {
-                    "name": "HoldWestButton",
+                    "name": "LeftTrigger",
                     "type": "Button",
-                    "id": "970e1677-f0c7-44c3-addc-9df45b8b4013",
+                    "id": "6d1738ea-e1d3-416e-8d43-7058b75eccf6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": "Press"
+                },
+                {
+                    "name": "LeftShoulder",
+                    "type": "Button",
+                    "id": "9869eb48-027d-4870-aa88-1928782d4135",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "RightTrigger",
+                    "type": "Button",
+                    "id": "9bdefa60-b947-4790-b8dd-7832c3e3f7f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "RightShoulder",
+                    "type": "Button",
+                    "id": "6e90b468-6d48-4483-9d6c-3e3f499e7797",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "e1dc3b01-5ade-4aa7-875a-08729e14a214",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76568faf-b1ee-453b-a29e-b8e208a92a1e",
+                    "path": "<DualShockGamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -311,7 +354,18 @@
                 {
                     "name": "",
                     "id": "1f00a84f-14d2-4c4e-a223-b1b5aa8add39",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ee52e4f-9cd0-4e52-b91c-b8261874926d",
+                    "path": "<DualShockGamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -332,52 +386,19 @@
                 },
                 {
                     "name": "",
-                    "id": "9e685b8c-6001-4701-ac4d-e28a757b137a",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "PressArrowLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "eaad4fa7-edc7-45ac-9061-b1b57d8abc33",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "PressArrowLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f8d367f4-d577-4111-8b85-3882cabe9873",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "PressArrowRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a0535e7f-e2ce-45fc-a338-b8eb08aabb6c",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "PressArrowRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "38060406-a214-401b-851e-86ed9eb045aa",
-                    "path": "<Gamepad>/rightStick",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99b46c14-260e-44ee-bd54-d0e5a5547ac9",
+                    "path": "<DualShockGamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -399,7 +420,18 @@
                 {
                     "name": "",
                     "id": "1b950300-0bc6-4a14-85f9-b8738efa746c",
-                    "path": "<Gamepad>/start",
+                    "path": "<XInputController>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1662e96-44ce-4ba5-aa88-5c2b9afbeabc",
+                    "path": "<DualShockGamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -421,7 +453,18 @@
                 {
                     "name": "",
                     "id": "c2a6b867-8be1-4958-a886-202f8c68caf3",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldSouthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2823eb88-d2ee-4b6a-abce-2d84ba550134",
+                    "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -432,7 +475,7 @@
                 {
                     "name": "",
                     "id": "ac1dcf8d-ca3f-4e91-8279-cf514e85bec0",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -442,20 +485,31 @@
                 },
                 {
                     "name": "",
-                    "id": "84307cdf-800c-40c3-945c-e0cc9f2d2681",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "9ac051d7-e2af-4556-a46c-483c700767ea",
+                    "path": "<DualShockGamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "HoldWestButton",
+                    "action": "HoldEastButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "76a5da83-aca7-4f7e-983b-4eaf70231d46",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "Press",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36dc38c7-5cc0-4683-abba-82b546a5832a",
+                    "path": "<DualShockGamepad>/dpad/up",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "PressArrowUp",
@@ -466,7 +520,7 @@
                     "name": "",
                     "id": "6d340d38-b738-4548-a8ad-0247cb2d6c51",
                     "path": "<Keyboard>/upArrow",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard And Mouse",
                     "action": "PressArrowUp",
@@ -475,52 +529,19 @@
                 },
                 {
                     "name": "",
-                    "id": "669e7d51-a59d-4e36-8e35-ad49d5e29b48",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "HoldArrowRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "12f54fb7-3f68-40ff-a0e7-5e1f7902540b",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "HoldArrowRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5c644922-e88a-41b8-b3c6-9a3fe8053fe4",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "HoldArrowLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d1af0db3-6f4e-4c35-bb52-6e35beeb8dbd",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "HoldArrowLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c631cef7-64f9-4b28-b899-fa781c6e92ec",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cee59f56-8477-49d7-9710-5ed124890b76",
+                    "path": "<DualShockGamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -542,7 +563,18 @@
                 {
                     "name": "",
                     "id": "98af515f-db37-4b1e-9f0b-861815f7d072",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d05a213-ddf1-4f8d-9961-4248842c004a",
+                    "path": "<DualShockGamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -564,7 +596,18 @@
                 {
                     "name": "",
                     "id": "2ab2388a-b98d-4d9c-98a4-a3b4a1614bfd",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressNorthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df2dcc02-970b-412d-8f62-0ad2c608432b",
+                    "path": "<DualShockGamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -575,7 +618,18 @@
                 {
                     "name": "",
                     "id": "557695f8-ecd7-436a-946d-a36b088ed658",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressSouthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea84bf2c-c9cd-4cf6-b961-aab28687978a",
+                    "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -586,7 +640,7 @@
                 {
                     "name": "",
                     "id": "9c938850-8e66-4a64-966f-861838f4b154",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -596,19 +650,30 @@
                 },
                 {
                     "name": "",
-                    "id": "effa55ab-5a15-48b2-a6ff-cd2368a33337",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "0d1e8106-47ff-4dd9-9a51-e9c9351715cb",
+                    "path": "<DualShockGamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "PressWestButton",
+                    "action": "PressEastButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "26f8f52f-684d-442c-824e-5e3688866e9f",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldNorthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad2daeb4-f814-4807-a8f1-9019099ebc5d",
+                    "path": "<DualShockGamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -619,8 +684,19 @@
                 {
                     "name": "",
                     "id": "536df2c7-9261-4539-bf7e-a84bcffb7b1f",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "Press(behavior=1)",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseArrowUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2df877b-be13-4717-8243-361e2e2e055d",
+                    "path": "<DualShockGamepad>/dpad/up",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ReleaseArrowUp",
@@ -631,7 +707,7 @@
                     "name": "",
                     "id": "adceafef-8187-42c5-bc28-9bba3ad73098",
                     "path": "<Keyboard>/upArrow",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard And Mouse",
                     "action": "ReleaseArrowUp",
@@ -641,7 +717,18 @@
                 {
                     "name": "",
                     "id": "f65b8848-69f9-4873-8c60-65f5cb6c9520",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseArrowDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7fef34d-5f40-4a14-ab1e-5ed4e8b47302",
+                    "path": "<DualShockGamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -662,30 +749,162 @@
                 },
                 {
                     "name": "",
-                    "id": "b5a5b696-f6d3-4fd2-907d-a2336a44b9e1",
-                    "path": "<Gamepad>/dpad/left",
+                    "id": "a59faec0-d4b3-4282-926a-199806de1a70",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ReleaseArrowLeft",
+                    "action": "ReleaseEastButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "2eb64e6f-2d9c-4ac4-a975-e31eee5d5c8f",
-                    "path": "<Keyboard>/leftArrow",
+                    "id": "6faef11e-e940-466e-b1be-18aff082f47d",
+                    "path": "<DualShockGamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseEastButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "027cfafe-eb78-4939-afd7-7c4a5be1d97b",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseSouthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ebdcacd8-f95f-4e6d-9886-4f31feaf0264",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseSouthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb850f7e-d765-4f3a-94b2-887a9612a8a3",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseNorthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89877142-8b0a-4f2b-9285-7c72a9df0ac1",
+                    "path": "<DualShockGamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseNorthButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac37cb04-fc1b-429b-a16c-a78b82e870aa",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RightTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48fb4680-4acf-4cad-a988-80185093860e",
+                    "path": "<DualShockGamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RightTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c36dbcdd-1baf-4957-b2dd-e6bf12650bd9",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RightShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f9a4cbd-a66d-46b1-af50-e85c30feb7dd",
+                    "path": "<DualShockGamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8d367f4-d577-4111-8b85-3882cabe9873",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e12f9d59-00c2-477c-ae79-bb3218f3e4a5",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0535e7f-e2ce-45fc-a338-b8eb08aabb6c",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard And Mouse",
-                    "action": "ReleaseArrowLeft",
+                    "action": "PressArrowRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "bb904565-6ccc-4574-8c3d-e346d976d426",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53f9cddc-50aa-485a-bc7d-cac930a60713",
+                    "path": "<DualShockGamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -706,8 +925,85 @@
                 },
                 {
                     "name": "",
+                    "id": "669e7d51-a59d-4e36-8e35-ad49d5e29b48",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4ec0c14-ffa6-47c8-99a3-61419f1c3ccd",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12f54fb7-3f68-40ff-a0e7-5e1f7902540b",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "HoldArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b592310e-7594-4d0a-a14c-10d68fc749cd",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f301f26-adc3-4aed-85ab-da3a97185b45",
+                    "path": "<DualShockGamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2883e297-50ac-4b33-a8fa-f39d9798ffcc",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80dcd580-d0e1-4e2a-826c-ec21a88f9475",
+                    "path": "<DualShockGamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7f85bd70-0dfb-43c2-bd82-b2a2b12296b0",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -717,34 +1013,155 @@
                 },
                 {
                     "name": "",
-                    "id": "a59faec0-d4b3-4282-926a-199806de1a70",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "86d5cfb8-2061-40fd-8419-37f759f939a0",
+                    "path": "<DualShockGamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ReleaseEastButton",
+                    "action": "ReleaseWestButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "027cfafe-eb78-4939-afd7-7c4a5be1d97b",
-                    "path": "<Gamepad>/buttonSouth",
+                    "id": "84307cdf-800c-40c3-945c-e0cc9f2d2681",
+                    "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ReleaseSouthButton",
+                    "action": "HoldWestButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "fb850f7e-d765-4f3a-94b2-887a9612a8a3",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "4f3e3250-1faf-4c96-aefe-507304cd58c3",
+                    "path": "<DualShockGamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ReleaseNorthButton",
+                    "action": "HoldWestButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "effa55ab-5a15-48b2-a6ff-cd2368a33337",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressWestButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f978edb-6e51-4361-83ef-e25803c87e0f",
+                    "path": "<DualShockGamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressWestButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e685b8c-6001-4701-ac4d-e28a757b137a",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ff998ee-f8f0-400a-847e-9b4c8d72e197",
+                    "path": "<DualShockGamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PressArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eaad4fa7-edc7-45ac-9061-b1b57d8abc33",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "PressArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5a5b696-f6d3-4fd2-907d-a2336a44b9e1",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9af0ae93-a721-4e35-ad8c-4cdbff35a828",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2eb64e6f-2d9c-4ac4-a975-e31eee5d5c8f",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "ReleaseArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c644922-e88a-41b8-b3c6-9a3fe8053fe4",
+                    "path": "<XInputController>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44e41f5d-5bb7-47f4-a4e4-91f18549666c",
+                    "path": "<DualShockGamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HoldArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1af0db3-6f4e-4c35-bb52-6e35beeb8dbd",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "HoldArrowLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

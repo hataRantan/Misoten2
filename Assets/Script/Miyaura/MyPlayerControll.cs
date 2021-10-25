@@ -3,52 +3,85 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class MyPlayerControll : MonoBehaviour
 {
+    // 入力処理
     [SerializeField]
     MyPlayerInput input = null;
-    InputAction.CallbackContext phase;
+    // プレイヤーの識別
+    [SerializeField]
+    private int playerIndex = 0;
+
+    public MyPlayerInput Input { get { return input; } }
+
+    // 移動速度
+    [SerializeField]
+    private float moveSpeed = 3f;
+    // ジャンプの高さ
+    [SerializeField]
+    private float jumpHeight = 1.0f;
+    // 重力計算
+    [SerializeField]
+    private float gravityValue = -9.81f;
+
+    // キャラクターコントロールを使用する場合
+    private CharacterController controller;
+
+    private Vector3 playerVelocity;
+
+    // 地面と接地しているかのフラグ
+    private bool groundPlayer;
+
+    private Vector2 movementInput = Vector2.zero;
+    private bool jumped = false;
+
+    /// <summary>
+    /// キャラクターコントロール取得
+    /// </summary>
+    private void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+    }
+    /// <summary>
+    /// プレイヤー人数カウント
+    /// </summary>
+    /// <returns></returns>
+    public int GetPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-#if else
-        Debug.Log("押下状態なら：上矢印" + input.pressArrowUp);
+        groundPlayer = controller.isGrounded;
+        if (groundPlayer && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }
+        Vector3 moveDirection = new Vector3(input.move.x, 0, input.move.y);
+        controller.Move(moveDirection * Time.deltaTime * moveSpeed);
 
-        Debug.Log("一定時間経過後に離す：上矢印" + input.holdArrowUp);
 
-        Debug.Log("移動" + input.move);
-        Debug.Log("視点" + input.look);
-        Debug.Log("ポーズ" + input.togglePause);
-        Debug.Log("決定" + input.triggerSubmit);
-
-        Debug.Log("時間指定内に離したら：上矢印" + input.tapArrowUp);
-        Debug.Log("時間指定内に離したら：下矢印" + input.tapArrowDown);
-        Debug.Log("時間指定内に離したら：左矢印" + input.tapArrowLeft);
-        Debug.Log("時間指定内に離したら：右矢印" + input.tapArrowRight);
-        Debug.Log("押下状態なら：上矢印" + input.pressArrowUp);
-        Debug.Log("押下状態なら：下矢印" + input.pressArrowDown);
-        Debug.Log("押下状態なら：左矢印" + input.pressArrowLeft);
-        Debug.Log("押下状態なら：右矢印" + input.pressArrowRight);
-        Debug.Log("一定時間経過後に離す：上矢印" + input.holdArrowUp);
-        Debug.Log("一定時間経過後に離す：下矢印" + input.holdArrowDown);
-        Debug.Log("一定時間経過後に離す：左矢印" + input.holdArrowLeft);
-        Debug.Log("一定時間経過後に離す：右矢印" + input.holdArrowRight);
-
-        Debug.Log("時間指定内に離したら：上矢印" + input.tapNorthButton);
-        Debug.Log("時間指定内に離したら：下矢印" + input.tapNorthButton);
-        Debug.Log("時間指定内に離したら：左矢印" + input.tapWestButton);
-        Debug.Log("時間指定内に離したら：右矢印" + input.tapEastButton);
-        Debug.Log("押下状態なら：上矢印" + input.pressNorthButton);
-        Debug.Log("押下状態なら：下矢印" + input.pressSouthButton);
-        Debug.Log("押下状態なら：左矢印" + input.pressWestButton);
-        Debug.Log("押下状態なら：右矢印" + input.pressEastButton);
-        Debug.Log("一定時間経過後に離す：上矢印" + input.holdNorthButton);
-        Debug.Log("一定時間経過後に離す：下矢印" + input.holdSouthButton);
-        Debug.Log("一定時間経過後に離す：左矢印" + input.holdWestButton);
-        Debug.Log("一定時間経過後に離す：右矢印" + input.holdEastButton);
-#endif
-        Debug.Log("押した瞬間：上矢印" + input.pressArrowUp);
-        Debug.Log("離した瞬間：上矢印" + input.releaseArrowUp);
-        Debug.Log("一定時間経過後に離す：上矢印" + input.holdArrowUp);
+        //if (moveDirection != Vector3.zero)
+        //{
+        //    gameObject.transform.forward = moveDirection;
+        //}
+        if (MyRapperInput.Instance.PressUpButton() && groundPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+        if (MyRapperInput.Instance.RightTriggerButton() && groundPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+        if (MyRapperInput.Instance.RightShoulderButton() && groundPlayer)
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 }

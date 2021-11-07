@@ -79,7 +79,7 @@ public class ProtoFightScene : MonoBehaviour
                 //プレイヤー管理の初期化
                 board.players[idx].GetComponent<Proto_PlayerControl>().MyStart();
                 //HP作成
-                board.playerHps[idx].SetUpHPImage(board.players[idx].GetComponent<Proto_PlayerControl>().GetPlayerData.GetMaxHp);
+                board.playerHps[idx].SetUpHPImage((uint)board.players[idx].GetComponent<Proto_PlayerControl>().GetPlayerData.GetHp);
             }
 
             //アイテム管理クラス初期化

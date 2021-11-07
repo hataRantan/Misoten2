@@ -41,7 +41,7 @@ public class MyPlayerControll : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        //controller = GetComponent<CharacterController>();
     }
     /// <summary>
     /// プレイヤー人数カウント
@@ -56,32 +56,32 @@ public class MyPlayerControll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        groundPlayer = controller.isGrounded;
-        if (groundPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
-        Vector3 moveDirection = new Vector3(input.move.x, 0, input.move.y);
-        controller.Move(moveDirection * Time.deltaTime * moveSpeed);
-
-
-        //if (moveDirection != Vector3.zero)
+        //groundPlayer = controller.isGrounded;
+        //if (groundPlayer && playerVelocity.y < 0)
         //{
-        //    gameObject.transform.forward = moveDirection;
+        //    playerVelocity.y = 0f;
         //}
-        if (MyRapperInput.Instance.PressUpButton() && groundPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-        if (MyRapperInput.Instance.RightTriggerButton() && groundPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-        if (MyRapperInput.Instance.RightShoulderButton() && groundPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        //Vector3 moveDirection = new Vector3(input.move.x, 0, input.move.y);
+        //controller.Move(moveDirection * Time.deltaTime * moveSpeed);
+
+
+        ////if (moveDirection != Vector3.zero)
+        ////{
+        ////    gameObject.transform.forward = moveDirection;
+        ////}
+        //if (MyRapperInput.Instance.PressUpButton() && groundPlayer)
+        //{
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        //}
+        //if (MyRapperInput.Instance.RightTriggerButton() && groundPlayer)
+        //{
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        //}
+        //if (MyRapperInput.Instance.RightShoulderButton() && groundPlayer)
+        //{
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        //}
+        //playerVelocity.y += gravityValue * Time.deltaTime;
+        //controller.Move(playerVelocity * Time.deltaTime);
     }
 }

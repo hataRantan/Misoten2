@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a565b3b5ef64148afb4bd308eded87, type: 3}
   m_Name: Missile
   m_EditorClassIdentifier: 
-  attack: 5
+  attack: 3
   speedFactor: 4
-  blowsNum: 20
+  blowsNum: 1

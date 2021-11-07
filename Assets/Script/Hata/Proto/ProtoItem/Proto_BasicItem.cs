@@ -109,7 +109,7 @@ public class Proto_BasicItem : Proto_ItemInterface
                     board.playerControl.hitItem.GetComponentInParent<Proto_ItemStateMachine>().targetPlayer[board.plNum] = true;
 
                     //取得に必要な連打数取得
-                    board.getBlowsNum = board.playerControl.hitItem.GetComponentInParent<Proto_ItemInterface>().GetData.GetBlowsNum;
+                    board.getBlowsNum = (uint)board.playerControl.hitItem.GetComponentInParent<Proto_ItemInterface>().GetData.GetBlowsNum;
                     return BasicAction.BLOW;
                 }
                 else

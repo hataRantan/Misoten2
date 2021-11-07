@@ -58,7 +58,7 @@ public class Proto_PlayerControl : MonoBehaviour
 
         machine.InitState(Player_Type.MOVE);
 
-        m_Hp = (int)m_playerData.GetMaxHp;
+        m_Hp = (int)m_playerData.GetHp;
     }
 
 

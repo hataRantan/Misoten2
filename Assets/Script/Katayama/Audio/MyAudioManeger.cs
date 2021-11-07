@@ -64,7 +64,7 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
     private void Awake()
     {
 
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
 
         //オーディオリスナーおよびオーディオソースをSE+1(BGMの分)作成
         gameObject.AddComponent<AudioListener>();

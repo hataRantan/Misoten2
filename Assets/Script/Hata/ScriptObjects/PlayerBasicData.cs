@@ -10,9 +10,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerBasicData : ScriptableObject
 {
-    [SerializeField] uint MaxHp;
-    [SerializeField] uint Speed;
+    [SerializeField] int MaxHp;
+    [SerializeField] float Speed;
 
-    public uint GetSpped { get { return Speed; } }
-    public uint GetMaxHp { get { return MaxHp; } }
+    public float GetSpped { get { return Speed; } }
+    public int GetHp { get { return MaxHp; }}
 }

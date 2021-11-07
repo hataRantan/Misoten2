@@ -38,6 +38,16 @@ namespace IStateSpace
         }
 
         /// <summary>
+        /// 物理更新処理
+        /// </summary>
+        public void FixedUpdateState()
+        {
+            if (!stateDic.ContainsKey(currenrState)) return;
+
+            stateDic[currenrState].FiexdUpdate();
+        }
+
+        /// <summary>
         /// 遷移処理
         /// </summary>
         /// <param name="_type"> 次の遷移処理 </param>
@@ -86,6 +96,11 @@ namespace IStateSpace
 
         //入場処理
         public abstract void Entry();
+
+        /// <summary>
+        /// 物理更新処理
+        /// </summary>
+        public virtual void FiexdUpdate() { return; }
 
         /// <summary>
         /// 更新処理

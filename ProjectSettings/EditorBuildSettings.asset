@@ -6,12 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Hata/Proto/ProtoFace.unity
-    guid: aa9548a7048332549972600f33b8bc81
+    path: Assets/Scenes/AlphaVersion/AlphaFaceScene.unity
+    guid: 1057b53ddb83fe444a34eb3ab0c42e80
   - enabled: 1
-    path: Assets/Scenes/Hata/Proto/ProtoFight.unity
-    guid: 71d4d8a03b78b9349a42e1f8b0c2411c
-  - enabled: 0
-    path: Assets/Scenes/Hata/PhotonTest/PhotonTest.unity
-    guid: 8ac038f845539ed4494010a953edfca9
-  m_configObjects: {}
+    path: Assets/Scenes/AlphaVersion/AlphaFight.unity
+    guid: 434bfc93ace4b2a47a5e620b550d0d2a
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5418a7f2c1d234045bec646a584fb103,
+      type: 2}

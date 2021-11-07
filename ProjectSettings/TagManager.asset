@@ -6,6 +6,10 @@ TagManager:
   tags:
   - UI
   - Item
+  - SceneManager
+  - FloorManager
+  - PlayerManager
+  - ItemManager
   layers:
   - Default
   - TransparentFX

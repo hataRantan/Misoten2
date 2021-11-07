@@ -7,16 +7,16 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     [SerializeField]
-    uint attack;
+    int attack;
 
     [Header("プレイヤーの通常速度に対する倍率")]
     [SerializeField]
     float speedFactor;
 
     [Header("取得に必要な連打数")]
-    [SerializeField] uint blowsNum;
+    [SerializeField] int blowsNum;
 
-    public uint GetAttack { get { return attack; } }
+    public int GetAttack { get { return attack; } }
     public float GetSppedFactor { get { return speedFactor; } }
-    public uint GetBlowsNum { get { return blowsNum; } }
+    public int GetBlowsNum { get { return blowsNum; } }
 }

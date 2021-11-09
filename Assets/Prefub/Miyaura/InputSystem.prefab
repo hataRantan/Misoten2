@@ -542,6 +542,36 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9869eb48-027d-4870-aa88-1928782d4135
     m_ActionName: MyPlayerControls/LeftShoulder[/XInputControllerWindows/leftTrigger,/DualShock4GamepadHID/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -422490732748435408}
+        m_MethodName: OnGetItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 183c40b5-d8d7-405f-9575-3566131ae62c
+    m_ActionName: MyPlayerControls/GetItem[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -422490732748435408}
+        m_MethodName: OnActionItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 44faff10-18c6-446b-8818-b011729be49e
+    m_ActionName: MyPlayerControls/ActionItem[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MyPlayerControls

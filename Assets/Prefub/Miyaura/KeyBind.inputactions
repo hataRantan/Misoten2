@@ -6,6 +6,38 @@
             "id": "7dc609f6-a46a-4399-b429-b6402bb17d74",
             "actions": [
                 {
+                    "name": "TriggerSubmit",
+                    "type": "Button",
+                    "id": "de3ad16a-8eb9-4f5c-87d9-023d134457ac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "GetItem",
+                    "type": "Button",
+                    "id": "183c40b5-d8d7-405f-9575-3566131ae62c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ActionItem",
+                    "type": "Button",
+                    "id": "44faff10-18c6-446b-8818-b011729be49e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "TogglePause",
+                    "type": "Button",
+                    "id": "95b2505d-c487-45f1-8318-0bc726b460e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "ac18c1c6-1645-411a-814b-363c192245fd",
@@ -18,22 +50,6 @@
                     "type": "Value",
                     "id": "ffec3df2-77dd-436f-a98e-b9d0a6d98177",
                     "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "TogglePause",
-                    "type": "Button",
-                    "id": "95b2505d-c487-45f1-8318-0bc726b460e6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "TriggerSubmit",
-                    "type": "Button",
-                    "id": "de3ad16a-8eb9-4f5c-87d9-023d134457ac",
-                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
@@ -342,17 +358,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bb8cdd10-e335-455d-ae6a-375e19a8ecbc",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "TriggerSubmit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1f00a84f-14d2-4c4e-a223-b1b5aa8add39",
                     "path": "<XInputController>/dpad/down",
                     "interactions": "",
@@ -414,39 +419,6 @@
                     "processors": "",
                     "groups": "Keyboard And Mouse",
                     "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1b950300-0bc6-4a14-85f9-b8738efa746c",
-                    "path": "<XInputController>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "TogglePause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e1662e96-44ce-4ba5-aa88-5c2b9afbeabc",
-                    "path": "<DualShockGamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "TogglePause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "541d86f8-e948-4fff-b919-4287cfa274db",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard And Mouse",
-                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1162,6 +1134,138 @@
                     "processors": "",
                     "groups": "Keyboard And Mouse",
                     "action": "HoldArrowLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb8cdd10-e335-455d-ae6a-375e19a8ecbc",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "TriggerSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2363b98d-7d37-4e17-a00d-5ceb8f8c8647",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TriggerSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c70f8d9-20f4-4bb8-9ed3-9c4399e9e04e",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TriggerSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8957e6fd-5421-4aff-ad62-24177db94e90",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Keyboard And Mouse",
+                    "action": "ActionItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79c80703-96db-45ca-a522-939c484aeeb9",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ActionItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5776648-2ea7-43f9-9444-52e5fc70c35c",
+                    "path": "<DualShockGamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ActionItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c564ba9f-47b5-42b0-83dc-9d57a2563376",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "GetItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92e9ae7a-ad51-4cec-bab9-e557e8a97361",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GetItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b4b1db4-4cc4-4f20-89a8-e792d5ba0d51",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GetItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "541d86f8-e948-4fff-b919-4287cfa274db",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b950300-0bc6-4a14-85f9-b8738efa746c",
+                    "path": "<XInputController>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1662e96-44ce-4ba5-aa88-5c2b9afbeabc",
+                    "path": "<DualShockGamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -10,19 +10,29 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class MyPlayerInput : MonoBehaviour
 {
-    private PlayerInput playerInput;
-    private MyPlayerControll myPlayerControll;
-
-    /// <summary>
-    /// プレイヤー毎に識別させて入力処理返す
-    /// </summary>
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        var myPlayerControlls = FindObjectsOfType<MyPlayerControll>();
-        var index = playerInput.playerIndex;
-        myPlayerControll = myPlayerControlls.FirstOrDefault(m => m.GetPlayerIndex() == index);
+        // 複製されたRapperInputを各プレイヤーの親としてセットする
+        GameObject.Find("PlayerInputManager(Clone)").GetComponent<MyRapperInput>().SetChild(this);
     }
+
+    /// <summary>
+    /// ポーズ：[Xbox] Menu  [PS4] OptionButton [KeyBoard] P
+    /// </summary>
+    public bool togglePause { get; private set; }
+    /// <summary>
+    /// 決定：[Xbox] A [PS4] × [KeyBoard] Enter
+    /// </summary>
+    public bool triggerSubmit { get; private set; }
+    /// <summary>
+    /// アイテム取得：[Xbox] A [PS4] × [KeyBoard] マウス左クリック
+    /// </summary>
+    public bool getItem { get; private set; }
+    /// <summary>
+    /// アイテム使用：[Xbox] × [PS4] □ [KeyBoard] マウス右クリック
+    /// </summary>
+    public bool actionItem { get; private set; }
+
 
     /// <summary>
     /// 移動：[Xbox] 左スティック [PS4] 左スティック [KeyBoard] WASD
@@ -32,14 +42,7 @@ public class MyPlayerInput : MonoBehaviour
     /// 視点移動：[Xbox] 右スティック [PS4] 右スティック [KeyBoard] マウスポインター
     /// </summary>
     public Vector2 look { get; private set; }
-    /// <summary>
-    /// ポーズ：[Xbox] StartButton  [PS4] OptionButton [KeyBoard] P
-    /// </summary>
-    public bool togglePause { get; private set; }
-    /// <summary>
-    /// 決定：[Xbox] 現在割り当て無し [PS4] 現在割り当て無し [KeyBoard] Enter
-    /// </summary>
-    public bool triggerSubmit { get; private set; }
+
 
     /// <summary>
     /// トリガー：[Xbox] LB [PS4] L1 [KeyBoard] 現在割り当て無し
@@ -57,6 +60,7 @@ public class MyPlayerInput : MonoBehaviour
     /// トリガー：[Xbox] RT [PS4] R2 [KeyBoard] 現在割り当て無し
     /// </summary>
     public bool rightShoulder { get; private set; }
+
 
     /// <summary>
     /// 押した瞬間：[Xbox] 上矢印 [PS4] 上矢印 [KeyBoard] 上矢印
@@ -157,17 +161,20 @@ public class MyPlayerInput : MonoBehaviour
     public bool holdEastButton { get; private set; }
 
 
-    public void OnMove(InputAction.CallbackContext value) => move = value.ReadValue<Vector2>();
-    public void OnLook(InputAction.CallbackContext value) => look = value.ReadValue<Vector2>();
     public void OnTogglePause(InputAction.CallbackContext value) => togglePause = value.performed;
     public void OnTriggerSubmit(InputAction.CallbackContext value) => triggerSubmit = value.performed;
+    public void OnGetItem(InputAction.CallbackContext value) => getItem = value.performed;
+    public void OnActionItem(InputAction.CallbackContext value) => actionItem = value.performed;
+    
+    public void OnMove(InputAction.CallbackContext value) => move = value.ReadValue<Vector2>();
+    public void OnLook(InputAction.CallbackContext value) => look = value.ReadValue<Vector2>();
 
     public void OnLeftTrigger(InputAction.CallbackContext value) => leftTrigger = value.performed;
     public void OnLeftShoulder(InputAction.CallbackContext value) => leftShoulder = value.performed;
     public void OnRightTrigger(InputAction.CallbackContext value) => rightTrigger = value.performed;
     public void OnRightShoulder(InputAction.CallbackContext value) => rightShoulder = value.performed;
 
-
+    // 方向キー
     public void OnPressArrowUp(InputAction.CallbackContext value) => pressArrowUp = value.performed;
     public void OnPressArrowDown(InputAction.CallbackContext value) => pressArrowDown = value.performed;
     public void OnPressArrowLeft(InputAction.CallbackContext value) => pressArrowLeft = value.performed;
@@ -180,7 +187,7 @@ public class MyPlayerInput : MonoBehaviour
     public void OnHoldArrowDown(InputAction.CallbackContext value) => holdArrowDown = value.performed;
     public void OnHoldArrowLeft(InputAction.CallbackContext value) => holdArrowLeft = value.performed;
     public void OnHoldArrowRight(InputAction.CallbackContext value) => holdArrowRight = value.performed;
-
+    // 上下左右のボタン
     public void OnPressNorthButtont(InputAction.CallbackContext value) => pressNorthButton = value.performed;
     public void OnPressSouthButtont(InputAction.CallbackContext value) => pressSouthButton = value.performed;
     public void OnPressWestButtont(InputAction.CallbackContext value) => pressWestButton = value.performed;

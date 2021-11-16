@@ -20,16 +20,18 @@ public class FightSceneManager : MyUpdater
     //シーンの状態一覧
     enum FightSceneType
     {
-        INIT,          //準備段階
         FIGHT,         //戦闘
         END            //戦闘終了
     }
-    //ToDo：状態マシーンクラス
+    //状態マシーンクラス
+    IStateSpace.StateMachineBase<FightSceneType, FightSceneManager> m_machine = new IStateSpace.StateMachineBase<FightSceneType, FightSceneManager>();
 
     //ゲームの進捗具合を確認するクラス
     private MyGameProgress m_progress;
 
-
+    /// <summary>
+    /// ゲーム初期化
+    /// </summary>
     public override void MyFastestInit()
     {
         m_progress = new MyGameProgress(m_maxGameTime);
@@ -40,7 +42,7 @@ public class FightSceneManager : MyUpdater
 
     public override void MySecondInit()
     {
-       
+        m_machine.AddState(FightSceneType.FIGHT, new FightState(), this);
     }
 
 
@@ -59,4 +61,21 @@ public class FightSceneManager : MyUpdater
     /// ゲームの進捗具合を渡す
     /// </summary>
     public MyGameProgress.GameProgress GetProgress() { return m_progress.Progress; }
+
+
+    private class FightState : IStateSpace.IState<FightSceneType, FightSceneManager>
+    {
+        public override void Entry()
+        {
+        }
+
+        public override void Exit()
+        {
+        }
+
+        public override FightSceneType Update()
+        {
+            return FightSceneType.FIGHT;
+        }
+    }
 }

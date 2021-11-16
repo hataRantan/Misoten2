@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyMissileItem : MyItemInterface
+public class MyBullItem : MyItemInterface
 {
-    [Header("ミサイルの当たり判定")]
-    [SerializeField] BoxCollider m_missileCol = null;
+    [Header("牛の当たり判定")]
+    [SerializeField] BoxCollider m_bullCol = null;
 
-    [Header("ミサイルの剛体")]
+    [Header("牛の剛体")]
     [SerializeField]
-    Rigidbody m_missileRigid = null;
+    Rigidbody m_bullRigid = null;
 
     public override void Init(MyPlayerInfo _info)
     {
@@ -17,8 +17,8 @@ public class MyMissileItem : MyItemInterface
         base.Init(_info);
 
         //牛自体の剛体等開始
-        m_missileCol.enabled = true;
-        m_missileRigid.isKinematic = false;
+        m_bullCol.enabled = true;
+        m_bullRigid.isKinematic = false;
 
         //ToDo：他の初期化事項
     }
@@ -30,7 +30,6 @@ public class MyMissileItem : MyItemInterface
 
         //ToDo：アクション初期化
     }
-
 
     public override void FiexdAction()
     {
@@ -46,5 +45,4 @@ public class MyMissileItem : MyItemInterface
     {
         //ToDo：入力値の整理
     }
-
 }

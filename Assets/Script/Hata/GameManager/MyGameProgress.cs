@@ -59,7 +59,7 @@ public class MyGameProgress
             }
 
             //プレイヤーの脱落人数を確認
-            if (_dropNum >= 0)
+            if (_dropNum >= 1) 
             {
                 Progress = GameProgress.MIDDLE;
                 return;
@@ -84,6 +84,7 @@ public class MyGameProgress
             //プレイヤーの脱落人数を確認
             if (_dropNum >= 2)
             {
+
                 Progress = GameProgress.FINAL;
                 return;
             }

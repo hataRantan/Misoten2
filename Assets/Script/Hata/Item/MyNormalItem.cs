@@ -34,7 +34,7 @@ public class MyNormalItem : MyItemInterface
     public override void Init(MyPlayerInfo _info)
     {
         //アイテムに必要な情報を取得する
-        base.Init(_info);
+        m_playerInfo = _info;
 
         //ToDo：変更必須
         BoxCollider collider = gameObject.GetComponent<BoxCollider>();

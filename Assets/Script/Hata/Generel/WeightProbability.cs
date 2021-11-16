@@ -9,18 +9,18 @@ public class WeightProbability : MonoBehaviour
     /// </summary>
     /// <typeparam name="Type"> 確率で求めたい値 </typeparam>
     /// <param name="_weightDic"> 重みを指定した</param>
-    public static Type GetWeightRandm<Type>(ref Dictionary<Type,int> _weightDic)
+    public static Type GetWeightRandm<Type>(ref Dictionary<Type, int> _weightDic) where Type : System.Enum
     {
         //重みの合計
         var totalWeight = 0;
         //合計を取得
-        foreach(var weight in _weightDic)
+        foreach (var weight in _weightDic)
         {
             totalWeight += weight.Value;
         }
-        
+
         var value = Random.Range(1, totalWeight + 1);
-        
+
         foreach (var weight in _weightDic)
         {
             if (weight.Value >= value)
@@ -40,7 +40,7 @@ public class WeightProbability : MonoBehaviour
     /// </summary>
     /// <typeparam name="Type"> 確率で求めたい値 </typeparam>
     /// <param name="_weightDic"> 重みを指定した </param>
-    public static Type GetWeightLot<Type>(ref Dictionary<Type, int> _weightDic)
+    public static Type GetWeightLot<Type>(ref Dictionary<Type, int> _weightDic) where Type : System.Enum
     {
         //重みの合計
         var totalWeight = 0;

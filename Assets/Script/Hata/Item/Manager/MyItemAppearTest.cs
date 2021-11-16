@@ -56,4 +56,5 @@ public class MyItemAppearTest : MonoBehaviour
         }
 
     }
+
 }

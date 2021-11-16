@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//ToDo：柵のモデルをインスタンスする
 public class FloorManager : MyUpdater
 {
     [Header("床一枚の大きさ")]
     [SerializeField] float floorSize = 5;
 
-    [Header("床の縦、横の枚数")]
+    [Header("床の縦、横の枚数(2以上とすること)")]
     [SerializeField] Vector2 floorNumber = new Vector2(5, 5);
 
     [Header("生成するCube")]
@@ -23,12 +24,16 @@ public class FloorManager : MyUpdater
     public Vector2 StageMinEdge { get; private set; }
     public Vector2 StageMaxEdge { get; private set; }
 
+    //デバック用フラグ
     private bool isDebug = false;
 
 #if isDebug
     Vector3[] kado;
 #endif
 
+    /// <summary>
+    /// 地面作成
+    /// </summary>
     public override void MyFastestInit()
     {
         //createdCubes = new List<GameObject>();
@@ -113,4 +118,95 @@ public class FloorManager : MyUpdater
 #endif
 
     public override void MyUpdate() { }
+
+    /// <summary>
+    /// 指定の番号の床の四隅の位置を知る 0:左下、 1:右下、2:左上、3:右上
+    /// </summary>
+    public Vector3 GetFourCornersPos(int _cornerNum)
+    {
+        //戻り値
+        Vector3 rePos = Vector3.zero;
+
+        switch(_cornerNum)
+        {
+            case 0://左下
+                rePos = createdCubes[createdCubes.GetLength(0) - 1, createdCubes.GetLength(1) - 1].transform.position;
+                break;
+
+            case 1://右下
+                rePos = createdCubes[0, createdCubes.GetLength(1) - 1].transform.position;
+                break;
+
+            case 2://左上
+                rePos = createdCubes[createdCubes.GetLength(0) - 1, 0].transform.position;
+                break;
+         
+            case 3://右上
+                rePos = createdCubes[0, 0].transform.position;
+                break;
+
+            default:
+                Debug.LogError("四隅以外の位置を指定している");
+                break;
+        }
+
+        return rePos;
+    }
+
+
+    /// <summary>
+    /// 床の個数を返す
+    /// </summary>
+    public int GetFloorLength(int _num)
+    {
+        //0~1に制限
+        _num = Mathf.Clamp(_num, 0, 1);
+
+        return createdCubes.GetLength(_num);
+    }
+
+    /// <summary>
+    /// 指定の添え字番号から床の位置を渡す
+    /// </summary>
+    /// <param name="_pos">検索したい添え字番号</param>
+    public Vector3 GetFloorPos(Vector2Int _pos)
+    {
+        //添え字の番号に制限
+        _pos.x = Mathf.Clamp(_pos.x, 0, createdCubes.GetLength(0) - 1);
+        _pos.y = Mathf.Clamp(_pos.y, 0, createdCubes.GetLength(1) - 1);
+
+        return createdCubes[_pos.x, _pos.y].transform.position;
+    }
+
+    /// <summary>
+    /// 指定の位置は、何番目の床の上なのかを渡す
+    /// </summary>
+    public Vector2Int GetFloorNumber(Vector3 _pos)
+    {
+        //戻り値
+        Vector2Int reSub = Vector2Int.zero;
+
+        //どの床の上か探す
+        for (int width = 0; width < createdCubes.GetLength(0); width++)
+        {
+            for (int height = 0; height < createdCubes.GetLength(1); height++)
+            {
+                //床の位置を取得
+                Vector3 cubePos = createdCubes[width, height].transform.position;
+                float offset = floorSize / 2;
+
+                if (_pos.x >= cubePos.x - offset && _pos.x <= cubePos.x + offset
+                    && _pos.z >= cubePos.z - offset && _pos.z <= cubePos.z + offset)
+                {
+                    
+                    reSub.x = width;
+                    reSub.y = height;
+
+                    break;
+                }
+            }
+        }
+
+        return reSub;
+    }
 }

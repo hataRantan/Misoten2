@@ -13,6 +13,15 @@ public abstract class MyItemInterface : MonoBehaviour
     protected ItemData m_data = null;
     public ItemData ItemData { get { return m_data; } }
 
+    [Header("アイテム取得範囲")]
+    [SerializeField]
+    private BoxCollider m_getRange = null;
+
+    //アイテム出現に利用
+    [Header("モデルの最下地点")]
+    [SerializeField] Transform m_bottomPoint = null;
+    public Transform Bottom { get { return m_bottomPoint; } }
+
     // 衝突したオブジェクト（取得やダメージ衝突に使用）
     protected GameObject hitObj = null;
 
@@ -51,7 +60,11 @@ public abstract class MyItemInterface : MonoBehaviour
     /// アイテム初期化 baze.Init()で呼び出し必須
     /// </summary>
     
-    public virtual void Init(MyPlayerInfo _info) { m_playerInfo = _info; }
+    public virtual void Init(MyPlayerInfo _info)
+    {
+        m_getRange.enabled = false;
+        m_playerInfo = _info;
+    }
     
     /// <summary>
     /// アイテムの後処理

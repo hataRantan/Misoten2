@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyMissileItem : MyItemInterface
+public class MyMoaiItem : MyItemInterface
 {
-    [Header("ミサイルの当たり判定")]
-    [SerializeField] BoxCollider m_missileCol = null;
+    [Header("モアイの当たり判定")]
+    [SerializeField] BoxCollider m_moaiCol = null;
 
-    [Header("ミサイルの剛体")]
-    [SerializeField]
-    Rigidbody m_missileRigid = null;
+    [Header("モアイの剛体")]
+    [SerializeField] Rigidbody m_moaiRigid = null;
 
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
         base.Init(_info);
 
-        //牛自体の剛体等開始
-        m_missileCol.enabled = true;
-        m_missileRigid.isKinematic = false;
+        //モアイの剛体等開始
+        m_moaiCol.enabled = true;
+        m_moaiRigid.isKinematic = true;
 
         //ToDo：他の初期化事項
     }
@@ -30,7 +29,6 @@ public class MyMissileItem : MyItemInterface
 
         //ToDo：アクション初期化
     }
-
 
     public override void FiexdAction()
     {
@@ -46,5 +44,4 @@ public class MyMissileItem : MyItemInterface
     {
         //ToDo：入力値の整理
     }
-
 }

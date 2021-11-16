@@ -36,6 +36,7 @@ public class MyPlayerObject : MyUpdater
         ACTION,
         DAMAGE,
         DEAD,
+        END,
         NONE    //通常は使わない
     }
     //現在の状態
@@ -50,12 +51,22 @@ public class MyPlayerObject : MyUpdater
     //自身の情報（アイテムなどに渡すために使用する）
     private MyPlayerInfo m_info = new MyPlayerInfo();
     public MyPlayerInfo PlayerInfo { get { return m_info; } }
+    
+    //trueなら生存しているフラグ
+    public bool IsSurvival { get; private set; }
+
+    [Header("プレイヤーの見た目")]
+    [SerializeField] MeshRenderer m_playerRender = null;
+    public MeshRenderer PlayerRender { get { return m_playerRender; } }
 
     /// <summary>
     /// 生成時の初期化
     /// </summary>
     public void CreatedInit(int _playerNum)
     {
+        //生存フラグをOn
+        IsSurvival = true;
+
         //プレイヤー番号の取得
         PlayerNumber = _playerNum;
 
@@ -66,6 +77,7 @@ public class MyPlayerObject : MyUpdater
         m_machine.AddState(MyPlayerState.ACTION, new ActionState(), this);
         m_machine.AddState(MyPlayerState.DAMAGE, new DamageState(), this);
         m_machine.AddState(MyPlayerState.DEAD, new DeadState(), this);
+        m_machine.AddState(MyPlayerState.END, new EndState(), this);
 
         //初期状態に変更
         m_machine.InitState(MyPlayerState.MOVE);
@@ -84,6 +96,17 @@ public class MyPlayerObject : MyUpdater
     public void ChangeNormalItem()
     {
         ChangeItem(m_normalItem);
+    }
+
+    /// <summary>
+    /// アイテムを破棄する（操作不可状態にする）
+    /// </summary>
+    public void NonItem()
+    {
+        //前アイテムの後処理
+        if (m_currentItem) m_currentItem.Exit();
+
+        m_currentItem = null;
     }
 
     /// <summary>
@@ -161,6 +184,25 @@ public class MyPlayerObject : MyUpdater
     /// </summary>
     public void SetUI(MyPlayerUI _ui) { PlayerUI = _ui; }
 
+    /// <summary>
+    /// プレイヤーの現在の状態を渡す
+    /// </summary>
+    /// <returns></returns>
+    public MyPlayerState GetCurrentState()
+    {
+        return m_machine.currenrState;
+    }
 
+    /// <summary>
+    /// 生存終了 
+    //ToDo：姿を消すなど処理必要
+    /// </summary>
+    public void Abort()
+    {
+        IsSurvival = false;
+
+        //物理運動停止
+        m_info.Rigid.isKinematic = true;
+    }
    
 }

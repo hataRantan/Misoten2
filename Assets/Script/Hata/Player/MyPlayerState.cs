@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MyPlayerStateClass
 {
+    //移動状態
     public class MoveState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
         //正規化した移動方向
@@ -64,7 +65,7 @@ namespace MyPlayerStateClass
         }
     }
 
-
+    //アクション状態
     public class ActionState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
         public override void Entry()
@@ -96,6 +97,7 @@ namespace MyPlayerStateClass
         }
     }
 
+    //ダメージ状態
     public class DamageState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
         //ダメージ処理の終了確認フラグ
@@ -120,11 +122,39 @@ namespace MyPlayerStateClass
         }
     }
 
+    //ゲームオーバー演出状態
     public class DeadState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
         public override void Entry()
         {
-            //ToDo：dead処理の呼び出し
+            //プレイヤーの操作を不可能にする
+            board.NonItem();
+        }
+
+        public override void Exit()
+        {
+           
+        }
+
+        public override MyPlayerObject.MyPlayerState Update()
+        {
+            //カメラ描画範囲外ならEnd状態へ移行
+            if(!board.PlayerRender.isVisible)
+            {
+                return MyPlayerObject.MyPlayerState.END;
+            }
+
+            return MyPlayerObject.MyPlayerState.DEAD;
+        }
+    }
+
+    public class EndState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
+    {
+        public override void Entry()
+        {
+            //プレイヤーの生存終了
+            board.Abort();
+            //ToDo：プレイヤーがゲームオーバー後も何かするなら、ここを変更する
         }
 
         public override void Exit()
@@ -133,10 +163,9 @@ namespace MyPlayerStateClass
 
         public override MyPlayerObject.MyPlayerState Update()
         {
-            return MyPlayerObject.MyPlayerState.DEAD;
+            return MyPlayerObject.MyPlayerState.END;
         }
     }
-
 }
 
 

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 2
   speedFactor: 0.7
-  blowsNum: 5
+  blowsNum: 3

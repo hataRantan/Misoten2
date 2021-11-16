@@ -12,10 +12,10 @@ public class MyRapperInput : Singleton<MyRapperInput>
     /// </summary>
     public void SetChild(MyPlayerInput _input)
     {
-       for(int idx=0;idx<controlls.Length;idx++)
+        for (int idx = 0; idx < controlls.Length; idx++)
         {
             // セットされていないオブジェクトに親として登録する
-            if(controlls[idx]==null)
+            if (controlls[idx] == null)
             {
                 controlls[idx] = _input;
                 _input.gameObject.transform.parent = gameObject.transform;
@@ -31,7 +31,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-       if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -44,7 +44,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -57,7 +57,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -70,7 +70,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -85,7 +85,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return Vector2.zero;
         }
@@ -98,7 +98,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return Vector2.zero;
         }
@@ -113,7 +113,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -126,7 +126,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -139,7 +139,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -152,7 +152,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -167,7 +167,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -180,7 +180,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-         if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -194,7 +194,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -207,7 +207,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -220,7 +220,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -233,7 +233,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -246,7 +246,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -259,7 +259,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -272,7 +272,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -285,7 +285,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -298,7 +298,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -311,7 +311,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -327,7 +327,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -340,7 +340,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -353,7 +353,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -366,7 +366,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -379,7 +379,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -392,7 +392,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -405,7 +405,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -418,7 +418,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -431,7 +431,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -444,7 +444,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -457,7 +457,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -470,7 +470,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
 
-        if(controlls[_playerNum] ==null)
+        if (controlls[_playerNum] == null)
         {
             return false;
         }
@@ -483,7 +483,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     /// プレイヤー人数の最小・最大値が正しく入っているか
     /// </summary>
     /// <param name="_num">プレイヤー識別番号</param>
-    public void NumClamp(ref int _num)
+    private void NumClamp(ref int _num)
     {
         if (0 <= _num || 3 >= _num) return;
 

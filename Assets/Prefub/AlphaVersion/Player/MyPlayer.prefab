@@ -128,6 +128,7 @@ MonoBehaviour:
   m_isUpdate: 1
   m_plData: {fileID: 11400000, guid: 50ae89911911a2d4baeacbd9a99286f7, type: 2}
   m_normalItem: {fileID: 5172598662243529014}
+  m_playerRender: {fileID: 5172598662590110683}
 --- !u!1 &5172598662243529012
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_data: {fileID: 11400000, guid: d014331985496e749bc153ae814e860a, type: 2}
+  m_getRange: {fileID: 3946046160550863701}
+  m_bottomPoint: {fileID: 5172598662243529015}
   decreaseTime: 0.3
 --- !u!65 &3946046160550863701
 BoxCollider:

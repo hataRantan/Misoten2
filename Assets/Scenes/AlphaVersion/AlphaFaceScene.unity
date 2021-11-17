@@ -1106,7 +1106,7 @@ MonoBehaviour:
     m_SceneName: AlphaFight
   m_photoTime: 15
   m_timerText: {fileID: 627896528}
-  m_photoNum: 4
+  m_photoNum: 1
 --- !u!114 &527081016
 MonoBehaviour:
   m_ObjectHideFlags: 0

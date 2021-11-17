@@ -14,6 +14,9 @@ public class FloorManager : MyUpdater
     [Header("生成するCube")]
     [SerializeField] GameObject createCube = null;
 
+    [Header("生成する壁")]
+    [SerializeField] GameObject createWall = null;
+
     //生成したCube一覧
     //private List<GameObject> createdCubes;
     private GameObject[,] createdCubes;
@@ -84,6 +87,20 @@ public class FloorManager : MyUpdater
         //ステージの端を求める
         StageMinEdge = new Vector2(-StageSize.x / 2.0f, -StageSize.y / 2.0f);
         StageMaxEdge = -StageMinEdge;
+
+        ////壁の高さ
+        //float wallHigh = 20.0f;
+        ////壁の奥行
+        //float wallOku = 1.0f;
+        ////生成した壁
+        //GameObject createdWall = null;
+
+        ////左右の壁の大きさを求める
+        //Vector3 wallSize = new Vector3(StageSize.y, wallHigh, wallOku);
+
+        ////右の壁を生成
+        //createdWall = Instantiate(createWall, new Vector3(StageSize.x / 2.0f + wallOku, wallSize.y / 2.0f, 0.0f), Quaternion.identity);
+        //createWall.transform.localScale = wallSize;
 
 #if isDebug
         kado = new Vector3[4];

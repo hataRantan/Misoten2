@@ -181,4 +181,12 @@ public class MyUpdaterList : MonoBehaviour
             beRemoveList.Clear();
         }
     }
+
+    /// <summary>
+    /// 更新を停止する
+    /// </summary>
+    public void StopUpdate()
+    {
+        m_isUpdate = false;
+    }
 }

@@ -237,7 +237,7 @@ public class MyItemManager : MyUpdater
     /// </summary>
     private void ChoiceItemInstantiate()
     {
-        switch (m_choiceAppear.SelectMethod(playerManager.GetPlayerTotalHp()))
+        switch (m_choiceAppear.SelectMethod(playerManager.GetPlayerCurrentTotalHp()))
         {
             case ItemSelectAppearanceMethods.Method.NORAML:
                 NormalItemInstantiate();

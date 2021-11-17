@@ -12,6 +12,7 @@ public class MyPlayerManager : MyUpdater
     [Header("プレイヤーの人数")]
     [Range(1, 4)]
     [SerializeField] private int m_maxPlayerNum = 1;
+    public int GetMaxPlayerNum { get { return m_maxPlayerNum; } }
 
     [Header("プレイヤー名")]
     [SerializeField] string[] m_playerName = new string[4];
@@ -35,6 +36,8 @@ public class MyPlayerManager : MyUpdater
     private int m_playerMaxHp = 0;
     //プレイヤーの最大Hpの合計
     private int m_playerTotalMaxHp = 0;
+    //プレイヤーの最大合計Hp
+    public int GetMaxTotalHp { get { return m_playerMaxHp; } }
 
     [Header("プレイヤーのゲームオーバー演出時間")]
     [SerializeField]
@@ -49,9 +52,11 @@ public class MyPlayerManager : MyUpdater
     private bool isProcessEnd = false;
 
     //ゲームオーバーテスト
+#if UNITY_EDITOR
     TestMyPlayerDead dead = null;
+#endif
 
-    public override void MySecondInit()
+    public override void MyFastestInit()
     {
         //プレイヤーの出現位置を知るために、床管理クラスを取得
         FloorManager floor = GameObject.FindWithTag("FloorManager").GetComponent<FloorManager>();
@@ -95,9 +100,10 @@ public class MyPlayerManager : MyUpdater
 
         m_endHitPos =gameObject.GetComponent<MyPlayerGameOverHits>();
 
-
+#if UNITY_EDITOR
         dead = GetComponent<TestMyPlayerDead>();
         dead.SetPlayers(m_players);
+#endif
     }
 
 
@@ -133,7 +139,6 @@ public class MyPlayerManager : MyUpdater
         //ゲームオーバー処理呼び出し
         CallGameOver();
 
-        //Debug.Log("TimeScale" + Time.timeScale);
     }
 
     /// <summary>
@@ -364,25 +369,9 @@ public class MyPlayerManager : MyUpdater
     }
 
     /// <summary>
-    /// プレイヤーの現在のHpに対する最大Hpの合計の割合
+    /// プレイヤーの合計現在のHpを渡す
     /// </summary>
-    public float GetPlayerTotalHpPercentage()
-    {
-        int currentTotalHp = 0;
-
-        for (int playerIdx = 0; playerIdx < m_players.Length; playerIdx++)
-        {
-            currentTotalHp += m_players[playerIdx].GetHP();
-        }
-
-        return (float)currentTotalHp / m_playerTotalMaxHp;
-    }
-
-    /// <summary>
-    /// プレイヤーの合計Hpを渡す
-    /// </summary>
-    /// <returns></returns>
-    public int GetPlayerTotalHp()
+    public int GetPlayerCurrentTotalHp()
     {
         int hp = 0;
 
@@ -398,7 +387,6 @@ public class MyPlayerManager : MyUpdater
     /// <summary>
     /// Hpが最も低いプレイヤーの位置を取得する
     /// </summary>
-    /// <returns></returns>
     public Vector3 GetMinHpPlayerPos()
     {
         //プレイヤーのリストを残りHpを参考に昇順にする

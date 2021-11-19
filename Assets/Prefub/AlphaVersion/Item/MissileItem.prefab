@@ -28,8 +28,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514447779658181118}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 26.1, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 500, y: 500, z: 500}
   m_Children:
   - {fileID: 1856907922531059857}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: ee70bb2245bb328428943fad3bcdd162, type: 2}
   m_getRange: {fileID: 1856907922531059856}
   m_bottomPoint: {fileID: 1856907921854708730}
-  m_missileCol: {fileID: 1856907922100622504}
+  m_missileCol: {fileID: 1856907922531059856}
   m_missileRigid: {fileID: 1856907922100622507}
 --- !u!1 &1856907921854708731
 GameObject:

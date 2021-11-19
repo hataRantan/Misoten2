@@ -88,19 +88,27 @@ public class FloorManager : MyUpdater
         StageMinEdge = new Vector2(-StageSize.x / 2.0f, -StageSize.y / 2.0f);
         StageMaxEdge = -StageMinEdge;
 
-        ////壁の高さ
-        //float wallHigh = 20.0f;
-        ////壁の奥行
-        //float wallOku = 1.0f;
-        ////生成した壁
-        //GameObject createdWall = null;
+        //壁の高さ
+        float wallHigh = 100.0f;
+        //壁の奥行
+        float wallOku = 1.0f;
+        //生成した壁
+        GameObject createdWall = null;
 
-        ////左右の壁の大きさを求める
-        //Vector3 wallSize = new Vector3(StageSize.y, wallHigh, wallOku);
+        //左右の壁の大きさを求める
+        Vector3 wallSize = new Vector3(StageSize.y, wallHigh, wallOku);
 
-        ////右の壁を生成
-        //createdWall = Instantiate(createWall, new Vector3(StageSize.x / 2.0f + wallOku, wallSize.y / 2.0f, 0.0f), Quaternion.identity);
-        //createWall.transform.localScale = wallSize;
+        //右の壁を生成
+        CreateWall(new Vector3(StageSize.x / 2.0f + wallOku, wallSize.y / 2.0f, 0.0f), new Vector3(0.0f, 90.0f, 0), wallSize);
+
+        //左の壁を生成
+        CreateWall(new Vector3(-StageSize.x / 2.0f - wallOku, wallSize.y / 2.0f, 0.0f), new Vector3(0.0f, 90.0f, 0), wallSize);
+
+        //上の壁を生成
+        CreateWall(new Vector3(0.0f, wallSize.y / 2.0f, -StageSize.y / 2.0f - wallOku), new Vector3(0.0f, 0, 0), wallSize);
+
+        //下の壁を生成
+        CreateWall(new Vector3(0.0f, wallSize.y / 2.0f, StageSize.y / 2.0f + wallOku), new Vector3(0.0f, 0, 0), wallSize);
 
 #if isDebug
         kado = new Vector3[4];
@@ -133,6 +141,18 @@ public class FloorManager : MyUpdater
         }
     }
 #endif
+
+    private void CreateWall(Vector3 _pos, Vector3 _euler, Vector3 _size)
+    {
+        //生成
+        GameObject wall = Instantiate(createWall, _pos, Quaternion.Euler(_euler));
+        //サイズ変更
+        wall.transform.localScale = _size;
+        //親を設定
+        wall.transform.parent = this.gameObject.transform;
+    }
+
+
 
     public override void MyUpdate() { }
 

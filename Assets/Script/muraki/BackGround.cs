@@ -4,32 +4,30 @@ using UnityEngine;
 
 namespace MyTitleStateClass
 {
-    public class tAnimationState : IStateSpace.IState<MyTitleObject.MyTitleObjectState, MyTitleObject>
+    public class tEventState : IStateSpace.IState<MyTitleObject.MyTitleObjectState, MyTitleObject>
     {
-        //正規化した移動方向
-        Vector3 m_moveDirect = Vector3.zero;
-
         public override void Entry()
         {
-            board.CallTest();
+            //イベント呼び出し
+            board.CallEvent();
         }
         public override void Exit() { }
         
-
         public override MyTitleObject.MyTitleObjectState Update()
         {
-            return MyTitleObject.MyTitleObjectState.tMOVE;
+            //イベントが終了すれば状態遷移
+            if (board.isEvent) return MyTitleObject.MyTitleObjectState.tWait;
+
+            return MyTitleObject.MyTitleObjectState.tEvent;
         }
     }
 
 
-
-
-    public class tDeadState : IStateSpace.IState<MyTitleObject.MyTitleObjectState, MyTitleObject>
+    public class tWaitState : IStateSpace.IState<MyTitleObject.MyTitleObjectState, MyTitleObject>
     {
         public override void Entry()
         {
-            //ToDo：dead処理の呼び出し
+
         }
 
         public override void Exit()
@@ -38,7 +36,7 @@ namespace MyTitleStateClass
 
         public override MyTitleObject.MyTitleObjectState Update()
         {
-            return MyTitleObject.MyTitleObjectState.tDEAD;
+            return MyTitleObject.MyTitleObjectState.tWait;
         }
     }
 

@@ -70,7 +70,12 @@ PrefabInstance:
     - target: {fileID: 9140619532749606011, guid: 74c1cd88bad720f4ea9e2e258dbd6a54,
         type: 3}
       propertyPath: m_Name
-      value: bCube
+      value: bCube 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9140619532749606011, guid: 74c1cd88bad720f4ea9e2e258dbd6a54,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74c1cd88bad720f4ea9e2e258dbd6a54, type: 3}

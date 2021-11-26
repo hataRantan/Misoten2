@@ -41,7 +41,6 @@ public class MyPlayerObject : MyUpdater
     }
     //現在の状態
     public MyPlayerState m_State { get; private set; }
-
     //プレイヤーの状態マシーン
     private IStateSpace.StateMachineBase<MyPlayerState, MyPlayerObject> m_machine;
 
@@ -51,13 +50,14 @@ public class MyPlayerObject : MyUpdater
     //自身の情報（アイテムなどに渡すために使用する）
     private MyPlayerInfo m_info = new MyPlayerInfo();
     public MyPlayerInfo PlayerInfo { get { return m_info; } }
-    
     //trueなら生存しているフラグ
     public bool IsSurvival { get; private set; }
 
     [Header("プレイヤーの見た目")]
-    [SerializeField] MeshRenderer m_playerRender = null;
-    public MeshRenderer PlayerRender { get { return m_playerRender; } }
+    [SerializeField] SkinnedMeshRenderer m_playerRender = null;
+
+    [Header("プレイヤーの足元")]
+    [SerializeField] Transform m_playerBottom = null;
 
     /// <summary>
     /// 生成時の初期化
@@ -66,10 +66,8 @@ public class MyPlayerObject : MyUpdater
     {
         //生存フラグをOn
         IsSurvival = true;
-
         //プレイヤー番号の取得
         PlayerNumber = _playerNum;
-
         //状態生成
         m_machine = new IStateSpace.StateMachineBase<MyPlayerState, MyPlayerObject>();
         //状態の追加
@@ -78,16 +76,29 @@ public class MyPlayerObject : MyUpdater
         m_machine.AddState(MyPlayerState.DAMAGE, new DamageState(), this);
         m_machine.AddState(MyPlayerState.DEAD, new DeadState(), this);
         m_machine.AddState(MyPlayerState.END, new EndState(), this);
-
         //初期状態に変更
         m_machine.InitState(MyPlayerState.MOVE);
-
         //情報をセットする
         m_info.SetPlayer(this);
-
+        //初期位置を設定
+        m_info.InitPos(gameObject.transform.position);
         //通常アイテムを取得
         ChangeNormalItem();
+        //床位置を合わせる
+        AdjustFloor();
+    }
 
+    /// <summary>
+    /// 床の高さに合わせる
+    /// </summary>
+    public void AdjustFloor()
+    {
+        const float floorY = 0.0f;
+        //足元と床位置の差を求める
+        float diff = floorY - m_playerBottom.position.y;
+        Vector3 pos = m_info.Trans.position;
+        //差分だけY軸を移動する
+        m_info.Trans.position = new Vector3(pos.x, pos.y + diff, pos.z);
     }
 
     /// <summary>
@@ -195,14 +206,13 @@ public class MyPlayerObject : MyUpdater
 
     /// <summary>
     /// 生存終了 
-    //ToDo：姿を消すなど処理必要
     /// </summary>
     public void Abort()
     {
         IsSurvival = false;
 
-        //物理運動停止
-        m_info.Rigid.isKinematic = true;
+        //描画運動停止
+        m_info.StopDraw();
     }
-   
+
 }

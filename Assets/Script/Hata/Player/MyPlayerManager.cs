@@ -63,7 +63,6 @@ public class MyPlayerManager : MyUpdater
 
         //ToDo：変更予定
         float uiWidth = 400.0f;
-
         //プレイヤーの生成
         m_players = new MyPlayerObject[m_maxPlayerNum];
 
@@ -77,7 +76,7 @@ public class MyPlayerManager : MyUpdater
 
             //プレイヤーの生成
             //ToDo：現在の出現位置を四隅のみ、プレイヤーの人数によって変更させる必要あり
-            GameObject playerObj = Instantiate(createPlayer, floor.GetFourCornersPos(idx) + Vector3.up * 5.0f, Quaternion.identity);
+            GameObject playerObj = Instantiate(createPlayer, floor.GetFourCornersPos(idx) + Vector3.up * 10.0f, Quaternion.identity);
             playerObj.name = m_playerName[idx];
             MyPlayerObject player = playerObj.GetComponent<MyPlayerObject>();
 

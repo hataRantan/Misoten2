@@ -30,31 +30,35 @@ namespace MyPlayerStateClass
             //ToDo：入力処理変更
             Vector2 input = Vector2.zero;
 
-            if (Input.GetKey(KeyCode.W)) input.y = -1.0f;
-            else if (Input.GetKey(KeyCode.S)) input.y = 1.0f;
+            //if (Input.GetKey(KeyCode.W)) input.y = -1.0f;
+            //else if (Input.GetKey(KeyCode.S)) input.y = 1.0f;
 
-            if (Input.GetKey(KeyCode.D)) input.x = -1.0f;
-            else if (Input.GetKey(KeyCode.A)) input.x = 1.0f;
-            
+            //if (Input.GetKey(KeyCode.D)) input.x = -1.0f;
+            //else if (Input.GetKey(KeyCode.A)) input.x = 1.0f;
+
+            input = -MyRapperInput.Instance.Move(board.PlayerNumber);
+
             board.CurrentItem.Move(input);
-
-            //アクション状態に変更する
-            //if (MyRapperInput.Instance.GetItem(board.PlayerNumber))
-            //{
-            //    return MyPlayerObject.MyPlayerState.ACTION;
-            //}
 
             //通常状態とそれ以外で、操作方法を変更
             if (board.CurrentItem == board.NormalImte)
             {
-                if (Input.GetMouseButtonDown(0))
+                //if (Input.GetMouseButtonDown(0))
+                //{
+                //    return MyPlayerObject.MyPlayerState.ACTION;
+                //}
+                if (MyRapperInput.Instance.GetItem(board.PlayerNumber))
                 {
                     return MyPlayerObject.MyPlayerState.ACTION;
                 }
             }
             else
             {
-                if (Input.GetMouseButtonDown(1))
+                //if (Input.GetMouseButtonDown(1))
+                //{
+                //    return MyPlayerObject.MyPlayerState.ACTION;
+                //}
+                if (MyRapperInput.Instance.ActionItem(board.PlayerNumber))
                 {
                     return MyPlayerObject.MyPlayerState.ACTION;
                 }
@@ -139,7 +143,7 @@ namespace MyPlayerStateClass
         public override MyPlayerObject.MyPlayerState Update()
         {
             //カメラ描画範囲外ならEnd状態へ移行
-            if(!board.PlayerRender.isVisible)
+            if(!board.PlayerInfo.Render.isVisible)
             {
                 return MyPlayerObject.MyPlayerState.END;
             }

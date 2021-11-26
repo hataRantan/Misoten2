@@ -29,6 +29,7 @@ public class MyBullItem : MyItemInterface
         isEndAntion = false;
 
         //ToDo：アクション初期化
+        //m_playerInfo.ChangeNormal();
     }
 
     public override void FiexdAction()
@@ -44,5 +45,11 @@ public class MyBullItem : MyItemInterface
     public override void Move(Vector2 _direct)
     {
         //ToDo：入力値の整理
+        
+    }
+
+    public override void Exit()
+    {
+        Destroy(this.gameObject);
     }
 }

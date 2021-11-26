@@ -13,6 +13,10 @@ public class MyPlayerInfo
     public Rigidbody Rigid { get; private set; }
     //プレイヤーの位置情報
     public Transform Trans { get; private set; }
+    //プレイヤーの見た目
+    public SkinnedMeshRenderer Render { get; private set; }
+    //プレイヤー自身の当たり判定
+    public BoxCollider Collider { get; private set; }
 
     //プレイヤーの初期データ（速度など）
     public PlayerBasicData Data { get; private set; }
@@ -23,12 +27,13 @@ public class MyPlayerInfo
     //プレイヤーに対応するUI
     public MyPlayerUI Ui { get { return playerObj.PlayerUI; } }
 
-
     //次のプレイヤーの状態を知る
     public MyPlayerObject.MyPlayerState NextState { get; private set; }
-
     //プレイヤーのアイテム変更をLateUpdateに通知する
     public MyItemInterface NextItem = null;
+
+    //アイテムを最後に使用した位置
+    private Vector3 m_itemPos = Vector3.zero;
 
     /// <summary>
     /// コンポーネントを取得する
@@ -41,6 +46,8 @@ public class MyPlayerInfo
 
         Rigid = _player.gameObject.GetComponent<Rigidbody>();
         Trans = _player.gameObject.transform;
+        Render = _player.gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        Collider = _player.gameObject.GetComponent<BoxCollider>();
 
         NextState = MyPlayerObject.MyPlayerState.NONE;
     }
@@ -48,7 +55,11 @@ public class MyPlayerInfo
     /// <summary>
     /// プレイヤーを通常状態に変更させる
     /// </summary>
-    public void ChangeNormal() { NextItem = playerObj.NormalImte; }
+    public void ChangeNormal() 
+    {
+        m_itemPos = playerObj.CurrentItem.gameObject.transform.position;
+        NextItem = playerObj.NormalImte;
+    }
 
     /// <summary>
     /// プレイヤーの次の状態を通知 次の状態にDamageまたはDeadが指定されていれば変更不可
@@ -81,5 +92,45 @@ public class MyPlayerInfo
         //状態変更
         if (Hp > 0) NextState = MyPlayerObject.MyPlayerState.DAMAGE;
         else NextState = MyPlayerObject.MyPlayerState.DEAD;
+    }
+
+    /// <summary>
+    /// プレイヤー生成時に使用
+    /// </summary>
+    /// <param name="_init"></param>
+    public void InitPos(Vector3 _init)
+    {
+        m_itemPos = _init;
+    }
+
+    /// <summary>
+    /// プレイヤーの見た目停止
+    /// </summary>
+    public void StopDraw()
+    {
+        //描画
+        Render.enabled = false;
+        //物理運動
+        Rigid.isKinematic = true;
+        //衝突判定
+        Collider.isTrigger = true;
+    }
+
+    /// <summary>
+    /// プレイヤーの見た目再開
+    /// </summary>
+    /// <param name="_itemPos"> 最後に使用したアイテムの位置 </param>
+    public void ReDraw()
+    {
+        //描画
+        Render.enabled = true;
+        //物理運動
+        Rigid.isKinematic = false;
+        //衝突判定
+        Collider.isTrigger = false;
+        //アイテムの最後の位置に移動
+        Trans.position = m_itemPos;
+        //床の高さに合わせる
+        playerObj.AdjustFloor();
     }
 }

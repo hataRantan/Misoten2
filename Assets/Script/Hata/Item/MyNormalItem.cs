@@ -9,6 +9,12 @@ public class MyNormalItem : MyItemInterface
     [SerializeField] float decreaseTime = 0.0f;
     float m_currentDecrease = 0.0f;
 
+    [Header("アイテムの取得範囲")]
+    [SerializeField] BoxCollider m_playerHitBox = null;
+
+    [Header("通常状態に移動アニメーション")]
+    [SerializeField] MyPlayerMoveAction m_move = null;
+
     //正規化した入力情報
     Vector3 nDirect = Vector3.zero;
 
@@ -20,8 +26,6 @@ public class MyNormalItem : MyItemInterface
     //取得に必要な連打数
     private int m_maxBlows = 0;
 
-    //ToDo：通常状態の時のプレイヤーの見た目への参照
-    //ToDo：アイテム取得時に、プレイヤーとプレイヤーの見た目のRigidBodyや描画を停止する
     //ToDo：アイテム変更時に、プレイヤーのRigidや描画の再開を行うこと
 
     //取得しようとしているアイテム
@@ -30,40 +34,23 @@ public class MyNormalItem : MyItemInterface
     /// <summary>
     /// 初期化情報
     /// </summary>
-    /// <param name="_info"></param>
     public override void Init(MyPlayerInfo _info)
     {
         //アイテムに必要な情報を取得する
         m_playerInfo = _info;
-
-        //ToDo：変更必須
-        BoxCollider collider = gameObject.GetComponent<BoxCollider>();
-        collider.enabled = true;
-
-        Rigidbody rigid = gameObject.GetComponent<Rigidbody>();
-        rigid.isKinematic = false;
-
-        collider = gameObject.transform.parent.GetComponent<BoxCollider>();
-        collider.enabled = true;
-
-        rigid = gameObject.transform.parent.GetComponent<Rigidbody>();
-        rigid.isKinematic = false;
+        //描画再開
+        m_playerInfo.ReDraw();
+        //自身の当たり判定再開
+        m_playerHitBox.enabled = true;
     }
+
 
     public override void Exit()
     {
-        //ToDo：変更必須
-        BoxCollider collider = gameObject.GetComponent<BoxCollider>();
-        collider.enabled = false;
-
-        Rigidbody rigid = gameObject.GetComponent<Rigidbody>();
-        rigid.isKinematic = true;
-
-        collider = gameObject.transform.parent.GetComponent<BoxCollider>();
-        collider.enabled = false;
-
-        rigid = gameObject.transform.parent.GetComponent<Rigidbody>();
-        rigid.isKinematic = true;
+        //プレイヤーの描画停止
+        m_playerInfo.StopDraw();
+        //自身の当たり判定停止
+        m_playerHitBox.enabled = false;
     }
 
     /// <summary>
@@ -113,7 +100,7 @@ public class MyNormalItem : MyItemInterface
         }
 
         //アイテム取得のための連打
-        if(Input.GetMouseButtonDown(0))
+        if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
         {
             m_currentBlows++;
 
@@ -155,8 +142,9 @@ public class MyNormalItem : MyItemInterface
         //ToDo：変更必須
         //アイテム取得失敗 (移動)
         Vector2 input = Vector2.zero;
-        input.x = (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A)) ? 1 : 0;
-        input.y = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) ? 1 : 0;
+        //input.x = (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A)) ? 1 : 0;
+        //input.y = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) ? 1 : 0;
+        input = MyRapperInput.Instance.Move(m_playerInfo.Number);
 
         //閾値以上なら取得失敗
         if (input.magnitude > 0.5f)
@@ -186,6 +174,9 @@ public class MyNormalItem : MyItemInterface
         _direct = _direct.normalized;
         //Vecotr3に変換
         nDirect = new Vector3(_direct.x, 0.0f, _direct.y);
+
+        //移動アニメーション
+        //if (nDirect.magnitude > 0.0f) m_move.MoveMode(3, nDirect);
     }
 
     /// <summary>

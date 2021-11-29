@@ -57,6 +57,7 @@ public class MyMissileItem : MyItemInterface
 
         if (isHitWall)
         {
+            //牛自体の剛体等停止
             m_missileCol.enabled = false;
             m_missileRigid.isKinematic = true;
         }

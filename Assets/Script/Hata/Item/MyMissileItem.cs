@@ -82,19 +82,25 @@ public class MyMissileItem : MyItemInterface
     private void OnCollisionEnter(Collision _other)
     {
         if (!isAction) return;
-
-        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+       
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
-            isHitWall = true;
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
             //プレイヤーを通常状態に変更
             m_playerInfo.ChangeNormal();
             //自身の消失
             Destroy(this.gameObject);
         }
-        else if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+    }
+
+    private void OnTriggerEnter(Collider _other)
+    {
+        if (!isAction) return;
+
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            //ダメージ処理
-            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
+            isHitWall = true;
             //プレイヤーを通常状態に変更
             m_playerInfo.ChangeNormal();
             //自身の消失

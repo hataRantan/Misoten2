@@ -15,6 +15,8 @@ public class MyNormalItem : MyItemInterface
     [Header("通常状態に移動アニメーション")]
     [SerializeField] MyPlayerMoveAction m_move = null;
 
+    
+
     //正規化した入力情報
     Vector3 nDirect = Vector3.zero;
 
@@ -90,7 +92,7 @@ public class MyNormalItem : MyItemInterface
 
     public override void FiexdAction() { }
 
-    public override void Action()
+    public override void Action(Vector2 _input)
     {
         //他のプレイヤーが取得したならば,失敗
         if (getPossibleItem.isUser)
@@ -100,7 +102,8 @@ public class MyNormalItem : MyItemInterface
         }
 
         //アイテム取得のための連打
-        if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
+        //if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
+        if (Input.GetMouseButton(0))
         {
             m_currentBlows++;
 
@@ -141,13 +144,13 @@ public class MyNormalItem : MyItemInterface
 
         //ToDo：変更必須
         //アイテム取得失敗 (移動)
-        Vector2 input = Vector2.zero;
+        //Vector2 input = Vector2.zero;
         //input.x = (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A)) ? 1 : 0;
         //input.y = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) ? 1 : 0;
-        input = MyRapperInput.Instance.Move(m_playerInfo.Number);
+        //input = MyRapperInput.Instance.Move(m_playerInfo.Number);
 
         //閾値以上なら取得失敗
-        if (input.magnitude > 0.5f)
+        if (_input.magnitude > 0.5f)
         {
             isEndAntion = true;
             return;

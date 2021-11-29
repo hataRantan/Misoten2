@@ -22,6 +22,10 @@ public abstract class MyItemInterface : MonoBehaviour
     [SerializeField] Transform m_bottomPoint = null;
     public Transform Bottom { get { return m_bottomPoint; } }
 
+    [Header("生成時の角度")]
+    [SerializeField] Vector3 m_generatedDegree = Vector3.zero;
+    public Vector3 GeneretedDegree { get { return m_generatedDegree; } }
+
     // 衝突したオブジェクト（取得やダメージ衝突に使用）
     protected GameObject hitObj = null;
 
@@ -99,7 +103,7 @@ public abstract class MyItemInterface : MonoBehaviour
     /// <summary>
     /// アクション処理
     /// </summary>
-    public virtual void Action() { }
+    public virtual void Action(Vector2 _input) { }
 
     /// <summary>
     /// プレイヤーにダメージを与える
@@ -107,12 +111,20 @@ public abstract class MyItemInterface : MonoBehaviour
     /// <param name="_otherPlayer"> 対象となる敵プレイヤー </param>
     /// <param name="_damageAction"> ダメージ時に行うアイテムごとの処理</param>
     /// 使用例 Damage(player , MyMissileItem.MissileDamage)
-    public void Damge(MyPlayerInfo _otherPlayer,UnityEngine.Events.UnityAction _damageAction)
+    public void Damage(MyPlayerInfo _otherPlayer,UnityEngine.Events.UnityAction _damageAction)
     {
         //相手Hpの減少
         _otherPlayer.HpReduction(m_data.GetAttack);
 
         //ダメージ後のアクション実行
         _damageAction();
+    }
+
+    /// <summary>
+    /// アイテムの取得範囲を切り替えを行う
+    /// </summary>
+    public void SwitchGetRangeEnabled(bool _enbled)
+    {
+        m_getRange.enabled = _enbled;
     }
 }

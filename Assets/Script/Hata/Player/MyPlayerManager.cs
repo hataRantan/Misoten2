@@ -39,10 +39,10 @@ public class MyPlayerManager : MyUpdater
     //プレイヤーの最大合計Hp
     public int GetMaxTotalHp { get { return m_playerMaxHp; } }
 
-    [Header("プレイヤーのゲームオーバー演出時間")]
-    [SerializeField]
-    [Range(0.0f, 10.0f)]
-    private float m_gameOberEffectTime = 5.0f;
+    //[Header("プレイヤーのゲームオーバー演出時間")]
+    //[SerializeField]
+    //[Range(0.0f, 10.0f)]
+    //private float m_gameOberEffectTime = 5.0f;
 
     //終了を行うプレイヤーインデックスを格納する
     private Dictionary<int, bool> m_endEffectPlayers = new Dictionary<int, bool>();

@@ -22,6 +22,8 @@ public class MyMissileItem : MyItemInterface
 
     // 壁との衝突判定
     private bool isHitWall = false;
+    //アクション中
+    private bool isAction = false;
 
     public override void Init(MyPlayerInfo _info)
     {
@@ -32,15 +34,16 @@ public class MyMissileItem : MyItemInterface
         m_missileCol.enabled = true;
         m_missileRigid.isKinematic = false;
 
-        //ToDo：他の初期化事項
+        
     }
 
     public override void ActionInit()
     {
         //アクション完了フラグ初期化
         isEndAntion = false;
+        isAction = true;
 
-        //ToDo：アクション初期化
+        //アクション初期化
         // 回転停止
         m_missileRigid.freezeRotation = true;
         // オブジェクトのZ軸の向き取得
@@ -76,12 +79,35 @@ public class MyMissileItem : MyItemInterface
         // 回転速度
         rotateAcceleration = -rotateSpeed * _direct.x;
     }
-
     private void OnCollisionEnter(Collision _other)
     {
+        if (!isAction) return;
+
         if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             isHitWall = true;
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+        else if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+        {
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
         }
     }
+
+    /// <summary>
+    /// ミサイルのダメージ処理
+    /// </summary>
+    private void MissileDamage()
+    {
+        //ToDo：ミサイルの爆発エフェクトの出現など
+    }
+
 }

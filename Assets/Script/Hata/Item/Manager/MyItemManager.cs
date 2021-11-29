@@ -36,9 +36,7 @@ public class MyItemManager : MyUpdater
     [Header("ゲーム中一度だけの強力なアイテム")]
     [SerializeField] List<GameObject> powerfulItems = null;
 
-    //[Header("プレイヤー管理クラス")]
-    //[SerializeField] MyPlayerManager playerManager = null;
-
+    //プレイヤー管理クラス
     private MyPlayerManager playerManager = null;
 
     [Header("通常のアイテム出現確率")]
@@ -49,6 +47,9 @@ public class MyItemManager : MyUpdater
 
     [Header("アイテム出現方法管理クラス")]
     [SerializeField] ItemSelectAppearanceMethods m_choiceAppear = null;
+
+    [Header("アイテム出現クラス")]
+    [SerializeField] ItemAppearUpdate m_appear = null;
 
     //ゲームの進行状況を取得するためのクラス
     private MyGameProgress gameProgress = null;
@@ -282,7 +283,9 @@ public class MyItemManager : MyUpdater
     {
         GameObject created = Instantiate(_item, _appearPos, Quaternion.identity);
         //ToDo：アイテム出現時の初期化を呼びだす事
-        //ToDo：アイテム出現エフェクトの呼び出し
+        created.transform.rotation = Quaternion.Euler(created.GetComponent<MyItemInterface>().GeneretedDegree);
+        //アイテム出現エフェクトの呼び出し
+        m_appear.StartAppear(created);
     }
 
     /// <summary>
@@ -302,4 +305,5 @@ public class MyItemManager : MyUpdater
         //ToDo：同じランクのアイテムの出現は、現状同じ
         return rankItems[_rank][Random.Range(0, itemNum)];
     }
+
 }

@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7051419593683706371}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0175}
+  m_LocalPosition: {x: 0, y: 0, z: -0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7372697977990017585}
@@ -151,7 +151,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7861812785811138699}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 500, y: 500, z: 500}
   m_Children:
@@ -159,7 +159,7 @@ Transform:
   - {fileID: 7051419593683707388}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5908386444838894996
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -251,5 +251,11 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: 90a429ceedbd18045baa8a514457d57a, type: 2}
   m_getRange: {fileID: 7051419593390234338}
   m_bottomPoint: {fileID: 7051419593683707388}
+  m_generatedDegree: {x: -90, y: 0, z: 0}
   m_moaiCol: {fileID: 7051419594307179990}
   m_moaiRigid: {fileID: 7051419594307179989}
+  moveSpeed: 10
+  thisTrs: {fileID: 7051419593683707388}
+  targetY: 40
+  rizeTime: 0.5
+  downTime: 0.2

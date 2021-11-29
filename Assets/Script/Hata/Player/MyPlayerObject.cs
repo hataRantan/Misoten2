@@ -117,6 +117,9 @@ public class MyPlayerObject : MyUpdater
         //前アイテムの後処理
         if (m_currentItem) m_currentItem.Exit();
 
+        //見た目は描画される
+        m_info.Render.enabled = true;
+
         m_currentItem = null;
     }
 

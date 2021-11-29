@@ -9,6 +9,8 @@ public class MyPlayerInfo
 {
     //アイテムに対応するプレイヤー
     private MyPlayerObject playerObj = null;
+    //当たり判定に使用中
+    public GameObject Player { get { return playerObj.gameObject; } }
     //プレイヤーの物理運動
     public Rigidbody Rigid { get; private set; }
     //プレイヤーの位置情報

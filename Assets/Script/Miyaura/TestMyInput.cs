@@ -1,46 +1,73 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class TestMyInput : MonoBehaviour
+public class TestMyInput : MyUpdater
 {
     [Header("プレイヤー識別")]
     [SerializeField] private int playerIndex = 0;
 
-
     [SerializeField]
     MyPlayerMoveAction moveAction;
-
-
 
     public int GetPlayerIndex()
     {
         return playerIndex;
     }
-
-    // Update is called once per frame
-    void Update()
+   
+    public override void MyUpdate()
     {
-        Vector2 input = MyRapperInput.Instance.Move(0);
-       
-
-        if (MyRapperInput.Instance.HoldDownButton(playerIndex))
+       // string d_Name = MyRapperInput.Instance.SetDevice();
+        if (MyRapperInput.Instance.AnyKey(playerIndex))
         {
-            moveAction.MoveMode(0,input);
-            Debug.Log("kita"+playerIndex);
-
+            //Debug.Log(d_Name);
         }
-        if (MyRapperInput.Instance.HoldLeftButton(playerIndex))
+        if (MyRapperInput.Instance.Submit(playerIndex))
         {
-            moveAction.MoveMode(1, input);
+            Debug.Log("Submit");
         }
-        if (MyRapperInput.Instance.HoldUpButton(playerIndex))
+        if (MyRapperInput.Instance.GetItem(playerIndex))
         {
-            moveAction.MoveMode(2, input);
+            Debug.Log("GetItem");
         }
-        if (MyRapperInput.Instance.HoldRightButton(playerIndex))
+        if (MyRapperInput.Instance.ActionItem(playerIndex))
         {
-            moveAction.MoveMode(3, input);
+            Debug.Log("ActionItem");
+        }
+        if (MyRapperInput.Instance.PressNorthButton(playerIndex))
+        {
+            Debug.Log("PressNorthButton");
+        }
+        if (MyRapperInput.Instance.PressSouthButton(playerIndex))
+        {
+            Debug.Log("PressSouthButton");
+        }
+        if (MyRapperInput.Instance.PressWestButton(playerIndex))
+        {
+            Debug.Log("PressWestButton");
+        }
+        if (MyRapperInput.Instance.PressEastButton(playerIndex))
+        {
+            Debug.Log("PressEastButton");
+        }
+        if (MyRapperInput.Instance.LeftTrigger(playerIndex))
+        {
+            Debug.Log("LeftTrigger");
+        }
+        if (MyRapperInput.Instance.LeftShoulder(playerIndex))
+        {
+            Debug.Log("LeftShoulder");
+        }
+        if (MyRapperInput.Instance.RightTrigger(playerIndex))
+        {
+            Debug.Log("RightTrigger");
+        }
+        if (MyRapperInput.Instance.RightShoulder(playerIndex))
+        {
+            Debug.Log("RightShoulder");
         }
     }
+
+
 }

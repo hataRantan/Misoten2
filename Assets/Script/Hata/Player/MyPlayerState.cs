@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace MyPlayerStateClass
 {
+    public static class InputFlg
+    {
+        public static bool RapperOn = false;
+    }
+
     //移動状態
     public class MoveState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
@@ -27,43 +32,61 @@ namespace MyPlayerStateClass
 
             //アイテムの移動処理を実行する
             //board.CurrentItem.Move(MyRapperInput.Instance.Move(board.PlayerNumber));
-            //ToDo：入力処理変更
-            Vector2 input = Vector2.zero;
 
-            //if (Input.GetKey(KeyCode.W)) input.y = -1.0f;
-            //else if (Input.GetKey(KeyCode.S)) input.y = 1.0f;
 
-            //if (Input.GetKey(KeyCode.D)) input.x = -1.0f;
-            //else if (Input.GetKey(KeyCode.A)) input.x = 1.0f;
+            if (InputFlg.RapperOn)
+            {
+                board.CurrentItem.Move(-MyRapperInput.Instance.Move(board.PlayerNumber));
+            }
+            else
+            {
+                Vector2 move = Vector2.zero;
 
-            input = -MyRapperInput.Instance.Move(board.PlayerNumber);
+                if (Input.GetKey(KeyCode.A)) move.x = 1.0f;
+                else if (Input.GetKey(KeyCode.D)) move.x = -1.0f;
 
-            board.CurrentItem.Move(input);
+                if (Input.GetKey(KeyCode.W)) move.y = -1.0f;
+                else if (Input.GetKey(KeyCode.S)) move.y = 1.0f;
+
+                board.CurrentItem.Move(move);
+            }
 
             //通常状態とそれ以外で、操作方法を変更
             if (board.CurrentItem == board.NormalImte)
             {
-                //if (Input.GetMouseButtonDown(0))
-                //{
-                //    return MyPlayerObject.MyPlayerState.ACTION;
-                //}
-                if (MyRapperInput.Instance.GetItem(board.PlayerNumber))
+                if (InputFlg.RapperOn)
                 {
-                    return MyPlayerObject.MyPlayerState.ACTION;
+                    if (MyRapperInput.Instance.GetItem(board.PlayerNumber))
+                    {
+                        return MyPlayerObject.MyPlayerState.ACTION;
+                    }
+                }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        return MyPlayerObject.MyPlayerState.ACTION;
+                    }
                 }
             }
             else
             {
-                //if (Input.GetMouseButtonDown(1))
-                //{
-                //    return MyPlayerObject.MyPlayerState.ACTION;
-                //}
-                if (MyRapperInput.Instance.ActionItem(board.PlayerNumber))
+                if (InputFlg.RapperOn)
                 {
-                    return MyPlayerObject.MyPlayerState.ACTION;
+                    if (MyRapperInput.Instance.ActionItem(board.PlayerNumber))
+                    {
+                        Debug.Log("来てるぞ");
+                        return MyPlayerObject.MyPlayerState.ACTION;
+                    }
                 }
-            }
-
+                else
+                {
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        return MyPlayerObject.MyPlayerState.ACTION;
+                    }
+                }
+            } 
             //移動状態を維持する
             return MyPlayerObject.MyPlayerState.MOVE;
         }
@@ -94,7 +117,23 @@ namespace MyPlayerStateClass
                 return MyPlayerObject.MyPlayerState.MOVE;
 
             //アクション実行
-            board.CurrentItem.Action();
+            //Debug.Log("Move：" + MyRapperInput.Instance.Move(board.PlayerNumber));
+            if (InputFlg.RapperOn)
+            {
+                board.CurrentItem.Action(-MyRapperInput.Instance.Move(board.PlayerNumber));
+            }
+            else
+            {
+                Vector2 move = Vector2.zero;
+
+                if (Input.GetKey(KeyCode.A)) move.x = 1.0f;
+                else if (Input.GetKey(KeyCode.D)) move.x = -1.0f;
+
+                if (Input.GetKey(KeyCode.W)) move.y = -1.0f;
+                else if (Input.GetKey(KeyCode.S)) move.y = 1.0f;
+
+                board.CurrentItem.Action(move);
+            }
 
             //状態維持
             return MyPlayerObject.MyPlayerState.ACTION;

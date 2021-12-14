@@ -739,6 +739,8 @@ GameObject:
   m_Component:
   - component: {fileID: 363954775}
   - component: {fileID: 363954776}
+  - component: {fileID: 363954777}
+  - component: {fileID: 363954778}
   m_Layer: 0
   m_Name: ItemManager2
   m_TagString: Untagged
@@ -772,7 +774,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768e739e60c6c19428085cec5a972e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myUpdaters: []
+  myUpdaters:
+  - {fileID: 363954777}
+--- !u!114 &363954777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363954774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3111556a84e3fcb48822e3da0d624dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isUpdate: 1
+--- !u!114 &363954778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363954774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05323e4089d2bdc448b92d786528eabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isUpdate: 1
+  m_phaseInterval:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  m_itemIntervel: []
 --- !u!1 &385562973
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,7 +854,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &385562976
 MonoBehaviour:
@@ -929,27 +965,27 @@ PrefabInstance:
         type: 3}
       propertyPath: myUpdaterLists.Array.data[0]
       value: 
-      objectReference: {fileID: 1930374296}
+      objectReference: {fileID: 385562976}
     - target: {fileID: 6505047874017546720, guid: 12d73609c0e795b44a2875f4084037a7,
         type: 3}
       propertyPath: myUpdaterLists.Array.data[1]
       value: 
-      objectReference: {fileID: 385562976}
+      objectReference: {fileID: 1971515113}
     - target: {fileID: 6505047874017546720, guid: 12d73609c0e795b44a2875f4084037a7,
         type: 3}
       propertyPath: myUpdaterLists.Array.data[2]
       value: 
-      objectReference: {fileID: 1971515113}
+      objectReference: {fileID: 1814086279}
     - target: {fileID: 6505047874017546720, guid: 12d73609c0e795b44a2875f4084037a7,
         type: 3}
       propertyPath: myUpdaterLists.Array.data[3]
       value: 
-      objectReference: {fileID: 1814086279}
+      objectReference: {fileID: 1746449565}
     - target: {fileID: 6505047874017546720, guid: 12d73609c0e795b44a2875f4084037a7,
         type: 3}
       propertyPath: myUpdaterLists.Array.data[4]
       value: 
-      objectReference: {fileID: 1746449565}
+      objectReference: {fileID: 1930374296}
     - target: {fileID: 6505047874017546722, guid: 12d73609c0e795b44a2875f4084037a7,
         type: 3}
       propertyPath: m_Name
@@ -2859,7 +2895,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1746449565
 MonoBehaviour:
@@ -3011,7 +3047,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1814086279
 MonoBehaviour:
@@ -3371,7 +3407,7 @@ Transform:
   - {fileID: 2092181535}
   - {fileID: 505406774}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1971515112
 MonoBehaviour:
@@ -3613,7 +3649,7 @@ PrefabInstance:
     - target: {fileID: 7227098593111363992, guid: 26deb9a251299374ea3d42b71c0bd641,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7227098593111363992, guid: 26deb9a251299374ea3d42b71c0bd641,
         type: 3}

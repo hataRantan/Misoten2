@@ -6,7 +6,7 @@ namespace MyPlayerStateClass
 {
     public static class InputFlg
     {
-        public static bool RapperOn = false;
+        public static bool RapperOn = true;
     }
 
     //移動状態
@@ -75,7 +75,6 @@ namespace MyPlayerStateClass
                 {
                     if (MyRapperInput.Instance.ActionItem(board.PlayerNumber))
                     {
-                        Debug.Log("来てるぞ");
                         return MyPlayerObject.MyPlayerState.ACTION;
                     }
                 }

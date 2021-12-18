@@ -790,7 +790,7 @@ public class TitleRgoAnimetion : MyUpdater
                 inRect.anchoredPosition += Oblique(timer);
 
                 testTimer += Time.deltaTime;
-                timer += mCse5_InFrameTime;
+                timer += mCse5_InFrameTime * Time.deltaTime;
                 yield return null;
             }
 

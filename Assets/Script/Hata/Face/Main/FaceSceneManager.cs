@@ -233,8 +233,12 @@ public class FaceSceneManager : MyUpdater
             if(Input.GetMouseButtonDown(0))
             {
                 //撮影終了
-                if (board.m_photoNum <= board.m_photoCurrentNum)
+                //if (board.m_photoNum <= board.m_photoCurrentNum)
+                if (GameInPlayerNumber.Instance.CurrentPlayerNum <= board.m_photoCurrentNum)
                 {
+                    //カメラを明示的にリリースする
+                    board.m_facePhoto.Release();
+
                     //次のシーンへ移動する
                     SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene);
                 }

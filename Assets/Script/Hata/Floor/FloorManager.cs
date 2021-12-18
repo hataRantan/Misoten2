@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//ToDo：柵のモデルをインスタンスする
 public class FloorManager : MyUpdater
 {
     [Header("床一枚の大きさ")]
     [SerializeField] float floorSize = 5;
+    public float FloorSize { get { return floorSize; } }
 
     [Header("床の縦、横の枚数(2以上とすること)")]
-    [SerializeField] Vector2 floorNumber = new Vector2(5, 5);
+    [SerializeField] Vector2Int floorNumber = new Vector2Int(5, 5);
+    public Vector2Int FloorNumber { get { return floorNumber; } }
 
     [Header("生成するCube")]
     [SerializeField] GameObject createCube = null;
@@ -70,7 +71,7 @@ public class FloorManager : MyUpdater
         ///-------------------------------------------------------
 
         //createdCubes = new List<GameObject>();
-        createdCubes = new GameObject[(int)floorNumber.x, (int)floorNumber.y];
+        createdCubes = new GameObject[floorNumber.x, floorNumber.y];
 
         //横の枚数の半分の値を求める
         float widthHalf = floorNumber.x / 2.0f;
@@ -90,11 +91,11 @@ public class FloorManager : MyUpdater
         //親の位置
         Vector3 parentPos = this.gameObject.transform.position;
 
-        for (int widthIdx = 0; widthIdx < (int)floorNumber.x; widthIdx++)
+        for (int widthIdx = 0; widthIdx < floorNumber.x; widthIdx++)
         {
             createPos.x = widthFirst + widthIdx * floorSize + floorSize / 2 + parentPos.x;
 
-            for (int heightIdx = 0; heightIdx < (int)floorNumber.y; heightIdx++)
+            for (int heightIdx = 0; heightIdx < floorNumber.y; heightIdx++)
             {
                 createPos.z = heightFirst + heightIdx * floorSize + floorSize / 2 + parentPos.z;
 

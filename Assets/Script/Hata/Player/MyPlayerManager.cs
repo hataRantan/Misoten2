@@ -9,9 +9,10 @@ public class MyPlayerManager : MyUpdater
     [Header("生成したいプレイヤーオブジェクト")]
     [SerializeField] GameObject createPlayer = null;
 
-    [Header("プレイヤーの人数")]
-    [Range(1, 4)]
-    [SerializeField] private int m_maxPlayerNum = 1;
+    //[Header("プレイヤーの人数")]
+    //[Range(1, 4)]
+    //[SerializeField] private int m_maxPlayerNum = 1;
+    private int m_maxPlayerNum = 2;
     public int GetMaxPlayerNum { get { return m_maxPlayerNum; } }
 
     [Header("プレイヤー名")]
@@ -25,7 +26,11 @@ public class MyPlayerManager : MyUpdater
 
     [Header("プレイヤー情報を表示するUI")]
     [SerializeField] GameObject createUI = null;
-    
+
+    [Header("プレイヤーの顔UIを管理するクラス")]
+    [SerializeField]
+    MyPlayerFaceControl m_faceControl = null;
+
     //生成したプレイヤー一覧
     private MyPlayerObject[] m_players;
 
@@ -63,6 +68,8 @@ public class MyPlayerManager : MyUpdater
 
         //ToDo：変更予定
         float uiWidth = 400.0f;
+        //プレイヤー人数を取得する
+        m_maxPlayerNum = GameInPlayerNumber.Instance.CurrentPlayerNum;
         //プレイヤーの生成
         m_players = new MyPlayerObject[m_maxPlayerNum];
 
@@ -84,9 +91,9 @@ public class MyPlayerManager : MyUpdater
             player.SetUI(ui);
             //プレイヤーの初期化
             player.CreatedInit(idx);
-            
+
             //UIのセットアップ
-            ui.SetUp(m_playerCanvas, uiPos, m_playerName[idx], player.GetHP(), m_playerColor[idx]);
+            ui.SetUp(m_playerCanvas, uiPos, m_playerName[idx], idx, player.GetHP(), m_playerColor[idx], m_faceControl);
             
             //プレイヤーを保存
             m_players[idx] = player;

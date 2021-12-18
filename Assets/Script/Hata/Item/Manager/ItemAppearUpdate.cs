@@ -13,7 +13,7 @@ public class ItemAppearUpdate : MyUpdater
     float m_effectTime = 2.0f;
 
     [Header("アイテム出現にかかる時間")]
-    [Range(0.0f, 5.0f)] 
+    [Range(0.0f, 5.0f)]
     [SerializeField]
     float m_appearTime = 0.0f;
 

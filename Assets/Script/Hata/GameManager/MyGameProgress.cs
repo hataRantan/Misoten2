@@ -106,7 +106,7 @@ public class MyGameProgress
         //条件3：１人でも脱落していたら遷移
         if (playerManager.GetDropPlayerNum() > 0) return true;
 
-        Debug.Log("Beggin状態");
+        //Debug.Log("Beggin状態");
         return false;
     }
 
@@ -122,7 +122,7 @@ public class MyGameProgress
         //条件3：プレイヤーが最大人数の半数以上減ったら遷移
         if (playerManager.GetDropPlayerNum() >= m_playerMaxNum / 2) return true;
 
-        Debug.Log("Middle状態");
+        //Debug.Log("Middle状態");
         return false;
     }
 
@@ -137,7 +137,7 @@ public class MyGameProgress
         //条件2：ゲーム終了時間を超えたら
         if (m_gameElapsedTime >= m_gameMaxTime) return true;
 
-        Debug.Log("FINAL状態");
+        //Debug.Log("FINAL状態");
 
         return false;
     }

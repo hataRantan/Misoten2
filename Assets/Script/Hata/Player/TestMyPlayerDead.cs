@@ -30,5 +30,16 @@ public class TestMyPlayerDead : MonoBehaviour
                 startNum += deadNum;
             }
         }
+
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            for (int idx = startNum; idx < deadNum; idx++)
+            {
+                players[idx].PlayerInfo.HpReduction(2);
+
+                //startNum += deadNum;
+            }
+        }
     }
 }

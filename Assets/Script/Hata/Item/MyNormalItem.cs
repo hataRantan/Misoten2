@@ -101,10 +101,6 @@ public class MyNormalItem : MyItemInterface
             return;
         }
 
-        if(Input.GetKeyDown)
-        {
-
-        }
 
         //アイテム取得のための連打
         if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))

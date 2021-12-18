@@ -101,9 +101,14 @@ public class MyNormalItem : MyItemInterface
             return;
         }
 
+        if(Input.GetKeyDown)
+        {
+
+        }
+
         //アイテム取得のための連打
-        //if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
-        if (Input.GetMouseButton(0))
+        if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
+        //if (Input.GetMouseButton(0))
         {
             m_currentBlows++;
 
@@ -119,6 +124,8 @@ public class MyNormalItem : MyItemInterface
         {
             //プレイヤーにアイテムの変更を通達
             m_playerInfo.NextItem = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+            //アイテムの出現位置を空ける
+            m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
 
             isEndAntion = true;
             return;

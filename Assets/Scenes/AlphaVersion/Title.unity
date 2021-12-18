@@ -1970,9 +1970,9 @@ MonoBehaviour:
   mCase4_StopTime: 0
   mCase4_EffectAlphaDeTime: 0.5
   m_Case4ToCase5Time: 0.5
-  mCase5_ShakeNum: 20
+  mCase5_ShakeNum: 15
   mCase5_ShakeMinTime: 0.1
-  mCase5_ShakeMaxTime: 1
+  mCase5_ShakeMaxTime: 0.6
   mCase5_ShakeMinDis: 10
   mCase5_ShakeMaxDis: 50
   mCase5_InMaxSize: {x: 4, y: 6}
@@ -1982,9 +1982,9 @@ MonoBehaviour:
   mCase5_InGravity: 0.1
   mCase5_InXMovePower: 0.1
   mCase5_InBoundNum: 3
-  mCse5_InFrameTime: 0.1
+  mCse5_InFrameTime: 27
   mCase5_InSizeTime: 1.3
-  mCase5_HyoMoveX: 120
+  mCase5_HyoMoveX: 210
   m_Case5ToCase6Time: 1
   mCase6_FadeInTime: 1
   mCase6_WaitTime: 1

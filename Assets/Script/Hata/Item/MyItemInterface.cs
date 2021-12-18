@@ -32,6 +32,11 @@ public abstract class MyItemInterface : MonoBehaviour
     //プレイヤー情報
     protected MyPlayerInfo m_playerInfo = null;
 
+    //出現位置
+    private Vector2Int m_appearPos = Vector2Int.zero;
+    //アイテム管理クラスへの参照
+    private static MyItemManager2 itemManager = null;
+
     //自身を使用しているプレイヤーがいるかどうか
     public bool isUser
     {
@@ -127,4 +132,28 @@ public abstract class MyItemInterface : MonoBehaviour
     {
         m_getRange.enabled = _enbled;
     }
+
+    /// <summary>
+    /// 出現位置を保存する
+    /// </summary>
+    public void SetAppearPos(MyItemManager2 _manager, Vector2Int _generated)
+    {
+        if (!itemManager) itemManager = _manager;
+
+        m_appearPos = _generated;
+    }
+
+    public void ClearAppearPos()
+    {
+        if (itemManager != null)
+        {
+            itemManager.ReSetCall(m_appearPos);
+        }
+        else
+        {
+            Debug.LogError("アイテムマネージャーが設定されていません");
+        }
+    }
 }
+
+

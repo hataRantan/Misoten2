@@ -254,7 +254,7 @@ MonoBehaviour:
   m_generatedDegree: {x: -90, y: 0, z: 0}
   m_moaiCol: {fileID: 7051419594307179990}
   m_moaiRigid: {fileID: 7051419594307179989}
-  moveSpeed: 10
+  moveSpeed: 1
   thisTrs: {fileID: 7051419593683707388}
   targetY: 40
   rizeTime: 0.5

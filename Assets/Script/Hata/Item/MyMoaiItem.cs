@@ -11,7 +11,7 @@ public class MyMoaiItem : MyItemInterface
     [SerializeField] Rigidbody m_moaiRigid = null;
 
     [Header("移動速度")]
-    [SerializeField] private float moveSpeed = 10.0f;
+    [SerializeField] private float moveSpeed = 1.0f;
     [Header("Euler角修正用")]
     [SerializeField] Transform thisTrs = null;
     private float rot = 0.0f;                       // 座標移動による顔の振り向き角度
@@ -33,6 +33,11 @@ public class MyMoaiItem : MyItemInterface
     private float timer = 0.0f;                     // カウント用変数
     private bool jumpRizeFlg = false;               // 上昇中かどうか
 
+    // 壁との衝突判定
+    private bool isHitWall = false;
+    //アクション中
+    private bool isAction = false;
+
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
@@ -53,6 +58,7 @@ public class MyMoaiItem : MyItemInterface
     {
         //アクション完了フラグ初期化
         isEndAntion = false;
+        isAction = true;
 
         //ToDo：アクション初期化
         // 重力を一時停止
@@ -60,14 +66,23 @@ public class MyMoaiItem : MyItemInterface
         // モデルサイズによる高低差の修正。Y軸の取得
         defaultYPos = m_moaiRigid.position.y;
     }
-
+    public override void Action(Vector2 _input)
+    {
+        //ToDo：入力値の整理
+        normalInput = new Vector3(_input.x, 0.0f, _input.y).normalized;
+        moaiVelocity.x = normalInput.x * GetSpeed();
+        moaiVelocity.z = normalInput.z * GetSpeed();
+        //ToDo：移動
+        m_moaiRigid.velocity = moaiVelocity * moveSpeed;
+    }
     public override void FiexdAction()
     {
         //ToDo：アクション中
         if (!jumpRizeFlg)
         {
             if (timer < rizeTime)
-            {// 上昇中
+            {
+                // 上昇中
                 float y = Easing.QuartOut(timer, rizeTime, defaultYPos, targetY);
                 Vector3 pos = m_moaiRigid.position;
                 pos.y = y;
@@ -86,7 +101,7 @@ public class MyMoaiItem : MyItemInterface
             if (timer < downTime)
             {
                 float firstY = m_moaiRigid.position.y;
-                float downY = Easing.QuartIn(timer, downTime, firstY, defaultYPos);
+                float downY = -Easing.QuartIn(timer, downTime, -firstY, -defaultYPos);
                 Vector3 downPos = m_moaiRigid.position;
                 downPos.y = downY;
                 m_moaiRigid.position = downPos;
@@ -98,7 +113,7 @@ public class MyMoaiItem : MyItemInterface
                 jumpRizeFlg = false;
                 // 座標・角度の固定全解除
                 m_moaiRigid.constraints = RigidbodyConstraints.None;
-                //FixedMoveに遷移
+                // FixedMoveに遷移
                 isEndAntion = true;
                 // 重力を再開
                 m_moaiRigid.useGravity = true;
@@ -106,13 +121,21 @@ public class MyMoaiItem : MyItemInterface
                 m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
             }
         }
+
+        if (isHitWall)
+        {
+            //モアイの剛体等開始
+            m_moaiCol.enabled = false;
+            m_moaiRigid.isKinematic = true;
+        }
     }
 
     public override void FiexdMove()
     {
         //ToDo：移動
-        m_moaiRigid.velocity = moaiVelocity;
+        m_moaiRigid.velocity = moaiVelocity * moveSpeed;
 
+        //ステージの移動制限
         m_moaiRigid.InsideStage(thisTrs.transform.position, 1.0f, 11.0f);
 
         //移動方向に顔を向ける
@@ -127,7 +150,7 @@ public class MyMoaiItem : MyItemInterface
             if (rot < -180) rot += 360;
             Quaternion euler = Quaternion.Euler(0, afterRot, 0);
             Quaternion q = thisTrs.transform.rotation;
-            thisTrs.transform.rotation = euler * q;
+            m_moaiRigid.rotation = euler * q;
         }
         //移動前の座標
         lastPos = m_moaiRigid.position;
@@ -141,5 +164,41 @@ public class MyMoaiItem : MyItemInterface
         normalInput = new Vector3(_direct.x, 0.0f, _direct.y).normalized;
         moaiVelocity.x = normalInput.x * GetSpeed();
         moaiVelocity.z = normalInput.z * GetSpeed();
+    }
+
+    private void OnCollisionEnter(Collision _other)
+    {
+        if (!isAction) return;
+
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+        {
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MoaiDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider _other)
+    {
+        if (!isAction) return;
+
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            isHitWall = true;
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+    }
+    /// <summary>
+    /// モアイのダメージ処理
+    /// </summary>
+    private void MoaiDamage()
+    {
+        //ToDo：モアイの爆発エフェクトの出現など
     }
 }

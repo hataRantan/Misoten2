@@ -10,22 +10,18 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class MyPlayerInput : MonoBehaviour
 {
-    public InputControlScheme myDevice;
     public PlayerInput playerInput;
+    private string controllSheme;
     private void Awake()
     {
-        // 複製されたRapperInputを各プレイヤーの親としてセットする
-        GameObject.Find("PlayerInputManager(Clone)").GetComponent<MyRapperInput>().SetChild(this);
+        string controllSheme = playerInput.currentControlScheme.ToString();
+        if (controllSheme == "Keyboard And Mouse")
+        {
+            // 複製されたRapperInputを各プレイヤーの親としてセットする
+            GameObject.Find("PlayerInputManager(Clone)").GetComponent<MyRapperInput>().SetChild(this);
+        }
     }
-
-    // 未完成：入力デバイスの識別
-    public string deviceName { get; private set; }
-    public string defaultControlScheme { get; set; }
-    public MyDeviceDisplaySetting myDeviceDisplaySetting;
-    public string currentControlScheme;
-    public void SetControlSheme() => defaultControlScheme = playerInput.defaultControlScheme;
-
-
+ 
     public void AllPhaseReset()
     {
         anyKey = false;
@@ -262,8 +258,6 @@ public class MyPlayerInput : MonoBehaviour
         }
     }
 
-
-    // 上下左右のボタン
     public void OnPressNorthButton(InputAction.CallbackContext value)
     {
         switch (value.phase)

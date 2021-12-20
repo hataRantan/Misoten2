@@ -15,13 +15,12 @@ public class TestMyInput : MyUpdater
     {
         return playerIndex;
     }
-   
+
     public override void MyUpdate()
     {
-       // string d_Name = MyRapperInput.Instance.SetDevice();
         if (MyRapperInput.Instance.AnyKey(playerIndex))
         {
-            //Debug.Log(d_Name);
+            Debug.Log("AnyKey");
         }
         if (MyRapperInput.Instance.Submit(playerIndex))
         {

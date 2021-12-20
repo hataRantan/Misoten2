@@ -6,17 +6,6 @@ public class MyRapperInput : Singleton<MyRapperInput>
 {
     [Header("入力受付")]
     [SerializeField] MyPlayerInput[] controlls = new MyPlayerInput[4];
-  
-    //public string SetDevice(int _playerNum = 0)
-    //{
-    //    NumClamp(ref _playerNum);
-    //    if (controlls[_playerNum] == null) return null;
-    //    return controlls[_playerNum].defaultControlScheme;
-    //}
-
-    //falseの場合keyboard操作をなくしてcontrollだけを返す
-    //debug作業時のみ受け付けるようにするためのフラグ
-    //(_playerNum, bool _isDebug = true)
 
     /// <summary>
     /// 複製されたInputSystemを未登録のControllsにセットする
@@ -30,9 +19,8 @@ public class MyRapperInput : Singleton<MyRapperInput>
             {
                 controlls[idx] = _input;
                 _input.gameObject.transform.parent = gameObject.transform;
-
-                break;
             }
+            break;
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

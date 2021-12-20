@@ -585,3 +585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d02c91cd110d646a398b9e9bee71b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 2219727288825060466}
+  controllScheme:
+    m_Name: 
+    m_BindingGroup: 
+    m_DeviceRequirements: []

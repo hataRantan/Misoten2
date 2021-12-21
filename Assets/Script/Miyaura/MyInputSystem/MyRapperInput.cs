@@ -19,10 +19,23 @@ public class MyRapperInput : Singleton<MyRapperInput>
             {
                 controlls[idx] = _input;
                 _input.gameObject.transform.parent = gameObject.transform;
+                break;
             }
-            break;
         }
     }
+
+    public int GetConnectNum()
+    {
+        return gameObject.transform.childCount;
+    }
+
+    public MyPlayerInput.Type GetDeviceType(int _playerIdx)
+    {
+        NumClamp(ref _playerIdx);
+
+        return controlls[_playerIdx].InputType;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
@@ -52,11 +65,19 @@ public class MyRapperInput : Singleton<MyRapperInput>
     /// <summary>
     /// pressOnly：[KeyBoard&Mouse] anyKey/マウス左右  [PS4] Stick以外  [Xbox] Stick以外
     /// </summary>
-    public bool AnyKey(int _playerNum = 0)
+    public bool AnyKey()
     {
-        NumClamp(ref _playerNum);
-        if (controlls[_playerNum] == null) return false;
-        return controlls[_playerNum].anyKey;
+        //NumClamp(ref _playerNum);
+        //if (controlls[_playerNum] == null) return false;
+
+        for (int idx = 0; idx < controlls.Length; idx++)
+        {
+            if (controlls[idx] == null) continue;
+
+            if (controlls[idx].anyKey) return true;
+        }
+
+        return false;
     }
     /// <summary>
     /// [KeyBoard&Mouse] WASD  [PS4] 左スティック  [Xbox] 左スティック

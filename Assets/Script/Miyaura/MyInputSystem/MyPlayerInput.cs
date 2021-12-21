@@ -12,16 +12,68 @@ public class MyPlayerInput : MonoBehaviour
 {
     public PlayerInput playerInput;
     private string controllSheme;
+
+    public enum Type
+    {
+        PS4 = 0,
+        XBOX
+    }
+    public Type InputType { get; private set; }
+    //現在の接続数
+    //static int connectionsNum = 0;
+    //キーボードまたは、マウスに接続したか
+    //static bool ConnectedKeyMouse = false;
+
     private void Awake()
     {
-        string controllSheme = playerInput.currentControlScheme.ToString();
-        if (controllSheme == "Keyboard And Mouse")
+        //接続されているデバイスを取得する
+        var devices = playerInput.devices;
+        //自身のデバイス名を取得する
+
+        //最新のデバイスを取得出来る為、添え字は常に0で良い
+        var name = devices[0].device;
+
+        bool isConnect = true;
+
+        Debug.Log("接続したコントローラー名：" + name.name);
+        switch (name.name)
         {
-            // 複製されたRapperInputを各プレイヤーの親としてセットする
-            GameObject.Find("PlayerInputManager(Clone)").GetComponent<MyRapperInput>().SetChild(this);
+            //PS4
+            case "DualShock4GamepadHID":
+                {
+                    InputType = Type.PS4;
+                }
+                break;
+
+            //キーボード
+            case "Keyboard":
+            case "Mouse":
+                {
+                    isConnect = false;
+                }
+                break;
+
+            //Xbox
+            case "XInputControllerWindows":
+                {
+                    InputType = Type.XBOX;
+                }
+                break;
+            
+            default:
+                {
+                    InputType = Type.XBOX;
+                }
+                break;
         }
+
+        // 複製されたRapperInputを各プレイヤーの親としてセットする
+        if (isConnect)
+            GameObject.Find("PlayerInputManager(Clone)").GetComponent<MyRapperInput>().SetChild(this);
+
+        //connectionsNum++;
     }
- 
+
     public void AllPhaseReset()
     {
         anyKey = false;

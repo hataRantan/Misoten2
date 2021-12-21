@@ -195,6 +195,7 @@ namespace Face
             isRender = false;
             m_camImage.gameObject.SetActive(false);
 
+            if (m_webCamTex == null) return;
 
             m_webCamTex.Stop();
             Destroy(m_webCamTex);

@@ -189,4 +189,9 @@ public class MyUpdaterList : MonoBehaviour
     {
         m_isUpdate = false;
     }
+
+    public void SetUpdate(bool _doUpdate)
+    {
+        m_isUpdate = _doUpdate;
+    }
 }

@@ -56,6 +56,10 @@ public class MyPlayerManager : MyUpdater
     //ゲームオーバー演出中か確認
     private bool isProcessEnd = false;
 
+    //プレイヤーの順位を入れる
+    //低い順から代入している
+    public List<int> PlayerRank { get; private set; }
+
     //ゲームオーバーテスト
 #if UNITY_EDITOR
     TestMyPlayerDead dead = null;
@@ -105,6 +109,8 @@ public class MyPlayerManager : MyUpdater
         m_playerTotalMaxHp = m_playerMaxHp * m_maxPlayerNum;
 
         m_endHitPos =gameObject.GetComponent<MyPlayerGameOverHits>();
+
+        PlayerRank = new List<int>();
 
 #if UNITY_EDITOR
         dead = GetComponent<TestMyPlayerDead>();
@@ -190,6 +196,12 @@ public class MyPlayerManager : MyUpdater
 
     private IEnumerator GameOverEffect(List<int> _endPlayers)
     {
+        //順位を代入
+        foreach(var idx in _endPlayers)
+        {
+            PlayerRank.Add(idx);
+        }
+
         //エフェクト開始
         isProcessEnd = true;
 

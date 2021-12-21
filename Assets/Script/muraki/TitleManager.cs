@@ -100,7 +100,7 @@ public class TitleManager : MyUpdater
             board.m_instruction.MoveText();
 
             //ToDo：入力関数変更予定(AnyKey及び、入力デバイスを認識した場合)
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (MyRapperInput.Instance.AnyKey())
             {
                 return TitleState.tEnd;
             }

@@ -15,8 +15,6 @@ public class MyNormalItem : MyItemInterface
     [Header("通常状態に移動アニメーション")]
     [SerializeField] MyPlayerMoveAction m_move = null;
 
-    
-
     //正規化した入力情報
     Vector3 nDirect = Vector3.zero;
 
@@ -169,6 +167,9 @@ public class MyNormalItem : MyItemInterface
 
         //移動先がステージ内か確認する
         m_playerInfo.Rigid.InsideStage(m_playerInfo.Trans.position);
+
+    //    if (m_playerInfo.Number == 1)
+    //        Debug.Log("kita");
     }
 
     /// <summary>

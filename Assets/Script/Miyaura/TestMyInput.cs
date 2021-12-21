@@ -18,10 +18,10 @@ public class TestMyInput : MyUpdater
 
     public override void MyUpdate()
     {
-        if (MyRapperInput.Instance.AnyKey(playerIndex))
-        {
-            Debug.Log("AnyKey");
-        }
+        //if (MyRapperInput.Instance.AnyKey(playerIndex))
+        //{
+        //    Debug.Log("AnyKey");
+        //}
         if (MyRapperInput.Instance.Submit(playerIndex))
         {
             Debug.Log("Submit");

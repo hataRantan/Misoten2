@@ -5,16 +5,6 @@ using UnityEngine;
 public class MyItemManager2 : MyUpdater
 {
     //アイテムの出現を管理するクラス
-
-    //ToDo：出現させるアイテム一覧
-    //ToDo：出現させる強力なアイテム一覧
-
-    //ToDo：アイテムの出現間隔を管理するクラス
-    //ToDo：アイテムの出現方法を決めるクラス
-    //ToDo：どのアイテムを出現させるか決めるクラス
-
-    //ToDo：プレイヤー人数に対する通常アイテムの出現個数
-
     [Header("次のフェーズに移行する秒数(60.0fなら60を超えることで次のフェーズに移行する)")]
     [Range(0.0f, 300.0f)]
     [SerializeField] List<float> m_phaseInterval = new List<float>();
@@ -53,6 +43,9 @@ public class MyItemManager2 : MyUpdater
     [SerializeField]
     MyItemGeneratePos m_generate = null;
 
+    //最初の生成
+    bool isFirstCreate = false;
+
     int testNum = 0;
 
     public override void MySecondInit()
@@ -63,7 +56,11 @@ public class MyItemManager2 : MyUpdater
         m_license = false;
         m_lastCreatedTime = 0.0f;
         m_currentCreateNum = 0;
+        isFirstCreate = false;
 
+        //通常アイテムの生成個数を決定する
+        m_createItemNum = GameInPlayerNumber.Instance.CurrentPlayerNum - 1;
+        if (m_createItemNum < 2) m_createItemNum = 2;
         //プレイヤー人数の取得して、アイテムの出現個数を取得する
     }
 
@@ -80,7 +77,7 @@ public class MyItemManager2 : MyUpdater
        //作成許可が無ければ、実行しない
         if (!m_license) return;
 
-        Debug.Log("アイテム作成関数");
+        //Debug.Log("アイテム作成関数");
 
         //通常アイテムの生成
         if (m_currentCreateNum < m_powerfulCreateNum)
@@ -93,7 +90,7 @@ public class MyItemManager2 : MyUpdater
         //強力なアイテムの生成
         else
         {
-            Debug.Log("個数リセット");
+            //Debug.Log("個数リセット");
             m_currentCreateNum = 0;
         }
     }
@@ -102,7 +99,7 @@ public class MyItemManager2 : MyUpdater
     private void CreateNormalItem()
     {
         testNum++;
-        Debug.Log("回数：" + testNum);
+        //Debug.Log("回数：" + testNum);
         //ToDo：アイテムの出現方法の選択　ランダムかプレイヤーの近くか
 
         //生成可能場所があるか確認する
@@ -114,7 +111,10 @@ public class MyItemManager2 : MyUpdater
         //アイテムに渡す生成位置
         List<Vector2Int> IntPos = new List<Vector2Int>();
 
-        floatPos.Add(m_generate.GetGeneratePos(ref IntPos));
+        for(int idx=0;idx<m_createItemNum;idx++)
+        {
+            floatPos.Add(m_generate.GetGeneratePos(ref IntPos));
+        }
 
         //アイテムの生成
         List<GameObject> created = m_itemSelecter.CreateNormalItems(floatPos);
@@ -138,11 +138,11 @@ public class MyItemManager2 : MyUpdater
     {
         //アイテム出現時の初期化
         _item.transform.rotation = Quaternion.Euler(_item.GetComponent<MyItemInterface>().GeneretedDegree);
-        Debug.Log("角度変更：");
+        //Debug.Log("角度変更：");
         //アイテム出現エフェクトの呼び出し
         m_itemAppear.StartAppear(_item);
         //エフェクト呼び出し
-        Debug.Log("エフェクト");
+        //Debug.Log("エフェクト");
     }
 
     /// <summary>
@@ -150,6 +150,13 @@ public class MyItemManager2 : MyUpdater
     /// </summary>
     private void CreateLicensePublish()
     {
+        if(!isFirstCreate)
+        {
+            m_license = true;
+            isFirstCreate = true;
+            return;
+        }
+
         //作成許可
         m_license = false;
 
@@ -163,7 +170,7 @@ public class MyItemManager2 : MyUpdater
         {
             ++m_phaze;
             m_lastCreatedTime = m_phaseInterval[m_phaze];
-            Debug.Log("フェーズ進行");
+            //Debug.Log("フェーズ進行");
         }
 
         //次のフェーズで無ければ、排出しない
@@ -174,7 +181,7 @@ public class MyItemManager2 : MyUpdater
         {
             m_lastCreatedTime = m_gameTimer;
             m_license = true;
-            Debug.Log("作成許可");
+           // Debug.Log("作成許可");
         }
     }
 

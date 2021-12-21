@@ -20,7 +20,7 @@ namespace MyPlayerStateClass
         
         public override void FiexdUpdate()
         {
-            if (board.PlayerNumber != 0) return;
+            //if (board.PlayerNumber != 0) return;
 
             //アイテムの物理運動を実行
             board.CurrentItem.FiexdMove();
@@ -28,7 +28,7 @@ namespace MyPlayerStateClass
 
         public override MyPlayerObject.MyPlayerState Update()
         {
-            if (board.PlayerNumber != 0) return MyPlayerObject.MyPlayerState.MOVE;
+            //if (board.PlayerNumber != 0) return MyPlayerObject.MyPlayerState.MOVE;
 
             //アイテムの移動処理を実行する
             //board.CurrentItem.Move(MyRapperInput.Instance.Move(board.PlayerNumber));
@@ -37,6 +37,9 @@ namespace MyPlayerStateClass
             if (InputFlg.RapperOn)
             {
                 board.CurrentItem.Move(-MyRapperInput.Instance.Move(board.PlayerNumber));
+
+                //if (board.PlayerNumber == 1)
+                //    Debug.Log("入力値：" + -MyRapperInput.Instance.Move(board.PlayerNumber));
             }
             else
             {

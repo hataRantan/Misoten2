@@ -101,7 +101,7 @@ public class MyItemSelect : MyUpdater
         //出現指せるアイテムのランクを取得
         Rank rank = WeightProbability.GetWeightRandm(ref m_weightDic);
         //指定のランクの中からアイテムを選択(同じ確率)
-        Debug.Log("rank：" + rank);
+        //Debug.Log("rank：" + rank);
         //int i = m_divisionRank[rank][Random.Range(0, m_divisionRank[rank].Count)];
         return m_normalItems[m_divisionRank[rank][Random.Range(0, m_divisionRank[rank].Count)]].item;
     }

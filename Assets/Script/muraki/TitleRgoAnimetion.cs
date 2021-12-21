@@ -322,8 +322,8 @@ public class TitleRgoAnimetion : MyUpdater
         ////終了処理
         yield return StartCoroutine(Case6());
 
-        ////イベント終了通知
-        //isEvent = true;
+        //イベント終了通知
+        isEvent = true;
     }
     /// <summary>
     /// 「憑」の文字を出現させる

@@ -14,7 +14,8 @@ public class GameInPlayerNumber : Singleton<GameInPlayerNumber>
 
     [Header("デバックに使用")]
     [SerializeField]
-    int testNum = 4;
+    [Range(2, 4)]
+    int testNum = 2;
 
     private new void Awake()
     {

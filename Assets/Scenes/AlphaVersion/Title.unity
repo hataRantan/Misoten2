@@ -2035,7 +2035,7 @@ MonoBehaviour:
   m_animation: {fileID: 1303195840}
   m_instruction: {fileID: 1303195844}
   m_nextScene:
-    m_SceneName: AlphaFaceScene
+    m_SceneName: PlayerCertification
 --- !u!114 &1303195844
 MonoBehaviour:
   m_ObjectHideFlags: 0

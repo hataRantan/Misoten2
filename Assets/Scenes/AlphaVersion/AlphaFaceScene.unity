@@ -1187,10 +1187,9 @@ MonoBehaviour:
   m_faceImage: {fileID: 389930851}
   m_shutterEffects: {fileID: 950520141}
   m_nextScene:
-    m_SceneName: AlphaFight
+    m_SceneName: AlphaFight 1
   m_photoTime: 15
   m_timerText: {fileID: 627896528}
-  m_photoNum: 1
 --- !u!114 &527081016
 MonoBehaviour:
   m_ObjectHideFlags: 0

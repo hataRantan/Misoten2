@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/AlphaVersion/AlphaFaceScene.unity
     guid: 1057b53ddb83fe444a34eb3ab0c42e80
   - enabled: 1
-    path: Assets/Scenes/AlphaVersion/AlphaFight.unity
-    guid: 434bfc93ace4b2a47a5e620b550d0d2a
+    path: Assets/Scenes/AlphaVersion/AlphaFight 1.unity
+    guid: 23b6f4db19f45cb4395abc046c2b8046
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5418a7f2c1d234045bec646a584fb103,
       type: 2}

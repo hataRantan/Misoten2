@@ -18,6 +18,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
             if (controlls[idx] == null)
             {
                 controlls[idx] = _input;
+                _input.gameObject.name += ":" + idx.ToString();
                 _input.gameObject.transform.parent = gameObject.transform;
                 break;
             }
@@ -44,12 +45,13 @@ public class MyRapperInput : Singleton<MyRapperInput>
     /// <param name="_num">プレイヤー識別番号</param>
     private void NumClamp(ref int _num)
     {
-        if (0 <= _num || 3 >= _num) return;
+        //if (0 <= _num || 3 >= _num) return;
 
-        Debug.LogError("NumClampError:0～3以外の値が入っています");
+        if (_num < 0 || _num > 3)
+            Debug.LogError("NumClampError:0～3以外の値が入っています");
 
         //  最小値以下なら０、最大値以上なら３を返す
-        _num = Mathf.Clamp(_num, 0, 3);
+        _num = Mathf.Clamp(_num, 0, 4);
     }
     /// <summary>
     /// InputSystemのphase操作におけるfalseを返却するための関数
@@ -86,6 +88,7 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerNum);
         if (controlls[_playerNum] == null) return Vector2.zero;
+
         return controlls[_playerNum].move;
     }
     /// <summary>

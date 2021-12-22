@@ -232,6 +232,20 @@ public class TitleRgoAnimetion : MyUpdater
     [SerializeField]
     public float mCase5_HyoMoveX = 10.0f;
 
+    [System.Serializable]
+    public class mCase5_Bounce
+    {
+        public RectTransform[] point = new RectTransform[4];
+    }
+
+    [Header("Inの一回目のバウンス移動位置")]
+    [SerializeField]
+    mCase5_Bounce[] mCase5_InBouncePoint = new mCase5_Bounce[3];
+
+    [Header("Inの基本移動時間")]
+    [SerializeField]
+    float[] mCase5_InMoveTime = new float[] { 0.5f, 0.3f };
+
     //----------------------------------------------------------------------------
     //Case6 背景フェードインアウト
     //----------------------------------------------------------------------------
@@ -307,13 +321,13 @@ public class TitleRgoAnimetion : MyUpdater
         //憑文字出現
         yield return StartCoroutine(Case1());
 
-        //火の玉出現
+        ////火の玉出現
         yield return StartCoroutine(Case2());
 
-        //火の玉移動
+        ////火の玉移動
         yield return StartCoroutine(Case3());
 
-        //火の玉消失
+        ////火の玉消失
         yield return StartCoroutine(Case4());
 
         //In出現
@@ -775,33 +789,49 @@ public class TitleRgoAnimetion : MyUpdater
         //憑の移動
         StartCoroutine(MoveHyo());
         
-        float testTimer = 0.0f;
 
-        for (int boundNum = 0; boundNum < mCase5_InBoundNum; boundNum++)
+        float targetTime = 1.0f;
+        for (int idx = 0; idx < mCase5_InBouncePoint.Length; idx++)
         {
-            timer = 0.0f;
-
-            //憑の底より高くするため実行
-            inRect.anchoredPosition += Oblique(timer);
-            //憑の底まで下がるまで実行
-            while (hyoBottom.position.y < inBottom.position.y)
+            if (mCase5_InMoveTime.Length < idx)
             {
-                //放物線移動
-                inRect.anchoredPosition += Oblique(timer);
-
-                testTimer += Time.deltaTime;
-                timer += mCse5_InFrameTime * Time.deltaTime;
-                yield return null;
+                targetTime = mCase5_InMoveTime[idx];
+            }
+            else
+            {
+                targetTime = mCase5_InMoveTime[mCase5_InMoveTime.Length - 1];
             }
 
-            //高さを揃える
-            float offset = Mathf.Abs(hyoBottom.position.y - inBottom.position.y);
-            inRect.anchoredPosition += new Vector2(0, offset + 0.1f);
+            timer = 0.0f;
+            while (timer < targetTime)
+            {
+                Vector2 boundPos =
+                    BezierCurve(mCase5_InBouncePoint[idx].point[0].anchoredPosition,
+                    mCase5_InBouncePoint[idx].point[1].anchoredPosition,
+                    mCase5_InBouncePoint[idx].point[2].anchoredPosition,
+                    mCase5_InBouncePoint[idx].point[3].anchoredPosition,
+                    timer / targetTime);
+
+                inRect.anchoredPosition = boundPos;
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
+
+        Vector2 BezierCurve(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
+        {
+            var a = Vector2.Lerp(p0, p1, t); // 緑色の点1
+            var b = Vector2.Lerp(p1, p2, t); // 緑色の点2
+            var c = Vector2.Lerp(p2, p3, t); // 緑色の点3
+
+            var d = Vector2.Lerp(a, b, t);   // 青色の点1
+            var e = Vector2.Lerp(b, c, t);   // 青色の点2
+
+            return Vector2.Lerp(d, e, t);    // 黒色の点
         }
 
-#if UNITY_EDITOR
-        Debug.Log("テスト：" + testTimer);
-#endif
 
         //サイズ変更終了まで待機
         while (!isEndSize)

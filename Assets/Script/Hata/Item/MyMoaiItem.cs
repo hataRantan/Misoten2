@@ -119,6 +119,11 @@ public class MyMoaiItem : MyItemInterface
                 m_moaiRigid.useGravity = true;
                 //角度の再固定
                 m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+
+                //プレイヤーを通常状態に変更
+                m_playerInfo.ChangeNormal();
+                //自身の消失
+                Destroy(this.gameObject);
             }
         }
 

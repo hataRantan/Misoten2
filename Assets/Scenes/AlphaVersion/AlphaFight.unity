@@ -904,7 +904,7 @@ MonoBehaviour:
   - 5
   - 5
   - 2
-  m_powerfulCreateNum: 10
+  m_powerfulCreateNum: 1
   m_itemSelecter: {fileID: 363954779}
   m_itemAppear: {fileID: 363954778}
   m_generate: {fileID: 363954780}
@@ -949,7 +949,8 @@ MonoBehaviour:
     item: {fileID: 7861812785811138699, guid: f38b9c656d9d19547a084cf144d2fa62, type: 3}
   - rank: 2
     item: {fileID: 5413885038345510565, guid: ac66daa8c3c7198488d49a63ae7533a8, type: 3}
-  m_powerfulItems: []
+  m_powerfulItems:
+  - {fileID: 1514447779658181118, guid: a5c3fdd167eef2043bb3cb524b028a54, type: 3}
   m_weights:
   - rank: 0
     weight: 1

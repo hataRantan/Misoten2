@@ -13,6 +13,7 @@ public class MyBullItem : MyItemInterface
     private Vector3 bullMove = Vector3.zero;
     private Vector3 bullRotation = Vector3.zero;
 
+    private float lastRotation = 0;
     private float rotateAcceleration = 0.0f;
 
     [SerializeField] private float rotateSpeed = 80.0f;
@@ -98,72 +99,97 @@ public class MyBullItem : MyItemInterface
 
     public override void Move(Vector2 _direct)
     {
+        _direct = _direct.normalized;
+        Vector3 power = new Vector3(_direct.x * 20,0 ,_direct.y * 20);
+        m_bullRigid.velocity = power;
+
+
         //ToDo：入力値の整理
-        rotateAcceleration = -rotateSpeed * _direct.x;
-
+        if (_direct.x > 0 && _direct.y < 0)
+        {
+            rotateAcceleration = 90.0f + -_direct.y * 90.0f;
+        }
+        else if (_direct.x > 0 && _direct.y > 0 )
+        {
+            rotateAcceleration = _direct.x * 90.0f;
+        }
+        else if (_direct.x < 0 && _direct.y >0)
+        {
+            rotateAcceleration = _direct.x * 90.0f;
+        }
+        else if (_direct.x < 0 && _direct.y <0)
+        {
+            rotateAcceleration = -90.0f + -_direct.y * 90.0f;
+        }
+        if (rotateAcceleration != 0)
+        {
+            lastRotation = rotateAcceleration;
+        }
+        m_bullRigid.rotation = Quaternion.Euler(0, rotateAcceleration, 0);
         //WASD押されたらローテーションを動かす
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                bullRotation = new Vector3(0, 135.0f, 0);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                bullRotation = new Vector3(0, 45.0f, 0);
-            }
-            else
-            {
-                bullRotation = new Vector3(0, 90.0f, 0);
-            }
-            isInput = true;
-            bullMove = transform.forward * 25.0f;
-        }
+        //a
+        //if (_direct.x > 0 && _direct.y > -0.4 && _direct.y < 0.4)
+        //{
+        //    if (_direct.y > 20)
+        //    {
+        //        bullRotation = new Vector3(0, 135.0f, 0);
+        //    }
+        //    else if (_direct.y < -20)
+        //    {
+        //        bullRotation = new Vector3(0, 45.0f, 0);
+        //    }
+        //    else
+        //    {
+        //        bullRotation = new Vector3(0, 90.0f, 0);
+        //    }
+        //    isInput = true;
+        //    bullMove = transform.forward * 25.0f;
+        //}
+        ////d
+        //else if (_direct.x < 0 && _direct.y > -0.4 && _direct.y < 0.4)
+        //{
 
-        else if (Input.GetKey(KeyCode.D))
-        {
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                bullRotation = new Vector3(0, -135.0f, 0);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                bullRotation = new Vector3(0, -45.0f, 0);
-            }
-            else
-            {
-                bullRotation = new Vector3(0, -90.0f, 0);
-            }
-            isInput = true;
-            bullMove = transform.forward * 25.0f;
-        }
-
-        else if (Input.GetKey(KeyCode.W))
-        {
-            isInput = true;
-            bullRotation = new Vector3(0, -180.0f, 0);
-            bullMove = transform.forward * 25.0f;
-        }
-
-        else if (Input.GetKey(KeyCode.S))
-        {
-            isInput = true;
-            bullRotation = new Vector3(0, 0, 0);
-            bullMove = transform.forward * 25.0f;
-        }
+        //    if (_direct.y > 20)
+        //    {
+        //        bullRotation = new Vector3(0, -135.0f, 0);
+        //    }
+        //    else if (_direct.y < -20)
+        //    {
+        //        bullRotation = new Vector3(0, -45.0f, 0);
+        //    }
+        //    else
+        //    {
+        //        bullRotation = new Vector3(0, -90.0f, 0);
+        //    }
+        //    isInput = true;
+        //    bullMove = transform.forward * 25.0f;
+        //}
+        ////w
+        //else if (_direct.y < 0 && _direct.x < 0.4 && _direct.x > -0.4)
+        //{
+        //    isInput = true;
+        //    bullRotation = new Vector3(0, -180.0f, 0);
+        //    bullMove = transform.forward * 25.0f;
+        //}
+        ////s
+        //else if (_direct.y > 0 && _direct.x < 0.4 && _direct.x > -0.4) 
+        //{
+        //    isInput = true;
+        //    bullRotation = new Vector3(0, 0, 0);
+        //    bullMove = transform.forward * 25.0f;
+        //}
         //WASDとアクションキーを押されてなかったら動きを止める
-        if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !isAction) 
+        if (_direct.magnitude==0) 
         {
 
             m_bullRigid.velocity = Vector3.zero;
             isInput = false;
         }
-            
-        
 
-        Debug.Log(isInput);
-        Debug.Log("Action"+isAction);
+
+        Debug.Log(_direct);
+        //Debug.Log(isInput);
+        //Debug.Log("Action"+isAction);
     }
 
     public override void Exit()

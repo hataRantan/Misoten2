@@ -95,6 +95,13 @@ public class MyItemSelect : MyUpdater
         return createdItems;
     }
 
+    public GameObject CreatePowerfulItem()
+    {
+        int idx = Random.Range(0, m_powerfulItems.Count);
+
+        return Instantiate(m_powerfulItems[idx], Vector3.zero, Quaternion.identity);
+    }
+
     //通常アイテムの中から生成するアイテムを決定する
     private GameObject NormalItemSelect()
     {

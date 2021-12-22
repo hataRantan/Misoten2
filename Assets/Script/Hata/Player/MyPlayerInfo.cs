@@ -64,6 +64,15 @@ public class MyPlayerInfo
     }
 
     /// <summary>
+    /// 強力なアイテムから通常アイテムに戻る場合
+    /// </summary>
+    public void ChangeNormalFromPowerful()
+    {
+        m_itemPos = Vector3.zero;
+        NextItem = playerObj.NormalImte;
+    }
+
+    /// <summary>
     /// プレイヤーの次の状態を通知 次の状態にDamageまたはDeadが指定されていれば変更不可
     /// </summary>
     /// <param name="_nextState"></param>

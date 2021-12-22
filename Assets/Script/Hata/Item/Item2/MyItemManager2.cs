@@ -24,7 +24,7 @@ public class MyItemManager2 : MyUpdater
     private float m_gameTimer = 0.0f;
 
     [Header("強力なアイテムを出現させる頻度(10なら10回ごとに出現)")]
-    [Range(5, 25)]
+    [Range(0, 25)]
     [SerializeField]
     int m_powerfulCreateNum = 10;
     //現在のアイテム生成回数
@@ -90,6 +90,8 @@ public class MyItemManager2 : MyUpdater
         //強力なアイテムの生成
         else
         {
+            CreatePowerfulItem();
+
             //Debug.Log("個数リセット");
             m_currentCreateNum = 0;
         }
@@ -127,6 +129,18 @@ public class MyItemManager2 : MyUpdater
             //アイテム初期化
             ItemInit(created[idx]);
         }
+    }
+
+
+    private void CreatePowerfulItem()
+    {
+        //強力なアイテムを生成
+        GameObject item = m_itemSelecter.CreatePowerfulItem();
+
+        //アイテムの出現エフェクト開始
+        //item.GetComponent<MyItemInterface>().SetAppearPos(this, Vector3.zero);
+
+        ItemInit(item);
     }
 
     /// <summary>

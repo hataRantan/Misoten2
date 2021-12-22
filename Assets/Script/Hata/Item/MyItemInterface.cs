@@ -151,7 +151,7 @@ public abstract class MyItemInterface : MonoBehaviour
         }
         else
         {
-            Debug.LogError("アイテムマネージャーが設定されていません");
+            Debug.Log("アイテムマネージャーが設定されていません");
         }
     }
 }

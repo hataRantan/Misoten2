@@ -114,8 +114,8 @@ public class CertificationPlayer : MyUpdater
 
             case 3:
                 {
-                    m_minMove = new Vector2(center.x + m_moveOffset, center.y + m_moveOffset);
-                    m_maxMove = new Vector2(center.x - m_moveOffset, center.y - m_moveOffset);
+                    m_minMove = new Vector2(center.x + m_moveOffset, minEdge.y + m_moveOffset);
+                    m_maxMove = new Vector2(maxEdge.x - m_moveOffset, center.y - m_moveOffset);
                 }
                 break;
 
@@ -218,6 +218,7 @@ public class CertificationPlayer : MyUpdater
             //移動方向を取得する
             direct = MyRapperInput.Instance.Move(board.m_playerIdx);
             direct = direct.normalized;
+
             //移動力を計算
             power = direct * board.m_iconSpeed * Time.deltaTime;
             //移動制限を行う

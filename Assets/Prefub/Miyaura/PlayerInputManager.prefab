@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8864983925006837908}
   - component: {fileID: 8864983925006837909}
-  - component: {fileID: -4524091337233315882}
+  - component: {fileID: 2557149891074419141}
   m_Layer: 0
   m_Name: PlayerInputManager
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &-4524091337233315882
+--- !u!114 &2557149891074419141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

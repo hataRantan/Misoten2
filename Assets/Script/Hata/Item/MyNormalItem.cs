@@ -15,8 +15,6 @@ public class MyNormalItem : MyItemInterface
     [Header("通常状態に移動アニメーション")]
     [SerializeField] MyPlayerMoveAction m_move = null;
 
-    
-
     //正規化した入力情報
     Vector3 nDirect = Vector3.zero;
 
@@ -101,9 +99,10 @@ public class MyNormalItem : MyItemInterface
             return;
         }
 
+
         //アイテム取得のための連打
-        //if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
-        if (Input.GetMouseButton(0))
+        if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
+        //if (Input.GetMouseButton(0))
         {
             m_currentBlows++;
 
@@ -119,6 +118,8 @@ public class MyNormalItem : MyItemInterface
         {
             //プレイヤーにアイテムの変更を通達
             m_playerInfo.NextItem = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+            //アイテムの出現位置を空ける
+            m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
 
             isEndAntion = true;
             return;
@@ -166,6 +167,9 @@ public class MyNormalItem : MyItemInterface
 
         //移動先がステージ内か確認する
         m_playerInfo.Rigid.InsideStage(m_playerInfo.Trans.position);
+
+    //    if (m_playerInfo.Number == 1)
+    //        Debug.Log("kita");
     }
 
     /// <summary>

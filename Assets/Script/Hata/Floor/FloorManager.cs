@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//ToDo：柵のモデルをインスタンスする
 public class FloorManager : MyUpdater
 {
     [Header("床一枚の大きさ")]
     [SerializeField] float floorSize = 5;
+    public float FloorSize { get { return floorSize; } }
 
     [Header("床の縦、横の枚数(2以上とすること)")]
-    [SerializeField] Vector2 floorNumber = new Vector2(5, 5);
+    [SerializeField] Vector2Int floorNumber = new Vector2Int(5, 5);
+    public Vector2Int FloorNumber { get { return floorNumber; } }
 
     [Header("生成するCube")]
     [SerializeField] GameObject createCube = null;
 
+    [Header("生成する床の親")]
+    [SerializeField] Transform floorParent = null;
+
     [Header("生成する壁")]
     [SerializeField] GameObject createWall = null;
+
+    [Header("生成する壁の親")]
+    [SerializeField] Transform wallParent = null;
 
     [Header("生成する縦の柵")]
     [SerializeField] GameObject createFenceVer = null;
@@ -39,6 +46,7 @@ public class FloorManager : MyUpdater
     public Vector2 StageMaxEdge { get; private set; }
     //デバック用フラグ
     private bool isDebug = false;
+    
 
     private enum CreateDirect
     {
@@ -63,7 +71,7 @@ public class FloorManager : MyUpdater
         ///-------------------------------------------------------
 
         //createdCubes = new List<GameObject>();
-        createdCubes = new GameObject[(int)floorNumber.x, (int)floorNumber.y];
+        createdCubes = new GameObject[floorNumber.x, floorNumber.y];
 
         //横の枚数の半分の値を求める
         float widthHalf = floorNumber.x / 2.0f;
@@ -78,34 +86,48 @@ public class FloorManager : MyUpdater
         //生成位置
         Vector3 createPos = new Vector3(widthFirst, 0.0f, heightFirst);
         //生成した床に設定する親を取得
-        Transform parent = this.gameObject.transform;
+        //Transform parent = this.gameObject.transform;
 
-        for (int widthIdx = 0; widthIdx < (int)floorNumber.x; widthIdx++)
+        //親の位置
+        Vector3 parentPos = this.gameObject.transform.position;
+
+        for (int widthIdx = 0; widthIdx < floorNumber.x; widthIdx++)
         {
-            createPos.x = widthFirst + widthIdx * floorSize + floorSize / 2;
+            createPos.x = widthFirst + widthIdx * floorSize + floorSize / 2 + parentPos.x;
 
-            for (int heightIdx = 0; heightIdx < (int)floorNumber.y; heightIdx++)
+            for (int heightIdx = 0; heightIdx < floorNumber.y; heightIdx++)
             {
-                createPos.z = heightFirst + heightIdx * floorSize + floorSize / 2;
+                createPos.z = heightFirst + heightIdx * floorSize + floorSize / 2 + parentPos.z;
 
                 //床生成クラスの生成
                 GameObject createFloor = Instantiate(createCube, createPos, Quaternion.identity);
-                //床生成
-                createFloor.GetComponent<FloorCube>().CreateCube(floorSize);
-                //床を保存する
+                
+                ////床生成
+                //createFloor.GetComponent<FloorCube>().CreateCube(floorSize);
+                //Planeのサイズと生成するプレハブのサイズの差=25.0f
+                float sizeRaito =  25.0f;
+                //floorSize=15.0fの場合、Planeのサイズは1.5f
+                float createdCubeSize = (floorSize / 10.0f) * sizeRaito;
+                //サイズ変更
+                createFloor.transform.localScale = new Vector3(createdCubeSize, createdCubeSize, createdCubeSize);
+                //cubeの頂点を0.0fに合わせる
+                Vector3 top = new Vector3(0.0f, createFloor.transform.GetChild(0).transform.position.y, 0.0f);
+                createFloor.transform.position -= top;
+
+                ////床を保存する
                 createdCubes[widthIdx, heightIdx] = createFloor;
 
                 //親を自身に設定
-                createFloor.transform.parent = parent;
+                createFloor.transform.parent = floorParent;
                 //デバック用に名前を変更
                 createFloor.name = "Floor：" + widthIdx.ToString() + "-" + heightIdx.ToString();
             }
         }
 
-        
+
         //ステージの大きさを求める
-        StageSize = new Vector2((createPos.x) - (widthFirst - floorSize / 2)
-                              , (createPos.z) - (heightFirst - floorSize / 2));
+        StageSize = new Vector2((createPos.x) - (widthFirst - floorSize / 2) - parentPos.x
+                              , (createPos.z) - (heightFirst - floorSize / 2) - parentPos.z);
 
         //ステージの端を求める
         StageMinEdge = new Vector2(-StageSize.x / 2.0f, -StageSize.y / 2.0f);
@@ -123,19 +145,19 @@ public class FloorManager : MyUpdater
         Vector3 wallSize = new Vector3(StageSize.y, wallHigh, wallInside);
 
         //右の壁を生成
-        CreateWall(new Vector3(StageSize.x / 2.0f + wallInside, wallSize.y / 2.0f, 0.0f), new Vector3(0.0f, 90.0f, 0), wallSize);
+        CreateWall(new Vector3(StageSize.x / 2.0f + wallInside + parentPos.x, wallSize.y / 2.0f, 0.0f + parentPos.z), new Vector3(0.0f, 90.0f, 0), wallSize);
         //左の壁を生成
-        CreateWall(new Vector3(-StageSize.x / 2.0f - wallInside, wallSize.y / 2.0f, 0.0f), new Vector3(0.0f, 90.0f, 0), wallSize);
+        CreateWall(new Vector3(-StageSize.x / 2.0f - wallInside + parentPos.x, wallSize.y / 2.0f, 0.0f + parentPos.z), new Vector3(0.0f, 90.0f, 0), wallSize);
         //上の壁を生成
-        CreateWall(new Vector3(0.0f, wallSize.y / 2.0f, -StageSize.y / 2.0f - wallInside), new Vector3(0.0f, 0, 0), wallSize);
+        CreateWall(new Vector3(0.0f + parentPos.x, wallSize.y / 2.0f, -StageSize.y / 2.0f - wallInside + parentPos.z), new Vector3(0.0f, 0, 0), wallSize);
         //下の壁を生成
-        CreateWall(new Vector3(0.0f, wallSize.y / 2.0f, StageSize.y / 2.0f + wallInside), new Vector3(0.0f, 0, 0), wallSize);
+        CreateWall(new Vector3(0.0f + parentPos.x, wallSize.y / 2.0f, StageSize.y / 2.0f + wallInside + parentPos.z), new Vector3(0.0f, 0, 0), wallSize);
 
 
         ///-------------------------------------------------------
         /// ステージの柵を自動生成
         ///-------------------------------------------------------
-        SetUpFence();
+        SetUpFence(parentPos);
         //メッシュを統合する
         fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
 
@@ -184,10 +206,10 @@ public class FloorManager : MyUpdater
         //サイズ変更
         wall.transform.localScale = _size;
         //親を設定
-        wall.transform.parent = this.gameObject.transform;
+        wall.transform.parent = wallParent;
     }
 
-    private void SetUpFence()
+    private void SetUpFence(Vector3 _parentPos)
     {
         //柵の距離感
         float fenceDiff = floorSize / 4.0f;
@@ -250,17 +272,18 @@ public class FloorManager : MyUpdater
         }
 
 
-
         //上と下の柵の作成の場合
         void CreateUpDownFence(Vector3 _floorPos, bool _isDown, bool _isCreateBe = true)
         {
+            //高さをリセット
+            _floorPos.y = _parentPos.y;
             //左側の縦柵の位置
             if (_isDown)
                 verPos = _floorPos + new Vector3(-fenceDiff, 0.0f, floorOffset);
             else
                 verPos = _floorPos + new Vector3(-fenceDiff, 0.0f, -floorOffset);
             //左側の柵を作成
-            CreateVerFence(verPos, fenceEuler);
+            float floorY = CreateVerFence(verPos, fenceEuler).transform.position.y;
             //右側の縦柵の位置
             if (_isDown)
                 verPos = _floorPos + new Vector3(fenceDiff, 0.0f, floorOffset);
@@ -292,17 +315,17 @@ public class FloorManager : MyUpdater
             {
                 //上の横柵の位置
                 if (_isDown)
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y, floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y , floorOffset);
                 else
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y , -floorOffset);
 
                 //上の横柵の作成
                 CreateBeFence(bePos, fenceEuler);
                 //下の横柵の位置
                 if (_isDown)
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y, floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y , floorOffset);
                 else
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y , -floorOffset);
 
                 //下の横柵の作成
                 CreateBeFence(bePos, fenceEuler);
@@ -312,13 +335,16 @@ public class FloorManager : MyUpdater
         //左と右の柵の作成
         void CreateLeftRightFence(Vector3 _floorPos, bool _isLeft, bool _isCreateBe = true)
         {
+            //高さをリセット
+            _floorPos.y = _parentPos.y;
+
             //上側の縦柵の位置
             if (_isLeft)
                 verPos = _floorPos + new Vector3(floorOffset, 0.0f, fenceDiff);
             else
                 verPos = _floorPos + new Vector3(-floorOffset, 0.0f, fenceDiff);
             //左側の柵を作成
-            CreateVerFence(verPos, fenceEuler);
+            float floorY = CreateVerFence(verPos, fenceEuler).transform.position.y;
             //右側の縦柵の位置
             if (_isLeft)
                 verPos = _floorPos + new Vector3(floorOffset, 0.0f, -fenceDiff);
@@ -330,7 +356,7 @@ public class FloorManager : MyUpdater
 
             //上の横柵の位置
             if (_isLeft)
-                bePos = _floorPos + new Vector3(floorOffset, bePoses.GetFirstPos.y, 0.0f);
+                bePos = _floorPos + new Vector3(floorOffset, bePoses.GetFirstPos.y , 0.0f);
             else
                 bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y, 0.0f);
 
@@ -338,7 +364,7 @@ public class FloorManager : MyUpdater
             CreateBeFence(bePos, fenceEuler);
             //下の横柵の位置
             if (_isLeft)
-                bePos = _floorPos + new Vector3(floorOffset, bePoses.GetSecondPos.y, 0.0f);
+                bePos = _floorPos + new Vector3(floorOffset, bePoses.GetSecondPos.y , 0.0f);
             else
                 bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y, 0.0f);
 
@@ -350,17 +376,17 @@ public class FloorManager : MyUpdater
             {
                 //上の横柵の位置
                 if (_isLeft)
-                    bePos = _floorPos + new Vector3(floorOffset, bePoses.GetFirstPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(floorOffset, bePoses.GetFirstPos.y  , -floorOffset);
                 else
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetFirstPos.y , -floorOffset);
 
                 //上の横柵の作成
                 CreateBeFence(bePos, fenceEuler);
                 //下の横柵の位置
                 if (_isLeft)
-                    bePos = _floorPos + new Vector3(floorOffset, bePoses.GetSecondPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(floorOffset, bePoses.GetSecondPos.y  , -floorOffset);
                 else
-                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y, -floorOffset);
+                    bePos = _floorPos + new Vector3(-floorOffset, bePoses.GetSecondPos.y , -floorOffset);
 
                 //下の横柵の作成
                 CreateBeFence(bePos, fenceEuler);
@@ -381,8 +407,10 @@ public class FloorManager : MyUpdater
             //床の高さとボトムポイントの差分を求める
             float diff = _pos.y - bottomPos.y;
             //縦の柵の高さを変更
-            verPos.y += diff;
-            fenceVer.transform.position = verPos;
+            //verPos.y += diff;
+            //fenceVer.transform.position = verPos;
+            _pos.y += diff;
+            fenceVer.transform.position = _pos;
 
             return fenceVer;
         }

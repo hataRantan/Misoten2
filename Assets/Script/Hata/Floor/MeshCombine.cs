@@ -12,7 +12,6 @@ public static class MeshCombine
         //メッシュフィルターがないなら処理しない
         if (thisFilter == null) return;
 
-
         //子オブジェクトのメッシュフィルター
         MeshFilter[] childrenMeshes = _thisRender.gameObject.GetComponentsInChildren<MeshFilter>();
         //子オブジェクトのメッシュフィルターの入れ物
@@ -30,12 +29,16 @@ public static class MeshCombine
         {
             combine[child].mesh = mesheList[child].sharedMesh;
             combine[child].transform = mesheList[child].transform.localToWorldMatrix;
+            //combine[child].transform = Matrix4x4.Translate(mesheList[child].transform.position);
             mesheList[child].gameObject.SetActive(false);
         }
 
         //統合したメッシュをセットする
         thisFilter.mesh = new Mesh();
         thisFilter.mesh.CombineMeshes(combine);
+
+        //親オブジェクトが設定されているとズレてしまうので,位置ずれを回避
+        thisFilter.transform.position = Vector3.zero;
 
         //オブジェクト再開
         _thisRender.gameObject.SetActive(true);

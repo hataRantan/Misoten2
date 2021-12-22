@@ -25,9 +25,9 @@ TagManager:
   - Wall
   - PlayerItem
   - Floor
-  - 
-  - 
-  - 
+  - PostProcess
+  - DepthPost
+  - Face
   - 
   - 
   - 

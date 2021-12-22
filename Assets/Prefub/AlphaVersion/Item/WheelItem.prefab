@@ -254,3 +254,7 @@ MonoBehaviour:
   m_generatedDegree: {x: 0, y: 0, z: 0}
   m_wheelCol: {fileID: 5179300185023439864}
   m_wheelRigid: {fileID: 5179300185023439863}
+  particle: {fileID: 198000012777718758, guid: 8a5f1ca408d860b4f98d24e0843c20f2, type: 3}
+  moveSpeed: 0.2
+  hitBox: {fileID: 5179300184685523663}
+  count: 0.5

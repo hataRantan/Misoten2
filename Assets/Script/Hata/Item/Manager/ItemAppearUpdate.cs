@@ -13,7 +13,7 @@ public class ItemAppearUpdate : MyUpdater
     float m_effectTime = 2.0f;
 
     [Header("アイテム出現にかかる時間")]
-    [Range(0.0f, 5.0f)] 
+    [Range(0.0f, 5.0f)]
     [SerializeField]
     float m_appearTime = 0.0f;
 
@@ -160,7 +160,9 @@ public class ItemAppearUpdate : MyUpdater
         _createdItem.GetComponent<MyItemInterface>().SwitchGetRangeEnabled(false);
 
         //パーティクルを生成する
-        GameObject effect = Instantiate(m_effect, _createdItem.transform.position, Quaternion.identity);
+        Vector3 createPos = _createdItem.transform.position;
+        createPos.y = 0.0f;
+        GameObject effect = Instantiate(m_effect, createPos, Quaternion.identity);
 
         float size = m_effectSize * _scaleFactor;
         //パーティクルのサイズ変更

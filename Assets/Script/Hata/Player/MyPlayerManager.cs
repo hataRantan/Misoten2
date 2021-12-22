@@ -9,9 +9,10 @@ public class MyPlayerManager : MyUpdater
     [Header("生成したいプレイヤーオブジェクト")]
     [SerializeField] GameObject createPlayer = null;
 
-    [Header("プレイヤーの人数")]
-    [Range(1, 4)]
-    [SerializeField] private int m_maxPlayerNum = 1;
+    //[Header("プレイヤーの人数")]
+    //[Range(1, 4)]
+    //[SerializeField] private int m_maxPlayerNum = 1;
+    private int m_maxPlayerNum = 2;
     public int GetMaxPlayerNum { get { return m_maxPlayerNum; } }
 
     [Header("プレイヤー名")]
@@ -25,7 +26,11 @@ public class MyPlayerManager : MyUpdater
 
     [Header("プレイヤー情報を表示するUI")]
     [SerializeField] GameObject createUI = null;
-    
+
+    [Header("プレイヤーの顔UIを管理するクラス")]
+    [SerializeField]
+    MyPlayerFaceControl m_faceControl = null;
+
     //生成したプレイヤー一覧
     private MyPlayerObject[] m_players;
 
@@ -51,6 +56,10 @@ public class MyPlayerManager : MyUpdater
     //ゲームオーバー演出中か確認
     private bool isProcessEnd = false;
 
+    //プレイヤーの順位を入れる
+    //低い順から代入している
+    public List<int> PlayerRank { get; private set; }
+
     //ゲームオーバーテスト
 #if UNITY_EDITOR
     TestMyPlayerDead dead = null;
@@ -63,6 +72,8 @@ public class MyPlayerManager : MyUpdater
 
         //ToDo：変更予定
         float uiWidth = 400.0f;
+        //プレイヤー人数を取得する
+        m_maxPlayerNum = GameInPlayerNumber.Instance.CurrentPlayerNum;
         //プレイヤーの生成
         m_players = new MyPlayerObject[m_maxPlayerNum];
 
@@ -84,9 +95,9 @@ public class MyPlayerManager : MyUpdater
             player.SetUI(ui);
             //プレイヤーの初期化
             player.CreatedInit(idx);
-            
+
             //UIのセットアップ
-            ui.SetUp(m_playerCanvas, uiPos, m_playerName[idx], player.GetHP(), m_playerColor[idx]);
+            ui.SetUp(m_playerCanvas, uiPos, m_playerName[idx], idx, player.GetHP(), m_playerColor[idx], m_faceControl);
             
             //プレイヤーを保存
             m_players[idx] = player;
@@ -98,6 +109,8 @@ public class MyPlayerManager : MyUpdater
         m_playerTotalMaxHp = m_playerMaxHp * m_maxPlayerNum;
 
         m_endHitPos =gameObject.GetComponent<MyPlayerGameOverHits>();
+
+        PlayerRank = new List<int>();
 
 #if UNITY_EDITOR
         dead = GetComponent<TestMyPlayerDead>();
@@ -183,6 +196,12 @@ public class MyPlayerManager : MyUpdater
 
     private IEnumerator GameOverEffect(List<int> _endPlayers)
     {
+        //順位を代入
+        foreach(var idx in _endPlayers)
+        {
+            PlayerRank.Add(idx);
+        }
+
         //エフェクト開始
         isProcessEnd = true;
 

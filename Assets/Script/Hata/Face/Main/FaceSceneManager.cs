@@ -27,9 +27,9 @@ public class FaceSceneManager : MyUpdater
     [Header("撮影時間テキスト")]
     [SerializeField] FaceTimer m_timerText = null;
 
-    [Header("撮影人数")]
-    [Range(1, 4)]
-    [SerializeField] int m_photoNum = 1;
+    //[Header("撮影人数")]
+    //[Range(1, 4)]
+    //[SerializeField] int m_photoNum = 1;
     private int m_photoCurrentNum = 0;
 
     //[Header("写真の出現時間")]
@@ -105,7 +105,7 @@ public class FaceSceneManager : MyUpdater
             if (!board.m_facePhoto.IsSetUp()) return FaceType.PHOTO;
 
             //ToDo：入力処理の変更必須
-            if (Input.GetMouseButtonDown(0))
+            if (MyRapperInput.Instance.GetItem(board.m_photoCurrentNum))
             {
                 return FaceType.PHOTO_EFFECT;
             }
@@ -228,13 +228,17 @@ public class FaceSceneManager : MyUpdater
         public override FaceType Update()
         {
             //if (!isEndAppear) return FaceType.AFTER_PHOTO;
-            
+
             //ToDo：変更必要
-            if(Input.GetMouseButtonDown(0))
+            if (MyRapperInput.Instance.GetItem(board.m_photoCurrentNum - 1))
             {
                 //撮影終了
-                if (board.m_photoNum <= board.m_photoCurrentNum)
+                //if (board.m_photoNum <= board.m_photoCurrentNum)
+                if (GameInPlayerNumber.Instance.CurrentPlayerNum <= board.m_photoCurrentNum)
                 {
+                    //カメラを明示的にリリースする
+                    board.m_facePhoto.Release();
+
                     //次のシーンへ移動する
                     SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene);
                 }

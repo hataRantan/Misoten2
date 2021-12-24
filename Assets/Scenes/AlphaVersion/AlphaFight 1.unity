@@ -3282,15 +3282,15 @@ MonoBehaviour:
   createPlayer: {fileID: 3051076605366440679, guid: b6c53bf963b989042ae7ab8c05d73242,
     type: 3}
   m_playerName:
-  - PL1
-  - PL2
-  - PL3
-  - PL4
+  - 1P
+  - 2P
+  - 3P
+  - 4P
   m_playerColor:
-  - {r: 0.9, g: 0.15, b: 0.15, a: 1}
-  - {r: 0.15, g: 0.15, b: 0.9, a: 1}
-  - {r: 0.15, g: 0.9, b: 0.15, a: 1}
-  - {r: 1, g: 0.9, b: 0.15, a: 1}
+  - {r: 0.9, g: 0.1, b: 0.1, a: 1}
+  - {r: 0.1, g: 0.1, b: 0.9, a: 1}
+  - {r: 0.9, g: 0.9, b: 0.1, a: 1}
+  - {r: 0.9, g: 0.1, b: 0.9, a: 1}
   m_playerCanvas: {fileID: 1925817688}
   createUI: {fileID: 1996028262658124414, guid: d729f318c78ac0b47ba75e0ca2e55406,
     type: 3}

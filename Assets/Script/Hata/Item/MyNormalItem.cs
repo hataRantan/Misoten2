@@ -121,6 +121,12 @@ public class MyNormalItem : MyItemInterface
             //アイテムの出現位置を空ける
             m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
 
+            //アイテムのアウトラインを変更
+            Outline outline = m_playerInfo.NextItem.gameObject.GetComponent<Outline>();
+            if (!outline) outline = m_playerInfo.NextItem.gameObject.AddComponent<Outline>();
+
+            outline.OutlineColor = m_playerInfo.OutLineColor;
+
             isEndAntion = true;
             return;
         }

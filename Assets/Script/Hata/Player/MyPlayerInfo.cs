@@ -37,10 +37,12 @@ public class MyPlayerInfo
     //アイテムを最後に使用した位置
     private Vector3 m_itemPos = Vector3.zero;
 
+    public Color OutLineColor { get; private set; }
+
     /// <summary>
     /// コンポーネントを取得する
     /// </summary>
-    public void SetPlayer(MyPlayerObject _player)
+    public void SetPlayer(MyPlayerObject _player, Color _outLine)
     {
         playerObj = _player;
         Data = _player.PlayerData;
@@ -52,6 +54,8 @@ public class MyPlayerInfo
         Collider = _player.gameObject.GetComponent<BoxCollider>();
 
         NextState = MyPlayerObject.MyPlayerState.NONE;
+
+        OutLineColor = _outLine;
     }
 
     /// <summary>

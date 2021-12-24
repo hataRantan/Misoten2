@@ -62,7 +62,7 @@ public class MyPlayerObject : MyUpdater
     /// <summary>
     /// 生成時の初期化
     /// </summary>
-    public void CreatedInit(int _playerNum)
+    public void CreatedInit(int _playerNum, Color _outLine)
     {
         //生存フラグをOn
         IsSurvival = true;
@@ -78,8 +78,12 @@ public class MyPlayerObject : MyUpdater
         m_machine.AddState(MyPlayerState.END, new EndState(), this);
         //初期状態に変更
         m_machine.InitState(MyPlayerState.MOVE);
+
+        GetComponent<Outline>().OutlineColor = _outLine;
+
         //情報をセットする
-        m_info.SetPlayer(this);
+        m_info.SetPlayer(this, _outLine);
+        
         //初期位置を設定
         m_info.InitPos(gameObject.transform.position);
         //通常アイテムを取得

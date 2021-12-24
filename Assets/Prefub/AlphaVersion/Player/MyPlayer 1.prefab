@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3051076605366440678}
   - component: {fileID: 3051076605366440674}
   - component: {fileID: 3051076605366440673}
+  - component: {fileID: 8628272527474352579}
   m_Layer: 10
   m_Name: MyPlayer 1
   m_TagString: Untagged
@@ -113,6 +114,23 @@ MonoBehaviour:
   m_normalItem: {fileID: 3051076605920703556}
   m_playerRender: {fileID: 7877632317684081823}
   m_playerBottom: {fileID: 5182841600149373014}
+--- !u!114 &8628272527474352579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3051076605366440679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace4e653d3f22664f8ca2d61f518454c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3051076605920703558
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +179,7 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: d014331985496e749bc153ae814e860a, type: 2}
   m_getRange: {fileID: 6583265404211848743}
   m_bottomPoint: {fileID: 3051076605920703557}
+  m_generatedDegree: {x: 0, y: 0, z: 0}
   decreaseTime: 0.3
   m_playerHitBox: {fileID: 6583265404211848743}
   m_move: {fileID: 580928819685462761}
@@ -235,10 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4ae6b9696295f4d96681743050e671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPos: {fileID: 6980713557180918311}
   flightTime: 1
-  speedRate: 1
-  gravityValue: -9.81
+  targetY: 5
   wideAngleZ: 20
   wideSpeed: 0.5
   bowAngleX: 30

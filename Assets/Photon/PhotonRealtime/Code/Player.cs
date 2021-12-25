@@ -42,8 +42,9 @@ namespace Photon.Realtime
         /// <summary>
         /// Used internally to identify the masterclient of a room.
         /// </summary>
+        //protected internal Room RoomReference { get; set; }
+        //ロームを増設するにはここをいじる？
         protected internal Room RoomReference { get; set; }
-
 
         /// <summary>Backing field for property.</summary>
         private int actorNumber = -1;
@@ -74,6 +75,7 @@ namespace Photon.Realtime
         /// A player might change his own playername in a room (it's only a property).
         /// Setting this value updates the server and other players (using an operation).
         /// </remarks>
+        /// このプレーヤーの一意でないニックネーム。部屋で自動的に同期されます。
         public string NickName
         {
             get
@@ -99,11 +101,13 @@ namespace Photon.Realtime
 
         /// <summary>UserId of the player, available when the room got created with RoomOptions.PublishUserId = true.</summary>
         /// <remarks>Useful for <see cref="LoadBalancingClient.OpFindFriends"/> and blocking slots in a room for expected players (e.g. in <see cref="LoadBalancingClient.OpCreateRoom"/>).</remarks>
+        /// プレーヤーのUserId。RoomOptions.PublishUserId= trueで部屋が作成されたときに使用できます。
         public string UserId { get; internal set; }
 
         /// <summary>
         /// True if this player is the Master Client of the current room.
         /// </summary>
+        //ここでマスタークライアントがルームに入ったのを確認する
         public bool IsMasterClient
         {
             get
@@ -174,6 +178,7 @@ namespace Photon.Realtime
         /// </summary>
         /// <param name="id">ActorNumber of the a player in this room.</param>
         /// <returns>Player or null.</returns>
+        //マスタークライアントが立てたルームに参加を確認
         public Player Get(int id)
         {
             if (this.RoomReference == null)
@@ -195,6 +200,7 @@ namespace Photon.Realtime
         /// <remarks>Useful when you pass something to the next player. For example: passing the turn to the next player.</remarks>
         /// <param name="currentPlayer">The Player for which the next is being needed.</param>
         /// <returns>Player or null.</returns>
+        /// ActorNumberでソートされた、プレーヤーの次のプレーヤーを取得します
         public Player GetNextFor(Player currentPlayer)
         {
             if (currentPlayer == null)
@@ -244,6 +250,7 @@ namespace Photon.Realtime
         /// This only updates the CustomProperties and doesn't send them to the server.
         /// Mostly used when creating new remote players, where the server sends their properties.
         /// </remarks>
+        /// 新しいプレーヤーのプロパティをキャッシュするか、リモートプレーヤーの更新を受信したときにキャッシュします。
         protected internal virtual void InternalCacheProperties(Hashtable properties)
         {
             if (properties == null || properties.Count == 0 || this.CustomProperties.Equals(properties))
@@ -301,6 +308,7 @@ namespace Photon.Realtime
         /// Use with care and not every frame!
         /// Converts the customProperties to a String on every single call.
         /// </remarks>
+        /// プレーヤーの文字列の概要：player.ID、名前、およびこのユーザーのすべてのカスタムプロパティ。
         public string ToStringFull()
         {
             return string.Format("#{0:00} '{1}'{2} {3}", this.ActorNumber, this.NickName, this.IsInactive ? " (inactive)" : "", this.CustomProperties.ToStringFull());
@@ -309,6 +317,7 @@ namespace Photon.Realtime
         /// <summary>
         /// If players are equal (by GetHasCode, which returns this.ID).
         /// </summary>
+        /// プレーヤーが等しい場合（この.IDを返すGetHasCodeによる）。
         public override bool Equals(object p)
         {
             Player pp = p as Player;
@@ -318,6 +327,7 @@ namespace Photon.Realtime
         /// <summary>
         /// Accompanies Equals, using the ID (actorNumber) as HashCode to return.
         /// </summary>
+        /// ID（actorNumber）をハッシュコードとして使用してEqualsを返します。
         public override int GetHashCode()
         {
             return this.ActorNumber;
@@ -326,6 +336,7 @@ namespace Photon.Realtime
         /// <summary>
         /// Used internally, to update this client's playerID when assigned (doesn't change after assignment).
         /// </summary>
+        ///  内部で使用され、割り当て時にこのクライアントのplayerIDを更新します（割り当て後に変更されません）。 
         protected internal void ChangeLocalID(int newID)
         {
             if (!this.IsLocal)
@@ -437,6 +448,7 @@ namespace Photon.Realtime
 
 
         /// <summary>Uses OpSetPropertiesOfActor to sync this player's NickName (server is being updated with this.NickName).</summary>
+        /// OpSetPropertiesOfActorを使用して、このプレーヤーのニックネームを同期します（サーバーはthis.NickNameで更新されています）。
         private bool SetPlayerNameProperty()
         {
             if (this.RoomReference != null && !this.RoomReference.IsOffline)

@@ -43,6 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f875f031894df47b345ea43e0ce0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_minLoadTime: 2
+  m_minLoadTime: 1
   faderCanves:
   - {fileID: 1558868655274230263, guid: d6f30be44935e2b49a33e7ff3c292586, type: 3}

@@ -10,6 +10,9 @@ public class SimplePun : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject Player = null;
 
+    [SerializeField]
+    GameObject imageTest = null;
+
     GameObject testObj = null;
 
     //[Header("テストCube")]
@@ -23,6 +26,9 @@ public class SimplePun : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
 
         test = gameObject.GetComponent<PrefubTestNet>();
+
+        //RPCを実行するスクリプトのキャッシュ
+        PhotonNetwork.UseRpcMonoBehaviourCache = true;
     }
 
     void OnGUI()
@@ -49,25 +55,45 @@ public class SimplePun : MonoBehaviourPunCallbacks
     {
         //プレイヤーのニックネームを変更
         //ToDo：プレイヤーごとに共通なため、変更必要だと思われる
-        PhotonNetwork.NickName = "My";
+        //PhotonNetwork.NickName = "My";
 
         //キャラクターを生成
         //第一引数のプレハブは、Resources下にある必要があり
         //GameObject monster = PhotonNetwork.Instantiate("Hata/Photon/Cube", Vector3.zero, Quaternion.identity, 0);
         //PhotonNetwork.Instantiate("none", Vector3.zero, Quaternion.identity);
 
-        testObj = PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
+        //GameObject image = PUN2Creater.Instance.CreateNetworkObj(imageTest, Vector3.zero, Quaternion.identity);
+
+        GameObject cube = PhotonNetwork.Instantiate(Player.name, new Vector3(0.0f,0.0f,10.0f), Quaternion.identity);
+        GameObject image = PhotonNetwork.Instantiate(imageTest.name, Vector3.zero, Quaternion.identity);
+
+        cube.GetComponent<TestInput>().SetUI(image.GetComponent<PhotonUITest>());
+        image.GetComponent<PhotonUITest>().SetPlayer(cube.transform);
+
+        //カスタムプロパティ：プレイヤーorルームに共通するデータ
+        var hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable["Score"] = 0;
+        hashtable["Message"] = "こんにちは";
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+
+        // オブジェクト同期の頻度を調整する
+        //ToDo：後々変更必要
+        //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    PhotonNetwork.SendRate = 30; // 1秒間にメッセージ送信を行う回数
+        //    PhotonNetwork.SerializationRate = 30; // 1秒間にオブジェクト同期を行う回数
+        //}
     }
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            PUN2Creater.Instance.Destroy(testObj);
-        }
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
-        }
+        //if(Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    PUN2Creater.Instance.Destroy(testObj);
+        //}
+        //if(Input.GetKeyDown(KeyCode.L))
+        //{
+        //    PUN2Creater.Instance.CreateNetworkObj(Player, Vector3.zero, Quaternion.identity);
+        //}
     }
 }

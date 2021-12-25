@@ -15,3 +15,7 @@ MonoBehaviour:
   initObj:
   - obj: {fileID: 2207796630302231276, guid: f0c89f24a4c32524b8662b01f03b8467, type: 3}
   - obj: {fileID: 7325760424161625784, guid: 3f2846f67cff22243bcc36f98c7bdc44, type: 3}
+  - obj: {fileID: 1964329719424050756, guid: 8d0f3841d89b3104c9458945066504a5, type: 3}
+  - obj: {fileID: 2069926852381140743, guid: 288a4287580084942b2f805a72201409, type: 3}
+  - obj: {fileID: 8864983925006837910, guid: 37da34031b3f27448b680faeef7195d6, type: 3}
+  - obj: {fileID: 1663855287833566342, guid: 19b3e60df037cef4cafe6db5cede04b1, type: 3}

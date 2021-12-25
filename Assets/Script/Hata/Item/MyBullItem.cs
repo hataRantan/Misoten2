@@ -41,6 +41,7 @@ public class MyBullItem : MyItemInterface
 
         //ToDo：他の初期化事項
         nowPos = m_bullRigid.position;
+        m_bullRigid.constraints= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
         //パーティクルの情報を獲得
         bullEffectL = transform.GetChild(4).GetComponent<ParticleSystem>();
         bullEffectR = transform.GetChild(5).GetComponent<ParticleSystem>();
@@ -55,7 +56,7 @@ public class MyBullItem : MyItemInterface
     {
         //アクション完了フラグ初期化
         isEndAntion = false;
-
+        isAction = true;
         //ToDo：アクション初期化
         //m_playerInfo.ChangeNormal();
 
@@ -65,11 +66,13 @@ public class MyBullItem : MyItemInterface
     public override void FiexdAction()
     {
         //ToDo：アクション中
-        if (Input.GetKey(KeyCode.Mouse1)) 
+        if (isAction)
         {
-            isAction = true;
+            //isAction = true;
             Invoke("Delay", 0.5f);//時間差を作る
         }
+
+
 
         if (isHitWall)
         {
@@ -92,11 +95,22 @@ public class MyBullItem : MyItemInterface
         //m_bullRigid.angularVelocity = new Vector3(0.0f, rotateAcceleration * Time.fixedDeltaTime, 0.0f);
 
         //WASDが押されたときだけ
-        if (isInput && !isAction) 
+        //if (isInput && !isAction) 
+        //{
+        //    m_bullRigid.velocity = bullMove;
+        //    transform.localRotation = Quaternion.Euler(bullRotation);
+        //}
+
+        Vector3 diff = m_bullRigid.position - nowPos;
+
+        if (diff.magnitude > 0.01f)
         {
-            m_bullRigid.velocity = bullMove;
-            transform.localRotation = Quaternion.Euler(bullRotation);
+            m_bullRigid.MoveRotation(Quaternion.LookRotation(diff));
         }
+       
+        nowPos = m_bullRigid.position;
+
+
     }
 
     public override void Move(Vector2 _direct)
@@ -105,6 +119,8 @@ public class MyBullItem : MyItemInterface
         Vector3 power = new Vector3(_direct.x * 20,0 ,_direct.y * 20);
         m_bullRigid.velocity = power;
 
+
+       
 
         //ToDo：入力値の整理
         //if (_direct.x > 0 && _direct.y < 0)
@@ -129,12 +145,7 @@ public class MyBullItem : MyItemInterface
         //}
         //m_bullRigid.rotation = Quaternion.Euler(0, rotateAcceleration, 0);
 
-        Vector3 diff = m_bullRigid.position - nowPos;
-        if (diff.magnitude > 0.01f)
-        {
-            m_bullRigid.rotation = Quaternion.LookRotation(diff);
-        }
-        nowPos = m_bullRigid.position;
+
         //WASD押されたらローテーションを動かす
         //a
         //if (_direct.x > 0 && _direct.y > -0.4 && _direct.y < 0.4)

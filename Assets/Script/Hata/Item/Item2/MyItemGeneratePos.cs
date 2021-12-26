@@ -91,8 +91,13 @@ public class MyItemGeneratePos : MyUpdater
         {
             for (int x = m_areaSplit[key].min.x; x <= m_areaSplit[key].max.x; ++x)
             {
+                //端のエリアを追加しない
+                if (x == 0 || x == width - 1) continue;
+
                 for (int z = m_areaSplit[key].min.y; z <= m_areaSplit[key].max.y; ++z)
                 {
+                    if (z == 0 || z == height - 1) continue;
+
                     if (!m_generatablePos.ContainsKey(key))
                     {
                         //List<Vector2Int> pos = new List<Vector2Int>() { new Vector2Int(x, z) };
@@ -203,9 +208,10 @@ public class MyItemGeneratePos : MyUpdater
         if (createPos.y < 0.0f) createPos.y = 0.0f;
 
         //生成位置に幅を持たせる
-        //Vector2 offset = new Vector2(Random.Range(-m_floorSize / 2.0f, m_floorSize / 2.0f), Random.Range(-m_floorSize / 2.0f, m_floorSize / 2.0f));
-        //createPos.x += offset.x;
-        //createPos.z = offset.y;
+        Vector2 offset = new Vector2(UnityEngine.Random.Range(-m_floorSize / 2.0f, m_floorSize / 2.0f), 
+            UnityEngine.Random.Range(-m_floorSize / 2.0f, m_floorSize / 2.0f));
+        createPos.x += offset.x;
+        createPos.z += offset.y;
 
         return createPos;
     }

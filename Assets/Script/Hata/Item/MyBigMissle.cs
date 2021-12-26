@@ -99,8 +99,12 @@ public class MyBigMissle : MyItemInterface
     /// </summary>
     private void OnBecameInvisible()
     {
-        m_playerInfo.ChangeNormalFromPowerful();
+        if (m_playerInfo != null)
+        {
+            m_playerInfo.ChangeNormalFromPowerful();
+        }
         Destroy(this.gameObject);
+
     }
     //壁にぶつかっても処理しない
     //private void OnTriggerEnter(Collider _other)

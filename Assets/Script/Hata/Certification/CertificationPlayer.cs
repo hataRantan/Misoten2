@@ -59,7 +59,15 @@ public class CertificationPlayer : MyUpdater
     CanvasGroup m_nonConnectGroup = null;
     CanvasGroup m_connectGroup = null;
 
+    [Header("消える時間")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_nonDisplayTime = 0.5f;
 
+    private bool isEnd = false;
+    //連打コルーチン
+    Coroutine m_bloeCor = null;
+    //連打コルーチンの終了
+    bool isEndBlow = true;
     //プレイヤーの状態
     public enum State
     {
@@ -174,8 +182,11 @@ public class CertificationPlayer : MyUpdater
             //コントローラUIの初期化
             board.m_operator.Init(board.m_playerIdx);
 
-            board.m_nonConnectGroup.alpha = 0.0f;
+            //board.m_nonConnectGroup.alpha = 0.0f;
+            
             board.m_connectGroup.alpha = 1.0f;
+
+            board.StartDisappear();
         }
 
         public override State Update()
@@ -188,6 +199,13 @@ public class CertificationPlayer : MyUpdater
 
             return State.NONE;
         }
+    }
+
+    //コルーチンの終了を検知
+    public void EndCor() { isEnd = true; }
+    private void StartDisappear()
+    {
+        StartCoroutine(m_nonConnectGroup.gameObject.GetComponent<DisappearNonConnect>().Diappear(EndCor));
     }
 
     class MoveState : IStateSpace.IState<State, CertificationPlayer>
@@ -215,6 +233,8 @@ public class CertificationPlayer : MyUpdater
 
         public override State Update()
         {
+            if (!board.isEnd) return State.MOVE;
+
             //移動方向を取得する
             direct = MyRapperInput.Instance.Move(board.m_playerIdx);
             direct = direct.normalized;
@@ -297,6 +317,8 @@ public class CertificationPlayer : MyUpdater
                 cBlowNum++;
                 cTime = 0.0f;
 
+                //board.StartBlowReaction();
+
                 if (cBlowNum > board.m_blowNum)
                 {
                     return State.ACTION;
@@ -318,7 +340,7 @@ public class CertificationPlayer : MyUpdater
             }
 
             board.m_blowContent.fillAmount = (float)cBlowNum / board.m_blowNum;
-
+            board.m_operator.WaveUI(State.GET);
             //テキストとアイコンの位置関係を取得する
             opposite = textPos - iconPos;
             float deg = Mathf.Atan2(opposite.y, opposite.x) * Mathf.Rad2Deg;
@@ -341,10 +363,12 @@ public class CertificationPlayer : MyUpdater
 
         public override void Exit()
         {
+            //board.StartBlowReaction();
         }
         public override State Update()
         {
-            if(MyRapperInput.Instance.ActionItem(board.m_playerIdx))
+            board.m_operator.WaveUI(State.ACTION);
+            if (MyRapperInput.Instance.ActionItem(board.m_playerIdx))
             {
                 return State.ACCEPTED;
             }
@@ -358,13 +382,10 @@ public class CertificationPlayer : MyUpdater
     {
         public override void Entry()
         {
+            board.m_textMesh.GetComponent<TextWriggling>().ResetStop();
             board.m_textMesh.text = board.m_endText;
-
-            //ToDo：後々変更
-            board.m_icon.color = new Color(1, 1, 1, 0);
-            board.m_operator.NonDisply();
-            board.m_blowContent.color = new Color(1, 1, 1, 0);
-            board.m_blowContent.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            board.StartTextChangeCall();
+            board.StartAcceptedCall();
         }
 
         public override void Exit()
@@ -376,5 +397,61 @@ public class CertificationPlayer : MyUpdater
             return State.ACCEPTED;
         }
     }
+    private void StartAcceptedCall()
+    {
+        StartCoroutine(StartAccepted());
+    }
+    private IEnumerator StartAccepted()
+    {
+        float timer = 0.0f;
+        float endTime = m_nonDisplayTime;
 
+        //オペレータのα値減少
+        CanvasGroup group = m_blowContent.GetComponent<CanvasGroup>();
+
+        while (timer < endTime)
+        {
+            //α値減少
+            float alpha = -Easing.CubicOut(timer, endTime, -1.0f, 0.0f);
+            m_icon.color = new Color(1, 1, 1, alpha);
+            m_operator.NonDIsplyAlpha(alpha);
+            group.alpha = alpha;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        m_icon.color = new Color(1, 1, 1, 0);
+        m_operator.NonDIsplyAlpha(0);
+        group.alpha = 0;
+    }
+
+    private void StartTextChangeCall()
+    {
+        StartCoroutine(TextChange());
+    }
+    private IEnumerator TextChange()
+    {
+        int beginCnt = m_textMesh.text.Length;
+        int endCnt = m_endText.Length;
+
+        //長い方の文字数を取得
+        int manyCnt = (beginCnt > endCnt) ? beginCnt : endCnt;
+
+        float timer = 0.0f;
+        while (timer < m_nonDisplayTime)
+        {
+            //経過時間に対する割合
+            float timeRaito = timer / m_nonDisplayTime;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    //連打コルーチンの呼び出し
+    private void StartBlowReaction()
+    {
+        m_bloeCor = StartCoroutine(m_blowContent.GetComponent<GaugeReaction>().StartReaction());
+    }
 }

@@ -92,11 +92,6 @@ public class MyMissileItem : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
-    }
-
-    private void OnTriggerEnter(Collider _other)
-    {
-        if (!isAction) return;
 
         if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {

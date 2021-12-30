@@ -55,13 +55,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: {fileID: 1996028262665381448}
   m_hpImage: {fileID: 1996028263163159422}
-  m_blowGauge: {fileID: 1996028262671477190}
   m_face: {fileID: 8344158681579333410}
   m_faceTexture:
   - {fileID: 8400000, guid: 82a1688b1de047f41a9f6faa760f81a6, type: 2}
   - {fileID: 8400000, guid: aca1b768606030f4cad541245ff29f92, type: 2}
   - {fileID: 8400000, guid: 3f97c07a33fbdcf48ba29de19882e4fb, type: 2}
   - {fileID: 8400000, guid: 1263574182c664348b7714daa5fdc0db, type: 2}
+  m_blowGauges:
+  - {fileID: 5185535369259691181, guid: 7be2792b8aefd384399f55276b87551d, type: 3}
+  - {fileID: 5185535369259691181, guid: d6fe1a971c4c93b49a9440ac194d1f72, type: 3}
+  - {fileID: 5185535369259691181, guid: 312cf5196cb0ea942976785aeb87255f, type: 3}
+  - {fileID: 5185535369259691181, guid: aafccec3047cf3b4eb8ff47ce91c8472, type: 3}
 --- !u!1 &1996028262665381446
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1996028262671477191
 RectTransform:
   m_ObjectHideFlags: 0
@@ -309,7 +313,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1996028262912549541
 RectTransform:
   m_ObjectHideFlags: 0

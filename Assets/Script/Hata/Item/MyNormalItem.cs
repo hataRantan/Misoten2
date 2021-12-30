@@ -77,6 +77,9 @@ public class MyNormalItem : MyItemInterface
         m_currentDecrease = 0.0f;
         m_currentBlows = 0;
         isEndAntion = false;
+
+        //プレイヤーの現在位置に連打ゲージを追従
+        m_playerInfo.Ui.OnStageGauge(m_playerInfo.Trans.position);
     }
     /// <summary>
     ///  アイテムの取得終了
@@ -84,7 +87,7 @@ public class MyNormalItem : MyItemInterface
     public override void ActionExit()
     {
         getPossibleItem = null;
-        m_playerInfo.Ui.BlowInGauge(0);
+        m_playerInfo.Ui.GaugeOut();
         isUpdateHitItem = true;
     }
 
@@ -98,7 +101,6 @@ public class MyNormalItem : MyItemInterface
             isEndAntion = true;
             return;
         }
-
 
         //アイテム取得のための連打
         if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
@@ -127,6 +129,8 @@ public class MyNormalItem : MyItemInterface
 
             outline.OutlineColor = m_playerInfo.OutLineColor;
 
+            m_playerInfo.Ui.BlowInGauge(m_maxBlows);
+
             isEndAntion = true;
             return;
         }
@@ -146,7 +150,8 @@ public class MyNormalItem : MyItemInterface
         }
 
         //UIに連打数を反映
-        m_currentBlows = Mathf.Clamp(m_currentBlows, 0, m_maxBlows);
+        m_currentBlows = Mathf.Clamp(m_currentBlows, 0, m_maxBlows + 1);
+        Debug.Log("連打数：" + m_maxBlows + 1);
         m_playerInfo.Ui.BlowInGauge(m_currentBlows);
 
         //ToDo：変更必須
@@ -190,12 +195,18 @@ public class MyNormalItem : MyItemInterface
 
         //移動アニメーション
         //if (nDirect.magnitude > 0.0f) m_move.MoveMode(3, nDirect);
+        if (hitObj)
+        {
+            //プレイヤーに追従
+            m_playerInfo.Ui.OnStageGauge(m_playerInfo.Trans.position);
+            Debug.Log("いる");
+        }
     }
 
     /// <summary>
     /// 取得可能なアイテムを更新
     /// </summary>
-    public void OnTriggerEnter(Collider _hitObj)
+    public void OnTriggerStay(Collider _hitObj)
     {
         //衝突したオブジェクトを更新
         if (_hitObj.gameObject.layer == LayerMask.NameToLayer("ItemHitbox")
@@ -213,6 +224,12 @@ public class MyNormalItem : MyItemInterface
     {
         if (hitObj == null) return;
 
-        if (hitObj == _exitObj) hitObj = null;
+        if (hitObj.gameObject.layer == LayerMask.NameToLayer("ItemHitbox"))
+        {
+            Debug.Log("入る");
+            hitObj = null;
+            m_playerInfo.Ui.GaugeOut();
+
+        }
     }
 }

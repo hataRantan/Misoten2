@@ -18,6 +18,9 @@ public class FloorManager : MyUpdater
     [Header("生成する床の親")]
     [SerializeField] Transform floorParent = null;
 
+    [Header("床のテクスチャ"), SerializeField]
+    Material m_floorMat = null;
+
     [Header("生成する壁")]
     [SerializeField] GameObject createWall = null;
 
@@ -46,7 +49,6 @@ public class FloorManager : MyUpdater
     public Vector2 StageMaxEdge { get; private set; }
     //デバック用フラグ
     private bool isDebug = false;
-    
 
     private enum CreateDirect
     {
@@ -124,6 +126,8 @@ public class FloorManager : MyUpdater
             }
         }
 
+        floorParent.GetComponent<MeshRenderer>().CombineChildren(m_floorMat);
+        floorParent.gameObject.AddComponent<BoxCollider>();
 
         //ステージの大きさを求める
         StageSize = new Vector2((createPos.x) - (widthFirst - floorSize / 2) - parentPos.x

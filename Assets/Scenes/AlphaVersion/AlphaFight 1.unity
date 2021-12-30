@@ -3804,8 +3804,9 @@ MonoBehaviour:
   - {fileID: 501949329}
   m_shapeNum: 4
   m_damageNum: 2
-  m_damegeTime: 0.2
-  m_damagebackTime: 0.1
+  m_damegeTime: 0.4
+  m_damagebackTime: 0.4
+  m_damageStopTime: 0.1
 --- !u!114 &1964054910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3873,6 +3874,7 @@ MonoBehaviour:
   createCube: {fileID: 2303790651989673195, guid: d5d05dcfb628b5b4e8c96d975eb61fe2,
     type: 3}
   floorParent: {fileID: 2092181535}
+  m_floorMat: {fileID: 2100000, guid: 0e41c64224f7bbb4bbd3715c49c3ce93, type: 2}
   createWall: {fileID: 5188400784428146807, guid: f8baab8bca24ad544859193fba8bc091,
     type: 3}
   wallParent: {fileID: 505406774}
@@ -3906,6 +3908,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2092181535}
+  - component: {fileID: 2092181537}
+  - component: {fileID: 2092181536}
   m_Layer: 13
   m_Name: Floors
   m_TagString: Untagged
@@ -3927,6 +3931,53 @@ Transform:
   m_Father: {fileID: 1971515111}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &2092181536
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092181534}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2092181537
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092181534}
+  m_Mesh: {fileID: 0}
 --- !u!1 &2132240886
 GameObject:
   m_ObjectHideFlags: 0

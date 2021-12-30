@@ -29,6 +29,7 @@ public class MyPlayerFaceControl : MyUpdater
 
     [Header("歪ませ状態の停止時間")]
     [Range(0.0f, 1.0f)]
+    [SerializeField]
     float m_damageStopTime = 0.05f;
 
     //現在のプレイヤーに人数

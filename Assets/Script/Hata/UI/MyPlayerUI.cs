@@ -24,6 +24,12 @@ public class MyPlayerUI : MonoBehaviour
     [SerializeField]
     GameObject[] m_blowGauges = null;
 
+    [Header("顔のフレーム")]
+    [SerializeField]
+    Image[] m_frames = null;
+    [Header("スケールのサイズ"), SerializeField]
+    Vector3 m_frameSize = Vector3.zero;
+
     //生成したゲームHp
     private List<Image> m_playerHps = new List<Image>();
 
@@ -107,6 +113,18 @@ public class MyPlayerUI : MonoBehaviour
         m_gauge = gauge.GetComponent<FightGauge>();
         m_gauge.Init(rect, m_parentCanvas.gameObject.GetComponent<RectTransform>());
         GaugeOut();
+
+        for(int idx=0;idx<m_frames.Length;idx++)
+        {
+            if(idx!=_playerNum)
+            {
+                m_frames[idx].enabled = false;
+            }
+            else
+            {
+                m_frames[idx].rectTransform.localScale = m_frameSize;
+            }
+        }
     }
 
     /// <summary>

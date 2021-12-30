@@ -60,6 +60,7 @@ public class MyNormalItem : MyItemInterface
     {
         //アイテムが無い場合は処理しない
         if (hitObj == null)
+        if (hitObj == null)
         {
             isEndAntion = true;
             return;

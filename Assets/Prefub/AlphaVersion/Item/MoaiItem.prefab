@@ -259,3 +259,5 @@ MonoBehaviour:
   targetY: 40
   rizeTime: 0.5
   downTime: 0.2
+  particle: {fileID: 4195070128424978079, guid: 0fdc24db0500d2f4fb78fb906a2d5b4c,
+    type: 3}

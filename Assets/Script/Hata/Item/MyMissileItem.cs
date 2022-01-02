@@ -11,6 +11,12 @@ public class MyMissileItem : MyItemInterface
     [SerializeField]
     Rigidbody m_missileRigid = null;
 
+    [Header("パーティクルの種類")]
+    [SerializeField] GameObject particle;
+    private ParticleSystem particleClone;
+    [Header("爆発エフェクトのサイズ")] private float explosionSize = 1.0f;
+    private float deadTime = 0.0f;                  // オブジェクトの消滅時間調整
+
     // ミサイルの回転制御
     private Vector3 missileRotate = Vector3.zero;
 
@@ -34,7 +40,7 @@ public class MyMissileItem : MyItemInterface
         m_missileCol.enabled = true;
         m_missileRigid.isKinematic = false;
 
-        
+
     }
 
     public override void ActionInit()
@@ -82,15 +88,34 @@ public class MyMissileItem : MyItemInterface
     private void OnCollisionEnter(Collision _other)
     {
         if (!isAction) return;
-       
+
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
+            //パーティクル開始
+            GameObject obj = Instantiate(particle, m_missileRigid.position, Quaternion.identity);
+            obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
+            particleClone = obj.GetComponent<ParticleSystem>();
+            //本体の描画を削除
+            this.gameObject.SetActive(false);
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
             //プレイヤーを通常状態に変更
             m_playerInfo.ChangeNormal();
-            //自身の消失
-            Destroy(this.gameObject);
+
+            if (particleClone != null)
+            {
+                if (deadTime < 2.0f)
+                {
+                    deadTime += Time.fixedDeltaTime;
+                }
+                else
+                { 
+                    //エフェクトの削除
+                    Destroy(particleClone.gameObject);
+                    //自身の消失
+                    Destroy(this.gameObject);
+                }
+            }
         }
 
         if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -109,6 +134,7 @@ public class MyMissileItem : MyItemInterface
     private void MissileDamage()
     {
         //ToDo：ミサイルの爆発エフェクトの出現など
+
     }
 
 }

@@ -131,6 +131,7 @@ MonoBehaviour:
   m_generatedDegree: {x: 0, y: 0, z: 0}
   m_missileCol: {fileID: 1856907922100622504}
   m_missileRigid: {fileID: 1856907922100622507}
+  particle: {fileID: 176258283326857901, guid: 40044859193ede443a3209791bef7b03, type: 3}
   rotateSpeed: 70
 --- !u!1 &1856907921854708731
 GameObject:

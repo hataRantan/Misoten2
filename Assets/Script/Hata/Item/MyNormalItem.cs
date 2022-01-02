@@ -120,7 +120,16 @@ public class MyNormalItem : MyItemInterface
         if (m_currentBlows >= m_maxBlows)
         {
             //プレイヤーにアイテムの変更を通達
-            m_playerInfo.NextItem = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+            MyItemInterface item = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+
+            if(item==null)
+            {
+                Debug.LogError("アイテム取得失敗：" + hitObj);
+                isEndAntion = true;
+                return;
+            }
+
+            m_playerInfo.NextItem = item;
             //アイテムの出現位置を空ける
             m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
 

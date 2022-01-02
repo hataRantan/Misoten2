@@ -162,7 +162,6 @@ public class FloorManager : MyUpdater
         /// ステージの柵を自動生成
         ///-------------------------------------------------------
         SetUpFence(parentPos);
-        //メッシュを統合する
         fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
 
 #if isDebug
@@ -174,6 +173,13 @@ public class FloorManager : MyUpdater
 #endif
         //Updateの更新不必要
         m_isUpdate = false;
+    }
+
+    public override void MySecondInit()
+    {
+    
+        //メッシュを統合する
+        //fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
     }
 
 #if isDebug
@@ -196,6 +202,7 @@ public class FloorManager : MyUpdater
         }
     }
 #endif
+
 
     /// <summary>
     /// 壁生成

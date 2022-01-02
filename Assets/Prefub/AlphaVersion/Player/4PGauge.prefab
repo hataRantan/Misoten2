@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_blow: {fileID: 5185535369665387204}
-  size: {x: 15, y: 18, z: 1}
+  size: {x: 1.5, y: 1.8, z: 1}
 --- !u!1 &5185535369665387066
 GameObject:
   m_ObjectHideFlags: 0

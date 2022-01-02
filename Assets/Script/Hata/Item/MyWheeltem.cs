@@ -13,19 +13,16 @@ public class MyWheeltem : MyItemInterface
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
     private ParticleSystem particleClone;
+
+    [Header("爆発エフェクトのサイズ")] private float explosionSize = 2.0f;
+
     [Header("移動速度")]
     [SerializeField] private float moveSpeed = 0.2f;
 
-    [Header("ヒットボックスの拡大")]
-    [SerializeField] public GameObject hitBox;
-    private Vector3 speed = new Vector3(1, 1, 0);   // 拡大していく速度
-
-    [Header("拡大を時間で調整")]
-    [SerializeField] private float count = 0.3f;                     // 拡大時間
     private Vector3 normalInput = Vector3.zero;     // 入力値を正規化
     private Vector3 wheelVelocity = Vector3.zero;   // 移動
     private Vector3 nowPos = Vector3.zero;          // 移動前の座標
-    private float deadTime = 0.0f;
+    private float deadTime = 0.0f;                  // オブジェクトの消滅時間調整
 
     // 壁との衝突判定
     private bool isHitWall = false;
@@ -54,40 +51,38 @@ public class MyWheeltem : MyItemInterface
         isAction = true;
         //ToDo：アクション初期化
         //パーティクル開始
-        GameObject obj = Instantiate(particle, m_wheelRigid.position, m_wheelRigid.rotation);
+        GameObject obj = Instantiate(particle, m_wheelRigid.position, Quaternion.identity);
+        obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
         particleClone = obj.GetComponent<ParticleSystem>();
     }
 
     public override void FiexdAction()
     {
         //ToDo：アクション中
+        //本体の描画を削除
+        this.gameObject.SetActive(false);
+        //プレイヤーを通常状態に変更
+        m_playerInfo.ChangeNormal();
         //当たり判定の拡大スタート
-        if (count > 0.0f)
-        {
-            hitBox.transform.localScale += speed * Time.deltaTime;
-        }
-        count -= 1.0f;
+        // m_wheelCol.size += new Vector3(0.01f, 0.01f, 0.01f);
 
-        if(particleClone!=null)
+        if (particleClone != null)
         {
-            if (deadTime < particleClone.duration)
+
+            if (deadTime < 2.0f)
             {
                 deadTime += Time.fixedDeltaTime;
             }
             else
             {
-                Debug.Log("kita:" + particleClone);
+                //エフェクトの削除
                 Destroy(particleClone.gameObject);
-                //プレイヤーを通常状態に変更
-                m_playerInfo.ChangeNormal();
                 //自身の消失
                 Destroy(this.gameObject);
-
-                particleClone = null;
             }
         }
 
-      
+
 
         if (isHitWall)
         {
@@ -165,8 +160,5 @@ public class MyWheeltem : MyItemInterface
     {
         //ToDo：モアイの爆発エフェクトの出現など
     }
-    private void OnParticleSystemStopped()
-    {
-        Debug.Log("パーティクル終了");
-    }
+    
 }

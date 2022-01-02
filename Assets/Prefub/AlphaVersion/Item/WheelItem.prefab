@@ -152,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5413885038345510565}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.67, y: -1.9, z: 2.52}
+  m_LocalPosition: {x: 12.67, y: 7, z: 2.52}
   m_LocalScale: {x: 400, y: 400, z: 400}
   m_Children:
   - {fileID: 5179300184685523667}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_generatedDegree: {x: 0, y: 0, z: 0}
   m_wheelCol: {fileID: 5179300185023439864}
   m_wheelRigid: {fileID: 5179300185023439863}
-  particle: {fileID: 198000012777718758, guid: 8a5f1ca408d860b4f98d24e0843c20f2, type: 3}
+  particle: {fileID: 176258283326857901, guid: e863cc2bab2bca84b965e8daa26a99ee, type: 3}
   moveSpeed: 0.2
-  hitBox: {fileID: 5179300184685523663}
+  hitBox: {fileID: 176258283326857901, guid: 5338ad9d32808874f9a2d2d13c63d1cd, type: 3}
   count: 0.5

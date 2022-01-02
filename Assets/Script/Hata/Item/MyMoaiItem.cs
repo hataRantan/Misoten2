@@ -10,6 +10,11 @@ public class MyMoaiItem : MyItemInterface
     [Header("モアイの剛体")]
     [SerializeField] Rigidbody m_moaiRigid = null;
 
+    [Header("パーティクルの種類")]
+    [SerializeField] GameObject particle;
+    private ParticleSystem particleClone;
+    [Header("着地エフェクトのサイズ")] private float effectSize = 7.0f;
+
     [Header("移動速度")]
     [SerializeField] private float moveSpeed = 1.0f;
     [Header("Euler角修正用")]
@@ -33,8 +38,9 @@ public class MyMoaiItem : MyItemInterface
     private float timer = 0.0f;                     // カウント用変数
     private bool jumpRizeFlg = false;               // 上昇中かどうか
 
-    // 壁との衝突判定
-    private bool isHitWall = false;
+    private bool destroyFlg = false;
+    private float destroyTime = 1.0f;               // 消滅までの時間
+
     //アクション中
     private bool isAction = false;
 
@@ -65,6 +71,8 @@ public class MyMoaiItem : MyItemInterface
         m_moaiRigid.useGravity = false;
         // モデルサイズによる高低差の修正。Y軸の取得
         defaultYPos = m_moaiRigid.position.y;
+
+
     }
     public override void Action(Vector2 _input)
     {
@@ -74,15 +82,33 @@ public class MyMoaiItem : MyItemInterface
         moaiVelocity.z = normalInput.z * GetSpeed();
         //ToDo：移動
         m_moaiRigid.velocity = moaiVelocity * moveSpeed;
+
+        // すぐに消滅させないための処理
+        if (destroyFlg)
+        {
+            if (timer > destroyTime)
+            {
+                if (particleClone != null)
+                {
+                    //エフェクトの削除
+                    Destroy(particleClone.gameObject);
+                    //プレイヤーを通常状態に変更
+                    m_playerInfo.ChangeNormal();
+                    //自身の消失
+                    Destroy(this.gameObject);
+                }
+            }
+            timer += Time.fixedDeltaTime;
+        }
+
     }
     public override void FiexdAction()
     {
         //ToDo：アクション中
         if (!jumpRizeFlg)
-        {
+        {// 上昇中
             if (timer < rizeTime)
             {
-                // 上昇中
                 float y = Easing.QuartOut(timer, rizeTime, defaultYPos, targetY);
                 Vector3 pos = m_moaiRigid.position;
                 pos.y = y;
@@ -96,7 +122,7 @@ public class MyMoaiItem : MyItemInterface
             }
         }
         if (jumpRizeFlg)
-        {
+        {//下降中
             m_moaiRigid.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             if (timer < downTime)
             {
@@ -109,30 +135,20 @@ public class MyMoaiItem : MyItemInterface
             }
             else
             {
-                timer = 0;
-                jumpRizeFlg = false;
-                // 座標・角度の固定全解除
-                m_moaiRigid.constraints = RigidbodyConstraints.None;
-                // FixedMoveに遷移
-                isEndAntion = true;
-                // 重力を再開
-                m_moaiRigid.useGravity = true;
-                //角度の再固定
-                m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-
-                //プレイヤーを通常状態に変更
-                m_playerInfo.ChangeNormal();
-                //自身の消失
-                Destroy(this.gameObject);
+                //パーティクル開始
+                GameObject obj = Instantiate(particle, thisTrs.transform.position, Quaternion.identity);
+                obj.transform.localScale = new Vector3(effectSize, effectSize, effectSize);
+                particleClone = obj.GetComponent<ParticleSystem>();
+                //パーティクルの角度と高さの修正
+                Quaternion eulerEffect = Quaternion.Euler(0, 90, 0);
+                Quaternion q = thisTrs.transform.rotation;
+                obj.transform.rotation = eulerEffect * q;
+                destroyFlg = true;
             }
         }
 
-        if (isHitWall)
-        {
-            //モアイの剛体等開始
-            m_moaiCol.enabled = false;
-            m_moaiRigid.isKinematic = true;
-        }
+
+
     }
 
     public override void FiexdMove()
@@ -179,26 +195,9 @@ public class MyMoaiItem : MyItemInterface
         {
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MoaiDamage);
-            //プレイヤーを通常状態に変更
-            m_playerInfo.ChangeNormal();
-            //自身の消失
-            Destroy(this.gameObject);
         }
     }
 
-    private void OnTriggerEnter(Collider _other)
-    {
-        if (!isAction) return;
-
-        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            isHitWall = true;
-            //プレイヤーを通常状態に変更
-            m_playerInfo.ChangeNormal();
-            //自身の消失
-            Destroy(this.gameObject);
-        }
-    }
     /// <summary>
     /// モアイのダメージ処理
     /// </summary>

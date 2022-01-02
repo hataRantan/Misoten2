@@ -27,6 +27,8 @@ public class TitleInstructionMove : MyUpdater
     [SerializeField] private float m_textMoveTime = 2.0f;
     float m_moveTimer = 0.0f;
 
+    TitleWave m_wave = null;
+
     public override void MyFastestInit()
     {
         //初期化し、α値を0に変更する
@@ -36,6 +38,9 @@ public class TitleInstructionMove : MyUpdater
         //現在地を取得する
         m_textPos = m_text.rectTransform;
         m_startPos = m_textPos.anchoredPosition;
+
+        m_wave = m_text.GetComponent<TitleWave>();
+        m_wave.enabled = false;
     }
     /// <summary>
     /// 指示文字の移動処理
@@ -82,7 +87,7 @@ public class TitleInstructionMove : MyUpdater
         }
 
         m_group.alpha = 1.0f;
-
+        m_wave.enabled = true;
     }
 
     public override void MyUpdate() { }

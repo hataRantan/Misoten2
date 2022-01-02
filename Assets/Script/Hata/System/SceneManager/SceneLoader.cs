@@ -127,18 +127,19 @@ public class SceneLoader : Singleton<SceneLoader>
 
         //シーン遷移許可
         load.allowSceneActivation = true;
-
         //1フレーム待つ
         yield return null;
 
         //前回のシーンを非同期にアンロード
         //SceneManager.UnloadSceneAsync(m_lastScene);
 
+
         //フェードアウト処理
         fader = fader = Instantiate(faderCanves[_fadeOutIdx]).GetComponent<FadeBase>();
         if (fader == null)
         {
             Debug.LogError("フェードキャンバスにFadeBaseが存在しない");
+            yield break;
         }
 
         yield return StartCoroutine(fader.FadeOut());

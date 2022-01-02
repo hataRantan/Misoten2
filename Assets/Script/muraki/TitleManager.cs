@@ -38,6 +38,7 @@ public class TitleManager : MyUpdater
         m_tmachine.AddState(TitleState.tEnd, new tEndState(), this);
         //初期状態に変更
         m_tmachine.InitState(TitleState.tEvent);
+
     }
 
     public override void MyUpdate()
@@ -97,7 +98,7 @@ public class TitleManager : MyUpdater
         public override TitleState Update()
         {
             //指示文字移動
-            board.m_instruction.MoveText();
+            //board.m_instruction.MoveText();
 
             //ToDo：入力関数変更予定(AnyKey及び、入力デバイスを認識した場合)
             if (MyRapperInput.Instance.AnyKey())

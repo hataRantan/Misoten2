@@ -62,6 +62,9 @@ public class TitleRgoAnimetion : MyUpdater
     [SerializeField]
     Vector2 mCase1_HyoMaxSize;
 
+    [Header("憑依が現われる際のSEの遅延時間")]
+    [SerializeField]
+    float mCase1_DelaySE = 0.5f;
     //----------------------------------------------------------------------------
     //Case2 火の玉の出現(α値を1に変更)
     //----------------------------------------------------------------------------
@@ -167,6 +170,14 @@ public class TitleRgoAnimetion : MyUpdater
     [Header("エフェクトのα値減少時間")]
     [SerializeField]
     float mCase4_EffectAlphaDeTime = 0.5f;
+
+    [Header("火の玉回る際の音の遅延")]
+    [SerializeField]
+    float mCase4_FireRotateSE_Delay = 0.6f;
+
+    [Header("火の玉が完全に消える際の音の遅延")]
+    [SerializeField]
+    float mCase4_FireInSE_Delay = 0.8f;
     //----------------------------------------------------------------------------
     //Case5  In出現
     //----------------------------------------------------------------------------
@@ -200,6 +211,10 @@ public class TitleRgoAnimetion : MyUpdater
     [Range(10.0f, 100.0f)]
     [SerializeField]
     float mCase5_ShakeMaxDis = 50.0f;
+
+    [Header("憑の振動SEの遅延時間")]
+    [SerializeField]
+    float mCase5_ShakeSE_Delay = 0.5f;
 
     [Header("Inの最大サイズ")]
     [SerializeField]
@@ -352,6 +367,8 @@ public class TitleRgoAnimetion : MyUpdater
         if (mCase1_HyoBigTime < mCase1_HyoAlphaTime) mCase1_HyoAlphaTime = mCase1_HyoBigTime;
         //憑のα値を徐々に1にする
         StartCoroutine(Case1_Alpha());
+        
+        MyAudioManeger.Instance.PlaySE("Title_HyoAppear", mCase1_DelaySE);
 
         while (timer < mCase1_HyoBigTime)
         {
@@ -373,6 +390,8 @@ public class TitleRgoAnimetion : MyUpdater
     {
         float timer = 0.0f;
         Color hyoColor = m_hyoImage.color;
+
+      
 
         while (timer < mCase1_HyoAlphaTime)
         {
@@ -525,13 +544,6 @@ public class TitleRgoAnimetion : MyUpdater
     /// 
     private IEnumerator Case4()
     {
-        //ToDo：リスト    2：少し大きくなって、サイズ減少＋透明化  3：エフェクト開始
-        //1：通常回転
-        //2：早くなる回転
-        //3：止まって、大きくなる
-        //4：中心に向かって、小さくなる
-        //5：エフェクト開始
-
         //一定時間停止
         float timer = 0.0f;
         while (timer < m_Case3ToCase4Time)
@@ -584,6 +596,11 @@ public class TitleRgoAnimetion : MyUpdater
         float alpha = 0.0f;
         Vector2 size = Vector2.zero;
         timer = 0.0f;
+
+        MyAudioManeger.Instance.PlaySE("Title_FIre_Rotate", mCase4_FireRotateSE_Delay);
+
+        bool isPlaySE = false;
+
         while (timer < endTime)
         {
             for (int idx = 0; idx < m_fireballs.Length; idx++)
@@ -611,6 +628,15 @@ public class TitleRgoAnimetion : MyUpdater
                 //円周上の移動を計算
                 firePos = new Vector2(centerPos.x +radious * Mathf.Cos(radian), centerPos.y + radious * Mathf.Sin(radian));
                 fireRects[idx].anchoredPosition = firePos;
+            }
+
+            if(!isPlaySE)
+            {
+                if(timer>mCase4_FireRotateSE_Delay)
+                {
+                    //MyAudioManeger.Instance.PlaySE("Title_FireIn", mCase4_FireInSE_Delay);
+                    isPlaySE = true;
+                }
             }
 
             timer += Time.deltaTime;
@@ -722,6 +748,8 @@ public class TitleRgoAnimetion : MyUpdater
         timer = 0.0f;
         float oneTime = mCase5_ShakeMaxTime;
         float shakeDis = mCase5_ShakeMaxDis;
+
+        MyAudioManeger.Instance.PlaySE("Title_HyoShake", mCase5_ShakeSE_Delay);
         //揺らす
         for (int num = 0; num < mCase5_ShakeNum;
             num++,
@@ -788,6 +816,7 @@ public class TitleRgoAnimetion : MyUpdater
         StartCoroutine(SizeChangerIn());
         //憑の移動
         StartCoroutine(MoveHyo());
+
         
 
         float targetTime = 1.0f;
@@ -796,10 +825,12 @@ public class TitleRgoAnimetion : MyUpdater
             if (mCase5_InMoveTime.Length < idx)
             {
                 targetTime = mCase5_InMoveTime[idx];
+                MyAudioManeger.Instance.PlaySE("Title_InJump", 0.0f);
             }
             else
             {
                 targetTime = mCase5_InMoveTime[mCase5_InMoveTime.Length - 1];
+                MyAudioManeger.Instance.PlaySE("Title_InJump", 0.0f);
             }
 
             timer = 0.0f;
@@ -950,6 +981,10 @@ public class TitleRgoAnimetion : MyUpdater
             yield return null;
         }
 
+        //一度、BGMの音量を0に変更する
+        MyAudioManeger.Instance.ChangeVolume(0.0f, 1.0f);
+        MyAudioManeger.Instance.PlayBGM("Title_BGM");
+
         timer = 0.0f;
         //白背景フェードアウト
         while (timer < mCase6_FadeOutTime)
@@ -959,12 +994,17 @@ public class TitleRgoAnimetion : MyUpdater
 
             m_whiteImage.color = backColor;
 
+            //徐々に音量を上げる
+            MyAudioManeger.Instance.ChangeVolume(timer / mCase6_FadeOutTime, 1.0f);
+
             timer += Time.deltaTime;
             yield return null;
         }
         //調整
         backColor.a = 0.0f;
         m_whiteImage.color = backColor;
+
+        MyAudioManeger.Instance.ChangeVolume(1.0f, 1.0f);
     }
 
     public override void MyUpdate()

@@ -8,14 +8,21 @@ public static class MeshCombine
     {
         //メッシュフィルターを取得する
         MeshFilter thisFilter = _thisRender.gameObject.GetComponent<MeshFilter>();
+        _thisRender.gameObject.SetActive(false);
 
         //メッシュフィルターがないなら処理しない
         if (thisFilter == null) return;
 
+
         //子オブジェクトのメッシュフィルター
-        MeshFilter[] childrenMeshes = _thisRender.gameObject.GetComponentsInChildren<MeshFilter>();
+        MeshFilter[] childrenMeshes = new MeshFilter[_thisRender.gameObject.transform.childCount];
+        for(int idx=0;idx<_thisRender.transform.childCount;idx++)
+        {
+            childrenMeshes[idx] = _thisRender.gameObject.transform.GetChild(idx).GetComponent<MeshFilter>();
+        }
         //子オブジェクトのメッシュフィルターの入れ物
         List<MeshFilter> mesheList = new List<MeshFilter>();
+
 
         for (int child = 0; child < childrenMeshes.Length; child++)
         {

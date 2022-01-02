@@ -110,6 +110,13 @@ public class FaceSceneManager : MyUpdater
                 return FaceType.PHOTO_EFFECT;
             }
 
+#if UNITY_EDITOR
+            if (MyRapperInput.Instance.GetItem(0))
+            {
+                return FaceType.PHOTO_EFFECT;
+            }
+#endif
+
             //タイマー開始を少し遅らせる
             if (!isStart)
             {
@@ -229,8 +236,13 @@ public class FaceSceneManager : MyUpdater
         {
             //if (!isEndAppear) return FaceType.AFTER_PHOTO;
 
+            bool shutter = MyRapperInput.Instance.GetItem(board.m_photoCurrentNum - 1);
+
+#if UNITY_EDITOR
+            shutter = MyRapperInput.Instance.GetItem(0);
+#endif
             //ToDo：変更必要
-            if (MyRapperInput.Instance.GetItem(board.m_photoCurrentNum - 1))
+            if (shutter)
             {
                 //撮影終了
                 //if (board.m_photoNum <= board.m_photoCurrentNum)

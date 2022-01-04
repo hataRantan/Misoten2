@@ -56,7 +56,7 @@ public class TitleManager : MyUpdater
 
         public override void Entry()
         {
-           
+            MyAudioManeger.Instance.ChangeVolume(0.0f, 1.0f);
         }
 
         public override void Exit() { }
@@ -103,6 +103,7 @@ public class TitleManager : MyUpdater
             //ToDo：入力関数変更予定(AnyKey及び、入力デバイスを認識した場合)
             if (MyRapperInput.Instance.AnyKey())
             {
+                MyAudioManeger.Instance.PlaySE("Decision");
                 return TitleState.tEnd;
             }
 
@@ -117,6 +118,8 @@ public class TitleManager : MyUpdater
     {
         public override void Entry()
         {
+           
+
             //シーン遷移
             SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene);
         }

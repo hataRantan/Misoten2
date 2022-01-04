@@ -46,7 +46,8 @@ public class CertificationManager : MyUpdater
         int connectNum = 0;
         public override void Entry()
         {
-
+            //BGMを変更
+            MyAudioManeger.Instance.PlayBGM("Robby_BGM");
         }
 
         public override void Exit()

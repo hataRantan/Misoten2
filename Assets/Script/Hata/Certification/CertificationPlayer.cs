@@ -63,6 +63,43 @@ public class CertificationPlayer : MyUpdater
     [SerializeField, Range(0.0f, 1.0f)]
     float m_nonDisplayTime = 0.5f;
 
+    [Header("テキストが消える時間")]
+    [SerializeField, Range(0.0f, 2.0f)]
+    float m_nonDisplayTextTime = 1.0f;
+
+    [Header("テキストが現われる時間")]
+    [SerializeField, Range(0.0f, 2.0f)]
+    float m_textAppearTime = 0.5f;
+
+    [Header("テキストが現われてからアイコンが出るまでの待ち時間")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_intervelIcon = 0.2f;
+
+    [Header("アイコンの出現時間")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_iconAppearTime = 0.5f;
+
+    const float m_iconAspect = 1.4f / 1.2f;
+    [Header("アイコンの最小サイズ")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_iconMinSize = 0.5f;
+    [Header("アイコンの最大サイズ")]
+    [SerializeField, Range(1.0f, 2.0f)]
+    float m_iconMaxSize = 1.5f;
+    [Header("アイコンの最小α値")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_iconMinAlpha = 0.0f;
+    [Header("アイコンの最大α値")]
+    [SerializeField, Range(0.0f, 1.0f)]
+    float m_iconMaxAlpha = 1.0f;
+    [Header("アイコンのカラー")]
+    [SerializeField]
+    Color m_afterColor;
+
+    [Header("テキストよりアイコンを少し上に配置する")]
+    [SerializeField, Range(0.0f, 100.0f)]
+    float m_iconUpText = 50.0f;
+
     private bool isEnd = false;
     //連打コルーチン
     Coroutine m_bloeCor = null;
@@ -254,6 +291,7 @@ public class CertificationPlayer : MyUpdater
             textPos = board.m_textRect.anchoredPosition + board.m_pos;
             if ((iconPos - textPos).magnitude <= board.m_distance)
             {
+                MyAudioManeger.Instance.PlaySE("Operation");
                 return State.GET;
             }
 
@@ -317,10 +355,12 @@ public class CertificationPlayer : MyUpdater
                 cBlowNum++;
                 cTime = 0.0f;
 
+                MyAudioManeger.Instance.PlaySE("Operation");
                 //board.StartBlowReaction();
 
                 if (cBlowNum > board.m_blowNum)
                 {
+                    
                     return State.ACTION;
                 }
             }
@@ -370,6 +410,7 @@ public class CertificationPlayer : MyUpdater
             board.m_operator.WaveUI(State.ACTION);
             if (MyRapperInput.Instance.ActionItem(board.m_playerIdx))
             {
+                MyAudioManeger.Instance.PlaySE("Decision");
                 return State.ACCEPTED;
             }
 
@@ -383,7 +424,7 @@ public class CertificationPlayer : MyUpdater
         public override void Entry()
         {
             board.m_textMesh.GetComponent<TextWriggling>().ResetStop();
-            board.m_textMesh.text = board.m_endText;
+            
             board.StartTextChangeCall();
             board.StartAcceptedCall();
         }
@@ -409,19 +450,24 @@ public class CertificationPlayer : MyUpdater
         //オペレータのα値減少
         CanvasGroup group = m_blowContent.GetComponent<CanvasGroup>();
 
+
+        Vector2 iconBeginSize = m_iconRect.sizeDelta;
+        Color iconColor = m_icon.color;
+
         while (timer < endTime)
         {
             //α値減少
-            float alpha = -Easing.CubicOut(timer, endTime, -1.0f, 0.0f);
-            m_icon.color = new Color(1, 1, 1, alpha);
-            m_operator.NonDIsplyAlpha(alpha);
-            group.alpha = alpha;
+            iconColor.a = -Easing.CubicOut(timer, endTime, -1.0f, 0.0f);
+            m_icon.color = iconColor;
+            m_operator.NonDIsplyAlpha(iconColor.a);
+            group.alpha = iconColor.a;
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        m_icon.color = new Color(1, 1, 1, 0);
+        iconColor.a = 0;
+        m_icon.color = iconColor;
         m_operator.NonDIsplyAlpha(0);
         group.alpha = 0;
     }
@@ -432,21 +478,74 @@ public class CertificationPlayer : MyUpdater
     }
     private IEnumerator TextChange()
     {
-        int beginCnt = m_textMesh.text.Length;
-        int endCnt = m_endText.Length;
-
-        //長い方の文字数を取得
-        int manyCnt = (beginCnt > endCnt) ? beginCnt : endCnt;
-
+        //最初のサイズ
+        Vector3 beginSize = m_textRect.localScale;
+        Vector3 size = Vector3.one;
+     
+        //テキストサイズ減少
         float timer = 0.0f;
-        while (timer < m_nonDisplayTime)
+        while (timer < m_nonDisplayTextTime)
         {
-            //経過時間に対する割合
-            float timeRaito = timer / m_nonDisplayTime;
+            size.x = -Easing.QuartOut(timer, m_nonDisplayTextTime, -beginSize.x, 0.0f);
+            size.y = -Easing.QuartOut(timer, m_nonDisplayTextTime, -beginSize.y, 0.0f);
+            m_textRect.localScale = size;
 
             timer += Time.deltaTime;
             yield return null;
         }
+        m_textRect.localScale = size;
+       
+        //テキスト変更
+        m_textMesh.text = m_endText;
+       
+        //テキストサイズ増大
+        timer = 0.0f;
+        while (timer < m_textAppearTime)
+        {
+            size.x = Easing.QuartIn(timer, m_textAppearTime, 0.0f, beginSize.x);
+            size.y = Easing.QuartIn(timer, m_textAppearTime, 0.0f, beginSize.y);
+            m_textRect.localScale = size;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        m_textRect.localScale = beginSize;
+
+        timer = 0.0f;
+        while(timer< m_intervelIcon)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        //アイコン出現------------------------
+        timer = 0.0f;
+        m_icon.color = m_afterColor;
+        Color iconColor = m_icon.color;
+        iconColor.a = m_iconMinAlpha;
+        Vector3 scale = new Vector3(m_iconMinSize, m_iconMinSize * m_iconAspect, 1.0f);
+        m_iconRect.localPosition = m_textRect.localPosition + new Vector3(0, m_iconUpText, 0);
+
+        m_icon.GetComponent<Canvas>().sortingOrder = m_textMesh.GetComponent<Canvas>().sortingOrder - 1;
+
+        while (timer < m_iconAppearTime)
+        {
+            //スケール変更
+            scale.x = Easing.QuintOut(timer, m_iconAppearTime, m_iconMinSize, m_iconMaxSize);
+            scale.y = Easing.QuintOut(timer, m_iconAppearTime, m_iconMinSize, m_iconMaxSize) * m_iconAspect;
+            m_iconRect.localScale = scale;
+
+            //α値変更
+            iconColor.a = Easing.CubicOut(timer, m_iconAppearTime, m_iconMinAlpha, m_iconMaxAlpha);
+            m_icon.color = iconColor;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        //m_iconRect.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        //m_icon.color = new Color(1, 1, 1, 0.0f);
+
     }
 
     //連打コルーチンの呼び出し

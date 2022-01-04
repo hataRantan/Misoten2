@@ -99,6 +99,8 @@ public class FightSceneManager : MyUpdater
             board.m_resultGroup.alpha = 0.0f;
 
             board.SetGameUpdate(false);
+
+            MyAudioManeger.Instance.PlayBGM("Battle_BGM");
         }
 
         public override void Exit()

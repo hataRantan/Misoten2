@@ -162,7 +162,7 @@ public class FloorManager : MyUpdater
         /// ステージの柵を自動生成
         ///-------------------------------------------------------
         SetUpFence(parentPos);
-        fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
+        //fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
 
 #if isDebug
         kado = new Vector3[4];
@@ -175,12 +175,6 @@ public class FloorManager : MyUpdater
         m_isUpdate = false;
     }
 
-    public override void MySecondInit()
-    {
-    
-        //メッシュを統合する
-        //fenceParent.GetComponent<MeshRenderer>().CombineChildren(fenceCobineMat);
-    }
 
 #if isDebug
     private void OnDrawGizmos()

@@ -9,6 +9,9 @@ public class ghostanimation : MonoBehaviour
     private int dependenceCount;
     private int dependenceRimit;
 
+    [SerializeField]
+    MyPlayerAnimation m_test = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,46 +22,65 @@ public class ghostanimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dependence == false)//待機中
-        {
-            animator.SetBool("dependenceing", false);
-            animator.SetBool("dependencestop", false);
-        }
-        if (Input.GetKeyDown("space")&&dependence==false)//憑依開始
-        {
-            dependence = true;
-            animator.SetBool("dependenceing",true);//憑依開始モーション終了後憑依中モーションに移行
-        }
-        if (dependence)//憑依中
-        {
-            dependenceRimit++;
-            //*******************　憑依中のゲージ貯め　***********************
-            if (Input.GetKeyDown("space"))
-            {
-                dependenceCount++;
-                dependenceRimit = 0;
-            }
-            //*******************　憑依中のゲージ貯め　***********************
+        //if (dependence == false)//待機中
+        //{
+        //    animator.SetBool("dependenceing", false);
+        //    animator.SetBool("dependencestop", false);
+        //}
+        //if (Input.GetKeyDown("space") && dependence == false)//憑依開始
+        //{
+        //    dependence = true;
+        //    animator.SetBool("dependenceing", true);//憑依開始モーション終了後憑依中モーションに移行
+        //}
+        //if (dependence)//憑依中
+        //{
+        //    dependenceRimit++;
+        //    //*******************　憑依中のゲージ貯め　***********************
+        //    if (Input.GetKeyDown("space"))
+        //    {
+        //        dependenceCount++;
+        //        dependenceRimit = 0;
+        //    }
+        //    //*******************　憑依中のゲージ貯め　***********************
 
-            //*******************　憑依キャンセル　***********************
-            if (dependenceRimit > 500)
-            {
-                animator.SetBool("dependencestop", true);//待機モーションへ移行
-                dependence = false;
-                dependenceCount = 0;
-                dependenceRimit = 0;
-            }
-            //*******************　憑依キャンセル　***********************
+        //    //*******************　憑依キャンセル　***********************
+        //    if (dependenceRimit > 500)
+        //    {
+        //        animator.SetBool("dependencestop", true);//待機モーションへ移行
+        //        dependence = false;
+        //        dependenceCount = 0;
+        //        dependenceRimit = 0;
+        //    }
+        //    //*******************　憑依キャンセル　***********************
 
-            //*******************　憑依完了　***********************
-            if (dependenceCount > 5)
-            {
-                animator.SetBool("dependenceing", false);//憑依完了モーションへ移行
-                dependenceCount = 0;
-                dependenceRimit = 0;
-                dependence = false;
-            }
-            //*******************　憑依完了　***********************
+        //    //*******************　憑依完了　***********************
+        //    if (dependenceCount > 5)
+        //    {
+        //        animator.SetBool("dependenceing", false);//憑依完了モーションへ移行
+        //        dependenceCount = 0;
+        //        dependenceRimit = 0;
+        //        dependence = false;
+        //    }
+        //    //*******************　憑依完了　***********************
+        //}
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            m_test.WalkAnimatioin();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Debug.Log("来た");
+            m_test.StartDependence();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            m_test.EndDependence();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            m_test.StopDependence();
         }
     }
 }

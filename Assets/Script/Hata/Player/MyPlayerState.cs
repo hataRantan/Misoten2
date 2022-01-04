@@ -145,9 +145,6 @@ namespace MyPlayerStateClass
     //ダメージ状態
     public class DamageState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
     {
-        //ダメージ処理の終了確認フラグ
-        bool isEndDamage = true;
-
         public override void Entry()
         {
             //ToDo：ダメージ処理の呼び出し
@@ -161,9 +158,9 @@ namespace MyPlayerStateClass
         public override MyPlayerObject.MyPlayerState Update()
         {
             //ダメージ処理終了
-            if (isEndDamage) return MyPlayerObject.MyPlayerState.MOVE;
+            return MyPlayerObject.MyPlayerState.MOVE;
 
-            return MyPlayerObject.MyPlayerState.DAMAGE;
+            //return MyPlayerObject.MyPlayerState.DAMAGE;
         }
     }
 

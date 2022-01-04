@@ -15,6 +15,9 @@ public class MyNormalItem : MyItemInterface
     [Header("通常状態に移動アニメーション")]
     [SerializeField] MyPlayerMoveAction m_move = null;
 
+    [Header("プレイヤーのアニメーション"), SerializeField]
+    MyPlayerAnimation m_anime = null;
+
     //正規化した入力情報
     Vector3 nDirect = Vector3.zero;
 
@@ -25,17 +28,19 @@ public class MyNormalItem : MyItemInterface
     private int m_currentBlows = 0;
     //取得に必要な連打数
     private int m_maxBlows = 0;
-
-    //ToDo：アイテム変更時に、プレイヤーのRigidや描画の再開を行うこと
+    private bool isFinish = false;
+    private float m_finishTimer = 0.0f;
 
     //取得しようとしているアイテム
     private MyItemInterface getPossibleItem = null;
-
+    
     /// <summary>
     /// 初期化情報
     /// </summary>
     public override void Init(MyPlayerInfo _info)
     {
+        m_anime.WalkAnimatioin();
+
         //アイテムに必要な情報を取得する
         m_playerInfo = _info;
         //描画再開
@@ -60,7 +65,6 @@ public class MyNormalItem : MyItemInterface
     {
         //アイテムが無い場合は処理しない
         if (hitObj == null)
-        if (hitObj == null)
         {
             isEndAntion = true;
             return;
@@ -71,16 +75,22 @@ public class MyNormalItem : MyItemInterface
 
         //アイテムの取得連打数を取得する
         getPossibleItem = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+        if (getPossibleItem == null) return;
+
         m_maxBlows = getPossibleItem.ItemData.GetBlowsNum;
         m_playerInfo.Ui.SetUpBlowGauge(m_maxBlows);
 
         //パラメータ初期化
         m_currentDecrease = 0.0f;
-        m_currentBlows = 0;
+        m_currentBlows = 1;
         isEndAntion = false;
 
         //プレイヤーの現在位置に連打ゲージを追従
         m_playerInfo.Ui.OnStageGauge(m_playerInfo.Trans.position);
+        m_finishTimer = 0.0f;
+        isFinish = false;
+        //憑依アニメーション開始
+        m_anime.StartDependence();
     }
     /// <summary>
     ///  アイテムの取得終了
@@ -96,9 +106,20 @@ public class MyNormalItem : MyItemInterface
 
     public override void Action(Vector2 _input)
     {
+        //何らかの処理で失敗した場合
+        if(getPossibleItem==null)
+        {
+            Debug.Log("来た失敗4");
+            m_anime.StopDependence();
+            isEndAntion = true;
+            return;
+        }
+
         //他のプレイヤーが取得したならば,失敗
         if (getPossibleItem.isUser)
         {
+            Debug.Log("来た失敗5");
+            m_anime.StopDependence();
             isEndAntion = true;
             return;
         }
@@ -119,31 +140,65 @@ public class MyNormalItem : MyItemInterface
         //アイテムの取得
         if (m_currentBlows >= m_maxBlows)
         {
-            //プレイヤーにアイテムの変更を通達
-            MyItemInterface item = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
+            ////プレイヤーにアイテムの変更を通達
+            //MyItemInterface item = hitObj.transform.parent.gameObject.GetComponent<MyItemInterface>();
 
-            if(item==null)
+            //if(item==null)
+            //{
+            //    Debug.Log("来た失敗3");
+            //    m_anime.StopDependence();
+            //    Debug.LogError("アイテム取得失敗：" + hitObj);
+            //    isEndAntion = true;
+            //    return;
+            //}
+
+            //m_anime.EndDependence();
+
+            //m_playerInfo.NextItem = getPossibleItem;
+            ////アイテムの出現位置を空ける
+            //m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
+
+            ////アイテムのアウトラインを変更
+            //Outline outline = m_playerInfo.NextItem.gameObject.GetComponent<Outline>();
+            //if (!outline) outline = m_playerInfo.NextItem.gameObject.AddComponent<Outline>();
+
+            //outline.OutlineColor = m_playerInfo.OutLineColor;
+
+            //m_playerInfo.Ui.BlowInGauge(m_maxBlows);
+            if(!isFinish)
             {
-                Debug.LogError("アイテム取得失敗：" + hitObj);
-                isEndAntion = true;
+                m_playerInfo.Ui.BlowInGauge(m_maxBlows);
+                m_anime.EndDependence();
+                isFinish = true;
                 return;
             }
 
-            m_playerInfo.NextItem = item;
-            //アイテムの出現位置を空ける
-            m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
-
-            //アイテムのアウトラインを変更
-            Outline outline = m_playerInfo.NextItem.gameObject.GetComponent<Outline>();
-            if (!outline) outline = m_playerInfo.NextItem.gameObject.AddComponent<Outline>();
-
-            outline.OutlineColor = m_playerInfo.OutLineColor;
-
-            m_playerInfo.Ui.BlowInGauge(m_maxBlows);
-
-            isEndAntion = true;
-            return;
+            //isEndAntion = true;
+            //return;
         }
+        if(isFinish)
+        {
+            if(m_anime.IsEndDependence())
+            {
+                //m_anime.EndDependence();
+
+                m_playerInfo.NextItem = getPossibleItem;
+                //アイテムの出現位置を空ける
+                m_playerInfo.NextItem.GetComponent<MyItemInterface>().ClearAppearPos();
+
+                //アイテムのアウトラインを変更
+                Outline outline = m_playerInfo.NextItem.gameObject.GetComponent<Outline>();
+                if (!outline) outline = m_playerInfo.NextItem.gameObject.AddComponent<Outline>();
+
+                outline.OutlineColor = m_playerInfo.OutLineColor;
+
+                isEndAntion = true;
+                return;
+            }
+        }
+
+        //アイテムの取得が完了したので下記の処理をしない
+        if (isFinish) return;
 
         //アイテム連打失敗
         if (m_currentDecrease > decreaseTime)
@@ -153,8 +208,10 @@ public class MyNormalItem : MyItemInterface
             m_currentDecrease = 0.0f;
         }
         //アイテム取得失敗
-        if(m_currentBlows < 0)
+        if(m_currentBlows <= 0)
         {
+            m_anime.StopDependence();
+            Debug.Log("来た失敗１");
             isEndAntion = true;
             return;
         }
@@ -164,16 +221,12 @@ public class MyNormalItem : MyItemInterface
         Debug.Log("連打数：" + m_maxBlows + 1);
         m_playerInfo.Ui.BlowInGauge(m_currentBlows);
 
-        //ToDo：変更必須
-        //アイテム取得失敗 (移動)
-        //Vector2 input = Vector2.zero;
-        //input.x = (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A)) ? 1 : 0;
-        //input.y = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)) ? 1 : 0;
-        //input = MyRapperInput.Instance.Move(m_playerInfo.Number);
 
         //閾値以上なら取得失敗
         if (_input.magnitude > 0.5f)
         {
+            m_anime.StopDependence();
+            Debug.Log("来た失敗2");
             isEndAntion = true;
             return;
         }
@@ -193,6 +246,7 @@ public class MyNormalItem : MyItemInterface
     //        Debug.Log("kita");
     }
 
+
     /// <summary>
     /// 入力情報の整理
     /// </summary>
@@ -209,7 +263,6 @@ public class MyNormalItem : MyItemInterface
         {
             //プレイヤーに追従
             m_playerInfo.Ui.OnStageGauge(m_playerInfo.Trans.position);
-            Debug.Log("いる");
         }
     }
 

@@ -183,6 +183,7 @@ MonoBehaviour:
   decreaseTime: 0.3
   m_playerHitBox: {fileID: 6583265404211848743}
   m_move: {fileID: 580928819685462761}
+  m_anime: {fileID: 749303044972766150}
 --- !u!65 &6583265404211848743
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -242,6 +243,25 @@ Transform:
   m_Father: {fileID: 3051076605366440675}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8897754097925956566
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7016098886998692147}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5d78bb9cd6654094faf14ff0c16337da, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &580928819685462761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +281,19 @@ MonoBehaviour:
   bowAngleX: 30
   bowSpeed: 0.7
   rowlingSpeed: 0.7
+--- !u!114 &749303044972766150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7016098886998692147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4bb8c2aca3f8e42bba198d9a298eb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isUpdate: 0
 --- !u!1001 &7899130205956942946
 PrefabInstance:
   m_ObjectHideFlags: 0

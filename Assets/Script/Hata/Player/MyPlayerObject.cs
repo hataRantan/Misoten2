@@ -26,6 +26,7 @@ public class MyPlayerObject : MyUpdater
     //使用しているアイテム
     private MyItemInterface m_currentItem = null;
     public MyItemInterface CurrentItem { get { return m_currentItem; } }
+
     
     /// <summary>
     /// プレイヤーの状態関係

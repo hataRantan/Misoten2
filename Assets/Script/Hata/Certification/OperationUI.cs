@@ -128,7 +128,7 @@ public class OperationUI : MonoBehaviour
         else
         {
             cTimer = 0.0f;
-            pos.y = 0.0f;
+            pos = m_firstUIPos;
         }
 
         switch(_state)
@@ -154,5 +154,43 @@ public class OperationUI : MonoBehaviour
     {
         m_getUI[m_useType].rectTransform.anchoredPosition = m_firstUIPos;
         m_actionUI[m_useType].rectTransform.anchoredPosition = m_firstUIPos;
+    }
+
+    public IEnumerator NonDisplayStart(float _endTime)
+    {
+        //最初のサイズを取得する
+        Vector2 blowSize = m_bloeUI.rectTransform.sizeDelta;
+        Vector2[] getSizes = { m_getUI[0].rectTransform.sizeDelta, m_getUI[1].rectTransform.sizeDelta };
+        Vector2[] actionSize = { m_actionUI[0].rectTransform.sizeDelta, m_getUI[1].rectTransform.sizeDelta };
+
+        float timer = 0.0f;
+        Vector2 size = Vector2.zero;
+        while (timer < _endTime)
+        {
+            size.x = -Easing.QuintOut(timer, _endTime, -blowSize.x, 0.0f);
+            size.y = -Easing.QuintOut(timer, _endTime, -blowSize.y, 0.0f);
+            m_bloeUI.rectTransform.sizeDelta = size;
+
+            for (int idx = 0; idx < 2; idx++)
+            {
+                size.x = -Easing.QuintOut(timer, _endTime, -getSizes[idx].x, 0.0f);
+                size.y = -Easing.QuintOut(timer, _endTime, -getSizes[idx].y, 0.0f);
+                m_getUI[idx].rectTransform.sizeDelta = size;
+
+                size.x = -Easing.QuintOut(timer, _endTime, -actionSize[idx].x, 0.0f);
+                size.y = -Easing.QuintOut(timer, _endTime, -actionSize[idx].y, 0.0f);
+                m_actionUI[idx].rectTransform.sizeDelta = size;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        m_bloeUI.rectTransform.sizeDelta = Vector2.zero;
+        for (int idx = 0; idx < 2; ++idx)
+        {
+            m_getUI[idx].rectTransform.sizeDelta = Vector2.zero;
+            m_actionUI[idx].rectTransform.sizeDelta = Vector2.zero;
+        }
     }
 }

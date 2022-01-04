@@ -27,6 +27,16 @@ public class FaceSceneManager : MyUpdater
     [Header("撮影時間テキスト")]
     [SerializeField] FaceTimer m_timerText = null;
 
+    [Header("コントローラごとに変更するテキスト")]
+    [SerializeField] TMPro.TextMeshProUGUI m_text = null;
+    [Header("撮影者説明のテキスト")]
+    [SerializeField] TMPro.TextMeshProUGUI m_playerText = null;
+
+    [Header("撮影者説明2")]
+    [SerializeField] TMPro.TextMeshProUGUI m_pushPlayer = null;
+    [Header("撮影者の操作説明"), SerializeField]
+    TMPro.TextMeshProUGUI m_pushOperator = null;
+
     //[Header("撮影人数")]
     //[Range(1, 4)]
     //[SerializeField] int m_photoNum = 1;
@@ -57,6 +67,8 @@ public class FaceSceneManager : MyUpdater
 
         //最初の状態を設定
         machine.InitState(FaceType.PHOTO);
+
+
     }
 
     public override void MyUpdate()
@@ -76,10 +88,11 @@ public class FaceSceneManager : MyUpdater
         //タイマー開始カウント
         float timerStartTime = 1.0f;
         bool isStart = false;
-
-
         public override void Entry()
         {
+            //テキスト変更
+           board.ChangeText();
+
             //撮影開始
             board.m_facePhoto.RenderStart();
 
@@ -104,7 +117,6 @@ public class FaceSceneManager : MyUpdater
             //カメラのセットアップ待ち
             if (!board.m_facePhoto.IsSetUp()) return FaceType.PHOTO;
 
-            //ToDo：入力処理の変更必須
             if (MyRapperInput.Instance.GetItem(board.m_photoCurrentNum))
             {
                 return FaceType.PHOTO_EFFECT;
@@ -169,7 +181,7 @@ public class FaceSceneManager : MyUpdater
             board.m_shutterEffects.CallShutterOn(PhotoAppear, EndEffect);
 
             //シャッター音声再生
-            MyAudioManeger.Instance.PlaySE("CameraShutter");
+            MyAudioManeger.Instance.PlaySE("Shutter_SE");
         }
 
         public override void Exit()
@@ -238,10 +250,9 @@ public class FaceSceneManager : MyUpdater
 
             bool shutter = MyRapperInput.Instance.GetItem(board.m_photoCurrentNum - 1);
 
-#if UNITY_EDITOR
-            shutter = MyRapperInput.Instance.GetItem(0);
-#endif
-            //ToDo：変更必要
+//#if UNITY_EDITOR
+//            shutter = MyRapperInput.Instance.GetItem(0);
+//#endif
             if (shutter)
             {
                 //撮影終了
@@ -257,13 +268,87 @@ public class FaceSceneManager : MyUpdater
                 //さらに撮影する
                 else
                 {
+                    MyAudioManeger.Instance.PlaySE("Decision");
                     return FaceType.PHOTO;
                 }
             }
 
             return FaceType.AFTER_PHOTO;
         }
+    }
 
-      
+    private void ChangeText()
+    {
+        //現在撮影しようとしているプレイヤーのコントローラを取得
+        switch (MyRapperInput.Instance.GetDeviceType(m_photoCurrentNum))
+        {
+            case MyPlayerInput.Type.PS4:
+                {
+                    m_text.text = "X";
+                    m_text.color = Color.blue;
+
+                    m_pushOperator.text = "X";
+                    m_pushOperator.color = Color.blue;
+                }
+                break;
+
+            case MyPlayerInput.Type.XBOX:
+                {
+                    m_text.text = "A";
+                    m_text.color = Color.green;
+
+                    m_pushOperator.text = "A";
+                    m_pushOperator.color = Color.green;
+                }
+                break;
+        }
+
+        const string operation = "さつえい";
+        switch(m_photoCurrentNum)
+        {
+            case 0:
+                {
+                    m_playerText.text = "1P" + operation;
+                    VertexGradient vColor = new VertexGradient(Color.white, Color.white, Color.red, Color.red);
+                    m_playerText.colorGradient = vColor;
+
+                    m_pushPlayer.text = "1P";
+                    m_pushPlayer.colorGradient = new VertexGradient(Color.white, Color.white, Color.red, Color.red);
+                }
+                break;
+
+            case 1:
+                {
+                    m_playerText.text = "2P" + operation;
+                    VertexGradient vColor = new VertexGradient(Color.white, Color.white, Color.blue, Color.blue);
+                    m_playerText.colorGradient = vColor;
+
+                    m_pushPlayer.text = "2P";
+                    m_pushPlayer.colorGradient = new VertexGradient(Color.white, Color.white, Color.blue, Color.blue);
+                }
+                break;
+
+            case 2:
+                {
+                    m_playerText.text = "3P" + operation;
+                    VertexGradient vColor = new VertexGradient(Color.white, Color.white, Color.yellow, Color.yellow);
+                    m_playerText.colorGradient = vColor;
+
+                    m_pushPlayer.text = "3P";
+                    m_pushPlayer.colorGradient = new VertexGradient(Color.white, Color.white, Color.yellow, Color.yellow);
+                }
+                break;
+
+            case 3:
+                {
+                    m_playerText.text = "4P" + operation;
+                    VertexGradient vColor = new VertexGradient(Color.white, Color.white, new Color(1, 0, 1, 1), new Color(1, 0, 1, 1));
+                    m_playerText.colorGradient = vColor;
+
+                    m_pushPlayer.text = "4P";
+                    m_pushPlayer.colorGradient = new VertexGradient(Color.white, Color.white, new Color(1, 0, 1, 1), new Color(1, 0, 1, 1));
+                }
+                break;
+        }
     }
 }

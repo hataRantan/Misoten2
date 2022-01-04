@@ -56,6 +56,7 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
     [SerializeField]
     Dictionary<string, AudioClip> _bgmDic, _seDic;
 
+    public const float BGM_BASIC_VOLUME= 0.7f;
 
     //=================================================================================
     //初期化
@@ -152,7 +153,7 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
     /// 指定したファイル名のBGMを流す。ただし既に流れている場合は前の曲をフェードアウトさせてから。
     /// 第二引数のfadeSpeedRateに指定した割合でフェードアウトするスピードが変わる
     /// </summary>
-    public void PlayBGM(string bgmName, float fadeSpeedRate = BGM_FADE_SPEED_RATE_HIGH)
+    public void PlayBGM(string bgmName, float fadeSpeedRate = BGM_FADE_SPEED_RATE_HIGH, float _volume = BGM_BASIC_VOLUME)
     {
         if (!_bgmDic.ContainsKey(bgmName))
         {
@@ -192,7 +193,6 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
         _bgmFadeSpeedRate = fadeSpeedRate;
         _isFadeOut = true;
     }
-
     private void Update()
     {
         if (!_isFadeOut)

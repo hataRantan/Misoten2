@@ -995,7 +995,9 @@ public class TitleRgoAnimetion : MyUpdater
             m_whiteImage.color = backColor;
 
             //徐々に音量を上げる
-            MyAudioManeger.Instance.ChangeVolume(timer / mCase6_FadeOutTime, 1.0f);
+            float bgmVolume = timer / mCase6_FadeOutTime;
+            bgmVolume = Mathf.Clamp(bgmVolume, 0.0f, MyAudioManeger.BGM_BASIC_VOLUME);
+            MyAudioManeger.Instance.ChangeVolume(bgmVolume, 1.0f);
 
             timer += Time.deltaTime;
             yield return null;
@@ -1004,7 +1006,7 @@ public class TitleRgoAnimetion : MyUpdater
         backColor.a = 0.0f;
         m_whiteImage.color = backColor;
 
-        MyAudioManeger.Instance.ChangeVolume(1.0f, 1.0f);
+        MyAudioManeger.Instance.ChangeVolume(MyAudioManeger.BGM_BASIC_VOLUME, 1.0f);
     }
 
     public override void MyUpdate()

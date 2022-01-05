@@ -112,6 +112,8 @@ MonoBehaviour:
   m_isUpdate: 1
   m_plData: {fileID: 11400000, guid: 50ae89911911a2d4baeacbd9a99286f7, type: 2}
   m_normalItem: {fileID: 3051076605920703556}
+  hitEffect: {fileID: 1176032250550142315, guid: 18e95b1990c996849b1cb46fb9e89717,
+    type: 3}
   m_playerRender: {fileID: 7877632317684081823}
   m_playerBottom: {fileID: 5182841600149373014}
 --- !u!114 &8628272527474352579
@@ -180,6 +182,7 @@ MonoBehaviour:
   m_getRange: {fileID: 6583265404211848743}
   m_bottomPoint: {fileID: 3051076605920703557}
   m_generatedDegree: {x: 0, y: 0, z: 0}
+  isUser: 0
   decreaseTime: 0.3
   m_playerHitBox: {fileID: 6583265404211848743}
   m_move: {fileID: 580928819685462761}

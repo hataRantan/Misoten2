@@ -147,7 +147,12 @@ namespace MyPlayerStateClass
     {
         public override void Entry()
         {
-            //ToDo：ダメージ処理の呼び出し
+            //ダメージ処理の呼び出し
+            if (board.GetHitEffect != null)
+            {
+                GameObject hit = GameObject.Instantiate(board.GetHitEffect, board.PlayerInfo.Trans.position, Quaternion.identity);
+                hit.transform.localScale = new Vector3(board.GetHitSize, board.GetHitSize, board.GetHitSize);
+            }
         }
 
         public override void Exit()

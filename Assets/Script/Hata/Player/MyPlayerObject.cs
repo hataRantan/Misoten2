@@ -27,6 +27,12 @@ public class MyPlayerObject : MyUpdater
     private MyItemInterface m_currentItem = null;
     public MyItemInterface CurrentItem { get { return m_currentItem; } }
 
+    [Header("ダメージエフェクト"), SerializeField]
+    GameObject hitEffect = null;
+    [Header("ダメージエフェクトのサイズ"), SerializeField, Range(1.0f, 10.0f)]
+    private float hitSize = 5.0f;
+    public float GetHitSize { get { return hitSize; } }
+    public GameObject GetHitEffect { get { return hitEffect; } }
     
     /// <summary>
     /// プレイヤーの状態関係

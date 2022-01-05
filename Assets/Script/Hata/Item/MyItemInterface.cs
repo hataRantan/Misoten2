@@ -38,14 +38,7 @@ public abstract class MyItemInterface : MonoBehaviour
     private static MyItemManager2 itemManager = null;
 
     //自身を使用しているプレイヤーがいるかどうか
-    public bool isUser
-    {
-        get
-        {
-            if (m_playerInfo != null) return true;
-            else return false;
-        }
-    }
+    public bool isUser = false;
 
     private void Awake()
     {

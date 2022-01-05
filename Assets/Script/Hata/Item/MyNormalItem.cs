@@ -54,6 +54,7 @@ public class MyNormalItem : MyItemInterface
     {
         //プレイヤーの描画停止
         m_playerInfo.StopDraw();
+        m_playerInfo.Ui.GaugeOut();
         //自身の当たり判定停止
         m_playerHitBox.enabled = false;
     }
@@ -116,13 +117,14 @@ public class MyNormalItem : MyItemInterface
         }
 
         //他のプレイヤーが取得したならば,失敗
-        if (getPossibleItem.isUser)
+        if (getPossibleItem.isUser && !isFinish)
         {
             Debug.Log("来た失敗5");
             m_anime.StopDependence();
             isEndAntion = true;
             return;
         }
+
 
         //アイテム取得のための連打
         if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
@@ -167,10 +169,21 @@ public class MyNormalItem : MyItemInterface
             //m_playerInfo.Ui.BlowInGauge(m_maxBlows);
             if(!isFinish)
             {
-                m_playerInfo.Ui.BlowInGauge(m_maxBlows);
-                m_anime.EndDependence();
-                isFinish = true;
-                return;
+                if (getPossibleItem.isUser)
+                {
+                    Debug.Log("isUser==True");
+                    isEndAntion = true;
+                    m_anime.StopDependence();
+                    return;
+                }
+                else
+                {
+                    Debug.Log("finish");
+                    getPossibleItem.isUser = true;
+                    m_playerInfo.Ui.BlowInGauge(m_maxBlows);
+                    m_anime.EndDependence();
+                    isFinish = true;
+                }
             }
 
             //isEndAntion = true;
@@ -178,7 +191,7 @@ public class MyNormalItem : MyItemInterface
         }
         if(isFinish)
         {
-            if(m_anime.IsEndDependence())
+            if (m_anime.IsEndDependence())
             {
                 //m_anime.EndDependence();
 

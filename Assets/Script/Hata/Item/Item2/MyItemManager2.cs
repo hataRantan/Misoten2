@@ -123,6 +123,8 @@ public class MyItemManager2 : MyUpdater
 
         for (int idx = 0; idx < created.Count; idx++)
         {
+            MyAudioManeger.Instance.PlaySE("ItemCreate_SE");
+
             //アイテムに生成位置を渡す
             created[idx].GetComponent<MyItemInterface>().SetAppearPos(this, IntPos[idx]);
 
@@ -134,6 +136,7 @@ public class MyItemManager2 : MyUpdater
 
     private void CreatePowerfulItem()
     {
+        //MyAudioManeger.Instance.PlaySE("SuperItemAppear");
         //強力なアイテムを生成
         GameObject item = m_itemSelecter.CreatePowerfulItem();
 

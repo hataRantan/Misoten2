@@ -20,11 +20,15 @@ public class MyBigMissle : MyItemInterface
     [Header("回転速度")]
     [SerializeField] private float rotateSpeed = 70.0f;
 
+    [SerializeField] GameObject m_explosion = null;
+    [SerializeField] Vector3 m_explosionSize = new Vector3(1, 1, 1);
+
     // 壁との衝突判定
     private bool isHitWall = false;
     //アクション中
     private bool isAction = false;
 
+    static List<GameObject> m_havePlayers = new List<GameObject>();
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
@@ -34,7 +38,8 @@ public class MyBigMissle : MyItemInterface
         m_missileCol.enabled = true;
         m_missileRigid.isKinematic = false;
 
-
+        if (m_havePlayers.Count == 0) MyAudioManeger.Instance.PlayLoopSE("SuperItemGet");
+        m_havePlayers.Add(_info.Player);
     }
 
     public override void ActionInit()
@@ -85,6 +90,11 @@ public class MyBigMissle : MyItemInterface
 
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
+            StopSE();
+            //爆発音
+            MyAudioManeger.Instance.PlaySE("Explosion");
+            GameObject ex = Instantiate(m_explosion, _other.gameObject.transform.position, Quaternion.identity);
+            ex.transform.localScale = m_explosionSize;
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
             //プレイヤーを通常状態に変更
@@ -92,6 +102,15 @@ public class MyBigMissle : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
+        else if(_other.gameObject.layer==LayerMask.NameToLayer("Wall"))
+        {
+            StopSE();
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormalFromPowerful();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+        
     }
 
     /// <summary>
@@ -101,11 +120,24 @@ public class MyBigMissle : MyItemInterface
     {
         if (m_playerInfo != null)
         {
+            StopSE();
             m_playerInfo.ChangeNormalFromPowerful();
         }
+        
         Destroy(this.gameObject);
-
     }
+
+    private void StopSE()
+    {
+        if (m_playerInfo != null)
+            m_havePlayers.Remove(m_playerInfo.Player);
+
+        if(m_havePlayers.Count==0)
+        {
+            MyAudioManeger.Instance.StopLoopSE();
+        }
+    }
+
     //壁にぶつかっても処理しない
     //private void OnTriggerEnter(Collider _other)
     //{

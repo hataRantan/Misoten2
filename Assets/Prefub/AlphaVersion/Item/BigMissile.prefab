@@ -129,9 +129,13 @@ MonoBehaviour:
   m_getRange: {fileID: 1856907922531059856}
   m_bottomPoint: {fileID: 1856907921854708730}
   m_generatedDegree: {x: 0, y: 0, z: 0}
+  isUser: 0
   m_missileCol: {fileID: 1856907922100622504}
   m_missileRigid: {fileID: 1856907922100622507}
   rotateSpeed: 70
+  m_explosion: {fileID: 176258283326857901, guid: 051c7cb1dad29974d8f0c14ee96a2c40,
+    type: 3}
+  m_explosionSize: {x: 10, y: 10, z: 10}
 --- !u!1 &1856907921854708731
 GameObject:
   m_ObjectHideFlags: 0

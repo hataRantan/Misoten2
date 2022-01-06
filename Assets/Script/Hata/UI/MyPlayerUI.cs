@@ -9,8 +9,15 @@ public class MyPlayerUI : MonoBehaviour
     [Header("プレイヤー名")]
     [SerializeField] TextMeshProUGUI m_name = null;
 
+
+    [SerializeField]
+    Image m_firstHp = null;
     [Header("増量するHp画像")]
-    [SerializeField] Image m_hpImage = null;
+    [SerializeField] GameObject m_hpImage = null;
+    [Header("どれだけ下に持ってくるか")]
+    [SerializeField] float m_hpY = -375.0f;
+    [SerializeField] float m_hpX = 100.0f;
+    [SerializeField] Vector3 m_hpSize = new Vector3(0.7f, 0.7f, 1.0f);
 
     [Header("プレイヤーの顔")]
     [SerializeField]
@@ -71,7 +78,7 @@ public class MyPlayerUI : MonoBehaviour
 
         //位置変更
         RectTransform rect = gameObject.GetComponent<RectTransform>();
-        rect.anchoredPosition3D = new Vector3(_pos.x, _pos.y, 0.0f);
+        rect.localPosition = new Vector3(_pos.x, _pos.y, 0.0f);
         rect.localScale = Vector3.one;
         rect.localEulerAngles = Vector3.zero;
 
@@ -83,25 +90,29 @@ public class MyPlayerUI : MonoBehaviour
         m_name.text = _playerName;
 
         //Hp画像の幅を取得
-        float hpWidth = m_hpImage.rectTransform.sizeDelta.x;
-        //位置を取得
-        Vector2 hpPos = m_hpImage.rectTransform.anchoredPosition;
+        m_firstHp.rectTransform.localScale = m_hpSize;
+        float hpWidth = m_firstHp.rectTransform.sizeDelta.x;
+        hpWidth *= m_hpSize.x;
+        Vector2 hpPos = m_firstHp.rectTransform.localPosition;
+        hpPos.y = rect.localPosition.y + m_hpY;
 
-        m_playerHps.Add(m_hpImage);
 
         //Hpの生成
-        for (int idx = 1; idx < _playerMaxHp; idx++)
+        for (int idx = 0; idx < _playerMaxHp; idx++)
         {
             //生成
-            GameObject obj = Instantiate(m_hpImage.gameObject, Vector3.zero, Quaternion.identity);
+            GameObject obj = Instantiate(m_hpImage, Vector3.zero, Quaternion.identity);
             obj.transform.parent = gameObject.transform;
             //位置を調整
             RectTransform objPos = obj.GetComponent<RectTransform>();
-            objPos.anchoredPosition3D = new Vector3(hpPos.x + hpWidth * idx, hpPos.y, 0.0f);
-            objPos.localScale = Vector3.one;
+            Image image = obj.GetComponent<Image>();
+
+            //Vector2 hpPos = image.rectTransform.localPosition;
+            objPos.localPosition = new Vector3(hpPos.x + hpWidth * idx + m_hpX, hpPos.y);
+            objPos.localScale = m_hpSize;
             objPos.localEulerAngles = Vector3.zero;
 
-            m_playerHps.Add(obj.GetComponent<Image>());
+            m_playerHps.Add(image);
         }
 
         m_lastHp = _playerMaxHp;
@@ -182,7 +193,7 @@ public class MyPlayerUI : MonoBehaviour
             if (idx < 0) break;
 
             //ToDo：HpUIの減少の動きを追加
-            m_playerHps[idx].enabled = false;
+            m_playerHps[idx].fillAmount = 0.0f;
         }
     }
 

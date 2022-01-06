@@ -925,7 +925,7 @@ MonoBehaviour:
   - 5
   - 5
   - 2
-  m_powerfulCreateNum: 10
+  m_powerfulCreateNum: 0
   m_itemSelecter: {fileID: 363954779}
   m_itemAppear: {fileID: 363954778}
   m_generate: {fileID: 363954780}
@@ -4301,7 +4301,7 @@ MonoBehaviour:
   createUI: {fileID: 1996028262658124414, guid: d729f318c78ac0b47ba75e0ca2e55406,
     type: 3}
   m_faceControl: {fileID: 1964054909}
-  uiFirstPos: {x: -670, y: 450}
+  uiFirstPos: {x: -670, y: 430}
 --- !u!114 &1814086281
 MonoBehaviour:
   m_ObjectHideFlags: 0

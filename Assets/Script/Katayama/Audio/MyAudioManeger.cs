@@ -52,6 +52,8 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
     [SerializeField]
     const int SE_SOURCE_NUM = 10;
 
+    AudioSource m_loopSe = null;
+
     //全AudioClipを保持
     [SerializeField]
     Dictionary<string, AudioClip> _bgmDic, _seDic;
@@ -95,6 +97,8 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
             }
 
         }
+        m_loopSe = gameObject.AddComponent<AudioSource>();
+        m_loopSe.loop = true;
 
         //リソースフォルダから全SE&BGMのファイルを読み込みセット
         _bgmDic = new Dictionary<string, AudioClip>();
@@ -144,6 +148,22 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
             }
         }
     }
+
+    public void PlayLoopSE(string _seName)
+    {
+        if (!_seDic.ContainsKey(_seName))
+        {
+            Debug.Log(_seName + "という名前のSEがありません");
+            return;
+        }
+        m_loopSe.clip = _seDic[_seName];
+        m_loopSe.Play();
+    }
+    public void StopLoopSE()
+    {
+        m_loopSe.Stop();
+    }
+
 
     //=================================================================================
     //BGM
@@ -216,6 +236,7 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
 
     }
 
+ 
     //=================================================================================
     //音量変更
     //=================================================================================

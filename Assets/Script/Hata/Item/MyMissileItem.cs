@@ -14,7 +14,8 @@ public class MyMissileItem : MyItemInterface
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
     private ParticleSystem particleClone;
-    [Header("爆発エフェクトのサイズ")] private float explosionSize = 1.0f;
+    [Header("爆発エフェクトのサイズ")]
+    [SerializeField] private float explosionSize = 1.0f;
     private float deadTime = 0.0f;                  // オブジェクトの消滅時間調整
 
     // ミサイルの回転制御
@@ -91,6 +92,8 @@ public class MyMissileItem : MyItemInterface
 
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
+            //爆発音
+            MyAudioManeger.Instance.PlaySE("Explosion");
             //パーティクル開始
             GameObject obj = Instantiate(particle, m_missileRigid.position, Quaternion.identity);
             obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
@@ -109,7 +112,7 @@ public class MyMissileItem : MyItemInterface
                     deadTime += Time.fixedDeltaTime;
                 }
                 else
-                { 
+                {
                     //エフェクトの削除
                     Destroy(particleClone.gameObject);
                     //自身の消失

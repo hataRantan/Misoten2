@@ -252,9 +252,13 @@ MonoBehaviour:
   m_getRange: {fileID: 5179300184685523664}
   m_bottomPoint: {fileID: 5179300184779642056}
   m_generatedDegree: {x: 0, y: 0, z: 0}
+  isUser: 0
   m_wheelCol: {fileID: 5179300185023439864}
   m_wheelRigid: {fileID: 5179300185023439863}
+  m_wheelRenderer: {fileID: 0}
   particle: {fileID: 176258283326857901, guid: e863cc2bab2bca84b965e8daa26a99ee, type: 3}
+  explosionSize: 6
   moveSpeed: 0.2
-  hitBox: {fileID: 176258283326857901, guid: 5338ad9d32808874f9a2d2d13c63d1cd, type: 3}
-  count: 0.5
+  rotChange: 5
+  hitMaxSize: 0.055
+  hitboxExpansionTime: 1

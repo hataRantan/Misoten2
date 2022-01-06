@@ -10,21 +10,32 @@ public class MyWheeltem : MyItemInterface
     [Header("車輪の剛体")]
     [SerializeField] Rigidbody m_wheelRigid = null;
 
+    [Header("車輪のレンダラー")]
+    [SerializeField] private Renderer m_wheelRenderer = null;
+
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
     private ParticleSystem particleClone;
-
-    [Header("爆発エフェクトのサイズ")] private float explosionSize = 2.0f;
+    [Header("爆発エフェクトのサイズ")]
+    [SerializeField] private float explosionSize = 2.0f;
 
     [Header("移動速度")]
     [SerializeField] private float moveSpeed = 0.2f;
+    private Vector3 normalInput = Vector3.zero;     //入力値を正規化
+    private Vector3 wheelVelocity = Vector3.zero;   //移動
+    private Vector3 nowPos = Vector3.zero;          //移動前の座標
 
-    private Vector3 normalInput = Vector3.zero;     // 入力値を正規化
-    private Vector3 wheelVelocity = Vector3.zero;   // 移動
-    private Vector3 nowPos = Vector3.zero;          // 移動前の座標
-    private float deadTime = 0.0f;                  // オブジェクトの消滅時間調整
+    [Header("車輪の回転速度")]
+    [SerializeField] private float rotChange = 5.0f;
+    private float rotChangeSum = 0.0f;              //車輪回転の加算後の変数
 
-    // 壁との衝突判定
+    [Header("当たり判定最大サイズ(初期0.04f)")]
+    [SerializeField] private float hitMaxSize = 0.055f;
+    private float hitboxExpansion = 0.0f;
+    [Header("当たり判定拡大時間")]
+    [SerializeField] private int hitboxExpansionTime = 1;
+
+    //壁との衝突判定
     private bool isHitWall = false;
     //アクション中
     private bool isAction = false;
@@ -39,8 +50,12 @@ public class MyWheeltem : MyItemInterface
         m_wheelRigid.isKinematic = false;
 
         //ToDo：他の初期化事項
-        nowPos = m_wheelRigid.position;     // 角度の固定
-        m_wheelRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        //現在の座標取得
+        nowPos = m_wheelRigid.position;
+        //角度の固定
+        m_wheelRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        //当たり判定拡大の変数の調整
+        hitboxExpansion = (hitMaxSize - m_wheelCol.size.x) / hitboxExpansionTime;
 
     }
 
@@ -50,7 +65,9 @@ public class MyWheeltem : MyItemInterface
         isEndAntion = false;
         isAction = true;
         //ToDo：アクション初期化
-        //パーティクル開始
+        //爆発音
+        MyAudioManeger.Instance.PlaySE("Explosion");
+        //パーティクル生成、開始
         GameObject obj = Instantiate(particle, m_wheelRigid.position, Quaternion.identity);
         obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
         particleClone = obj.GetComponent<ParticleSystem>();
@@ -59,37 +76,14 @@ public class MyWheeltem : MyItemInterface
     public override void FiexdAction()
     {
         //ToDo：アクション中
-        //本体の描画を削除
-        this.gameObject.SetActive(false);
+        //パーティクルの再生
+        StartCoroutine(DestroyCoroutine());
+        //プレイヤーを戻した際、アイテムとの当たり判定をとらない
+        m_wheelRigid.isKinematic = true;
         //プレイヤーを通常状態に変更
         m_playerInfo.ChangeNormal();
-        //当たり判定の拡大スタート
-        // m_wheelCol.size += new Vector3(0.01f, 0.01f, 0.01f);
-
-        if (particleClone != null)
-        {
-
-            if (deadTime < 2.0f)
-            {
-                deadTime += Time.fixedDeltaTime;
-            }
-            else
-            {
-                //エフェクトの削除
-                Destroy(particleClone.gameObject);
-                //自身の消失
-                Destroy(this.gameObject);
-            }
-        }
-
-
-
-        if (isHitWall)
-        {
-            //モアイの剛体等開始
-            m_wheelCol.enabled = false;
-            m_wheelRigid.isKinematic = true;
-        }
+        //本体の描画を削除
+        this.gameObject.SetActive(false);
     }
 
     public override void FiexdMove()
@@ -97,23 +91,25 @@ public class MyWheeltem : MyItemInterface
         //ToDo：
         //ここが強制的に各方向の軸へと移動の処理を行ってしまっている
         m_wheelRigid.velocity = wheelVelocity * moveSpeed;
-        //ジグザグに動かすようにする
-        if (wheelVelocity.x > 0)
-        {//進行方向:左
-            m_wheelRigid.angularVelocity = new Vector3(0.0f, Random.Range(5.0f, 20.0f) * Time.fixedDeltaTime, 0.0f);
-        }
-        else if (wheelVelocity.x < 0)
-        {//進行方向:右
 
-        }
-
-
-        //進行方向に顔を向ける
+        //進行方向の取得
         Vector3 diff = m_wheelRigid.position - nowPos;
         if (diff.magnitude > 0.01f)
         {
-            m_wheelRigid.rotation = Quaternion.LookRotation(diff);
+            //顔を向ける 
+            Quaternion lookRotatin = Quaternion.LookRotation(diff);
+            //回転
+            Quaternion objRotation = Quaternion.AngleAxis(rotChangeSum, Vector3.right);
+            //合成
+            m_wheelRigid.rotation = lookRotatin * objRotation;
+            //回転用変数の整理
+            rotChangeSum += rotChange;
+            if (rotChangeSum > 360)
+            {
+                rotChangeSum = 0.0f;
+            }
         }
+        //座標の更新
         nowPos = m_wheelRigid.position;
     }
 
@@ -140,19 +136,6 @@ public class MyWheeltem : MyItemInterface
         }
     }
 
-    private void OnTriggerEnter(Collider _other)
-    {
-        if (!isAction) return;
-
-        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            isHitWall = true;
-            //プレイヤーを通常状態に変更
-            m_playerInfo.ChangeNormal();
-            //自身の消失
-            Destroy(this.gameObject);
-        }
-    }
     /// <summary>
     /// モアイのダメージ処理
     /// </summary>
@@ -160,5 +143,28 @@ public class MyWheeltem : MyItemInterface
     {
         //ToDo：モアイの爆発エフェクトの出現など
     }
-    
+
+    /// <summary>
+    /// パーティクルの再生
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DestroyCoroutine()
+    {
+        if (particleClone != null)
+        {
+            for (int i = 0; i < hitboxExpansionTime; i++)
+            {
+                //当たり判定の拡大スタート
+                m_wheelCol.size += new Vector3(hitboxExpansion, 0.0000f, hitboxExpansion);
+                // 1秒停止
+                yield return new WaitForSeconds(1.0f); ;
+            }
+            //エフェクトの削除
+            Destroy(particleClone.gameObject);
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+        // コルーチン内からコルーチンを停止させる
+        yield break;
+    }
 }

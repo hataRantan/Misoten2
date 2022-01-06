@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 176258283326857903}
   - component: {fileID: 176258283326857900}
   m_Layer: 0
-  m_Name: MissileExplosion
+  m_Name: ExplosionEfect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,8 +284,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 30
-      minScalar: 20
+      scalar: 3
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:

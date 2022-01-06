@@ -41,7 +41,7 @@ public class MyBullItem : MyItemInterface
 
         //ToDo：他の初期化事項
         nowPos = m_bullRigid.position;
-        m_bullRigid.constraints= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        //m_bullRigid.constraints= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
         //パーティクルの情報を獲得
         bullEffectL = transform.GetChild(4).GetComponent<ParticleSystem>();
         bullEffectR = transform.GetChild(5).GetComponent<ParticleSystem>();
@@ -101,14 +101,14 @@ public class MyBullItem : MyItemInterface
         //    transform.localRotation = Quaternion.Euler(bullRotation);
         //}
 
-        Vector3 diff = m_bullRigid.position - nowPos;
+        //Vector3 diff = m_bullRigid.position - nowPos;
 
-        if (diff.magnitude > 0.01f)
-        {
-            m_bullRigid.MoveRotation(Quaternion.LookRotation(diff));
-        }
+        //if (diff.magnitude > 0.01f)
+        //{
+        //    m_bullRigid.MoveRotation(Quaternion.LookRotation(diff));
+        //}
        
-        nowPos = m_bullRigid.position;
+        //nowPos = m_bullRigid.position;
 
 
     }
@@ -120,30 +120,31 @@ public class MyBullItem : MyItemInterface
         m_bullRigid.velocity = power;
 
 
-       
+
 
         //ToDo：入力値の整理
-        //if (_direct.x > 0 && _direct.y < 0)
-        //{
-        //    rotateAcceleration = 90.0f + -_direct.y * 90.0f;
-        //}
-        //else if (_direct.x > 0 && _direct.y > 0 )
-        //{
-        //    rotateAcceleration = _direct.x * 90.0f;
-        //}
-        //else if (_direct.x < 0 && _direct.y >0)
-        //{
-        //    rotateAcceleration = _direct.x * 90.0f;
-        //}
-        //else if (_direct.x < 0 && _direct.y <0)
-        //{
-        //    rotateAcceleration = -90.0f + -_direct.y * 90.0f;
-        //}
-        //if (rotateAcceleration != 0)
-        //{
-        //    lastRotation = rotateAcceleration;
-        //}
-        //m_bullRigid.rotation = Quaternion.Euler(0, rotateAcceleration, 0);
+        if (_direct.x > 0 && _direct.y < 0)
+        {
+            rotateAcceleration = 90.0f + -_direct.y * 90.0f;
+        }
+        else if (_direct.x > 0 && _direct.y > 0)
+        {
+            rotateAcceleration = _direct.x * 90.0f;
+        }
+        else if (_direct.x < 0 && _direct.y > 0)
+        {
+            rotateAcceleration = _direct.x * 90.0f;
+        }
+        else if (_direct.x < 0 && _direct.y < 0)
+        {
+            rotateAcceleration = (-90.0f - -_direct.y * 90.0f) ;
+            Debug.Log(rotateAcceleration);
+        }
+        if (rotateAcceleration != 0)
+        {
+            lastRotation = rotateAcceleration;
+        }
+        m_bullRigid.rotation = Quaternion.Euler(0, rotateAcceleration, 0);
 
 
         //WASD押されたらローテーションを動かす

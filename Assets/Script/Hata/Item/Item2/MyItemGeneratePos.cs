@@ -152,12 +152,12 @@ public class MyItemGeneratePos : MyUpdater
             if (m_areaWeights.Count == 0)
             {
                 Debug.Log("そんなスクリプトのつもりない");
-                UnityEditor.EditorApplication.isPlaying = false;
+                //UnityEditor.EditorApplication.isPlaying = false;
             }
             if (m_subWeights.Count == 0)
             {
                 Debug.Log("場所がない");
-                UnityEditor.EditorApplication.isPlaying = false;
+                //UnityEditor.EditorApplication.isPlaying = false;
             }
 
             //指定エリアに生成可能位置があるか確認する

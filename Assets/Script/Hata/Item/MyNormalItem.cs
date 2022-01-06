@@ -110,7 +110,7 @@ public class MyNormalItem : MyItemInterface
         //何らかの処理で失敗した場合
         if(getPossibleItem==null)
         {
-            Debug.Log("来た失敗4");
+            //Debug.Log("来た失敗4");
             m_anime.StopDependence();
             isEndAntion = true;
             return;
@@ -119,7 +119,7 @@ public class MyNormalItem : MyItemInterface
         //他のプレイヤーが取得したならば,失敗
         if (getPossibleItem.isUser && !isFinish)
         {
-            Debug.Log("来た失敗5");
+            //Debug.Log("来た失敗5");
             m_anime.StopDependence();
             isEndAntion = true;
             return;
@@ -171,14 +171,14 @@ public class MyNormalItem : MyItemInterface
             {
                 if (getPossibleItem.isUser)
                 {
-                    Debug.Log("isUser==True");
+                    //Debug.Log("isUser==True");
                     isEndAntion = true;
                     m_anime.StopDependence();
                     return;
                 }
                 else
                 {
-                    Debug.Log("finish");
+                    //Debug.Log("finish");
                     getPossibleItem.isUser = true;
                     m_playerInfo.Ui.BlowInGauge(m_maxBlows);
                     m_anime.EndDependence();
@@ -224,14 +224,14 @@ public class MyNormalItem : MyItemInterface
         if(m_currentBlows <= 0)
         {
             m_anime.StopDependence();
-            Debug.Log("来た失敗１");
+            //Debug.Log("来た失敗１");
             isEndAntion = true;
             return;
         }
 
         //UIに連打数を反映
         m_currentBlows = Mathf.Clamp(m_currentBlows, 0, m_maxBlows + 1);
-        Debug.Log("連打数：" + m_maxBlows + 1);
+        //Debug.Log("連打数：" + m_maxBlows + 1);
         m_playerInfo.Ui.BlowInGauge(m_currentBlows);
 
 
@@ -239,7 +239,7 @@ public class MyNormalItem : MyItemInterface
         if (_input.magnitude > 0.5f)
         {
             m_anime.StopDependence();
-            Debug.Log("来た失敗2");
+            //Debug.Log("来た失敗2");
             isEndAntion = true;
             return;
         }

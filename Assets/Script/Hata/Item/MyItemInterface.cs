@@ -24,6 +24,8 @@ public abstract class MyItemInterface : MonoBehaviour
 
     [Header("生成時の角度")]
     [SerializeField] Vector3 m_generatedDegree = Vector3.zero;
+
+    [Header("仮面"), SerializeField] GameObject m_mask = null;
     public Vector3 GeneretedDegree { get { return m_generatedDegree; } }
 
     // 衝突したオブジェクト（取得やダメージ衝突に使用）
@@ -66,6 +68,9 @@ public abstract class MyItemInterface : MonoBehaviour
     {
         m_getRange.enabled = false;
         m_playerInfo = _info;
+
+        m_mask.SetActive(true);
+        m_mask.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", SavingFace.Instance.GetFace(m_playerInfo.Number));
     }
     
     /// <summary>

@@ -13,7 +13,8 @@ public class MyMoaiItem : MyItemInterface
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
     private ParticleSystem particleClone;
-    [Header("着地エフェクトのサイズ")] private float effectSize = 7.0f;
+    [Header("着地エフェクトのサイズ")]
+    [SerializeField] private float effectSize = 7.0f;
 
     [Header("移動速度")]
     [SerializeField] private float moveSpeed = 1.0f;
@@ -22,7 +23,6 @@ public class MyMoaiItem : MyItemInterface
     private float rot = 0.0f;                       // 座標移動による顔の振り向き角度
     private float lastRot = 0.0f;                   // 前回の角度
     private float afterRot = 0.0f;                  // 顔が振り向いた角度
-
     private Vector3 normalInput = Vector3.zero;     // 入力値を正規化
     private Vector3 moaiVelocity = Vector3.zero;    // 移動
     private Vector3 lastPos = Vector3.zero;          // プレイヤーの位置情報
@@ -38,8 +38,13 @@ public class MyMoaiItem : MyItemInterface
     private float timer = 0.0f;                     // カウント用変数
     private bool jumpRizeFlg = false;               // 上昇中かどうか
 
-    private bool destroyFlg = false;
-    private float destroyTime = 1.0f;               // 消滅までの時間
+    private int loopCount = 0;                      // パーティクル生成処理の制御用変数(フレーム更新で多数生成されるため)
+
+    [Header("当たり判定最大サイズ(初期0.04f)")]
+    [SerializeField] private float hitMaxSize = 0.06f;
+    private float hitboxExpansion = 0.0f;
+    [Header("当たり判定拡大時間")]
+    [SerializeField] private int hitboxExpansionTime = 1;
 
     //アクション中
     private bool isAction = false;
@@ -58,6 +63,8 @@ public class MyMoaiItem : MyItemInterface
         lastPos = m_moaiRigid.position;
         // 角度の固定
         m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        // 当たり判定拡大の変数の調整
+        hitboxExpansion = (hitMaxSize - m_moaiCol.size.x) / hitboxExpansionTime;
     }
 
     public override void ActionInit()
@@ -71,7 +78,8 @@ public class MyMoaiItem : MyItemInterface
         m_moaiRigid.useGravity = false;
         // モデルサイズによる高低差の修正。Y軸の取得
         defaultYPos = m_moaiRigid.position.y;
-
+        //ジャンプ音
+        MyAudioManeger.Instance.PlaySE("Moai_Jump");
 
     }
     public override void Action(Vector2 _input)
@@ -82,25 +90,6 @@ public class MyMoaiItem : MyItemInterface
         moaiVelocity.z = normalInput.z * GetSpeed();
         //ToDo：移動
         m_moaiRigid.velocity = moaiVelocity * moveSpeed;
-
-        // すぐに消滅させないための処理
-        if (destroyFlg)
-        {
-            if (timer > destroyTime)
-            {
-                if (particleClone != null)
-                {
-                    //エフェクトの削除
-                    Destroy(particleClone.gameObject);
-                    //プレイヤーを通常状態に変更
-                    m_playerInfo.ChangeNormal();
-                    //自身の消失
-                    Destroy(this.gameObject);
-                }
-            }
-            timer += Time.fixedDeltaTime;
-        }
-
     }
     public override void FiexdAction()
     {
@@ -135,15 +124,21 @@ public class MyMoaiItem : MyItemInterface
             }
             else
             {
-                //パーティクル開始
-                GameObject obj = Instantiate(particle, thisTrs.transform.position, Quaternion.identity);
-                obj.transform.localScale = new Vector3(effectSize, effectSize, effectSize);
-                particleClone = obj.GetComponent<ParticleSystem>();
-                //パーティクルの角度と高さの修正
-                Quaternion eulerEffect = Quaternion.Euler(0, 90, 0);
-                Quaternion q = thisTrs.transform.rotation;
-                obj.transform.rotation = eulerEffect * q;
-                destroyFlg = true;
+                if (loopCount < 1)
+                {
+                    //着地音
+                    MyAudioManeger.Instance.PlaySE("MoaiAttack");
+                    //パーティクル開始
+                    GameObject obj = Instantiate(particle, thisTrs.transform.position, Quaternion.identity);
+                    obj.transform.localScale = new Vector3(effectSize, effectSize, effectSize);
+                    particleClone = obj.GetComponent<ParticleSystem>();
+                    //パーティクルの角度と高さの修正
+                    Quaternion eulerEffect = Quaternion.Euler(0, 90, 0);
+                    Quaternion q = thisTrs.transform.rotation;
+                    obj.transform.rotation = eulerEffect * q;
+                    loopCount++;
+                    StartCoroutine(DestroyCoroutine());
+                }
             }
         }
 
@@ -204,5 +199,31 @@ public class MyMoaiItem : MyItemInterface
     private void MoaiDamage()
     {
         //ToDo：モアイの爆発エフェクトの出現など
+    }
+
+    /// <summary>
+    /// パーティクルの再生
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DestroyCoroutine()
+    {
+        if (particleClone != null)
+        {
+            for (int i = 0; i < hitboxExpansionTime; i++)
+            {
+                //当たり判定の拡大スタート
+                m_moaiCol.size += new Vector3(hitboxExpansion, hitboxExpansion, 0.000f);
+                // 1秒停止
+                yield return new WaitForSeconds(1.0f); ;
+            }
+            //エフェクトの削除
+            Destroy(particleClone.gameObject);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+        // コルーチン内からコルーチンを停止させる
+        yield break;
     }
 }

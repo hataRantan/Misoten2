@@ -54,7 +54,7 @@ public class MyPlayerManager : MyUpdater
     //プレイヤーがゲームオーバー時に衝突する位置
     private MyPlayerGameOverHits m_endHitPos = null;
     //ゲームオーバー演出中か確認
-    private bool isProcessEnd = false;
+    public bool isProcessEnd { get; private set; }
 
     //プレイヤーの順位を入れる
     //低い順から代入している
@@ -67,6 +67,7 @@ public class MyPlayerManager : MyUpdater
 
     public override void MyFastestInit()
     {
+        isProcessEnd = false;
         //プレイヤーの出現位置を知るために、床管理クラスを取得
         FloorManager floor = GameObject.FindWithTag("FloorManager").GetComponent<FloorManager>();
 
@@ -115,6 +116,10 @@ public class MyPlayerManager : MyUpdater
         m_endHitPos =gameObject.GetComponent<MyPlayerGameOverHits>();
 
         PlayerRank = new List<int>();
+        for (int idx = 0; idx < m_maxPlayerNum; ++idx)
+        {
+            PlayerRank.Add(idx);
+        }
 
 #if UNITY_EDITOR
         dead = GetComponent<TestMyPlayerDead>();
@@ -200,14 +205,17 @@ public class MyPlayerManager : MyUpdater
 
     private IEnumerator GameOverEffect(List<int> _endPlayers)
     {
-        //順位を代入
-        foreach(var idx in _endPlayers)
-        {
-            PlayerRank.Add(idx);
-        }
-
         //エフェクト開始
         isProcessEnd = true;
+
+        //順位を代入
+        foreach (var num in _endPlayers)
+        {
+            //要素を一番最初に持ってくる
+            PlayerRank.Remove(num);
+            PlayerRank.Insert(0, num);
+            //PlayerRank.Add(num);
+        }
 
         //徐々にスローにする
         const float timeToSlow = 0.5f;
@@ -388,6 +396,14 @@ public class MyPlayerManager : MyUpdater
         }
 
         return dropNum;
+    }
+
+    public void ALLStopDamgeEffect()
+    {
+        for (int playerIdx = 0; playerIdx < m_players.Length; playerIdx++)
+        {
+            m_players[playerIdx].PlayerUI.StopDamage();
+        }
     }
 
     /// <summary>

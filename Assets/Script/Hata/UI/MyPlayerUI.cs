@@ -50,6 +50,11 @@ public class MyPlayerUI : MonoBehaviour
     Canvas m_parentCanvas = null;
     FightGauge m_gauge = null;
 
+    public void StopDamage()
+    {
+        StopAllCoroutines();
+    }
+
     /// <summary>
     /// 生成時の初期化
     /// </summary>

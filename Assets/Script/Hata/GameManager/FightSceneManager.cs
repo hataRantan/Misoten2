@@ -13,9 +13,9 @@ public class FightSceneManager : MyUpdater
     [Header("アイテム管理クラス")]
     [SerializeField] MyItemManager2 itemManager = null;
 
-    [Header("リザルトグループ")]
-    [SerializeField]
-    CanvasGroup m_resultGroup = null;
+    //[Header("リザルトグループ")]
+    //[SerializeField]
+    //CanvasGroup m_resultGroup = null;
 
     [Header("待機時間（単位は秒）")]
     [Range(0.0f, 10.0f)]
@@ -39,6 +39,14 @@ public class FightSceneManager : MyUpdater
     [SerializeField]
     float m_maxGameTime = 5.0f;
     //static const float m_maxGameTime = 5.0f;
+
+    [Header("リザルト管理"), SerializeField]
+    ResultManager m_result = null;
+    [SerializeField]
+    MyPlayerFaceControl m_face = null;
+
+    [Header("次のシーン"), SerializeField]
+    SceneObject m_nextScene = null;
 
     //シーンの状態一覧
     enum FightSceneType
@@ -77,13 +85,13 @@ public class FightSceneManager : MyUpdater
 
     public override void MyUpdate()
     {
-       
+        //状態更新
+        m_machine.UpdateState();
     }
 
     public override void MyLateUpdate()
     {
-        //状態更新
-        m_machine.UpdateState();
+     
         //ゲームの進捗具合を確認
     }
 
@@ -96,7 +104,7 @@ public class FightSceneManager : MyUpdater
         float timer = 0.0f;
         public override void Entry()
         {
-            board.m_resultGroup.alpha = 0.0f;
+            //board.m_resultGroup.alpha = 0.0f;
 
             board.SetGameUpdate(false);
 
@@ -154,7 +162,8 @@ public class FightSceneManager : MyUpdater
                 return FightSceneType.RESULT;
             }
 
-            if (board.playerManager.GetDropPlayerNum() >= GameInPlayerNumber.Instance.CurrentPlayerNum - 1)
+            if (board.playerManager.GetDropPlayerNum() >= GameInPlayerNumber.Instance.CurrentPlayerNum - 1&&
+                !board.playerManager.isProcessEnd)
             {
                 return FightSceneType.RESULT;
             }
@@ -170,8 +179,11 @@ public class FightSceneManager : MyUpdater
     {
         public override void Entry()
         {
+            //ダメージ処理終了
+            board.playerManager.ALLStopDamgeEffect();
+            board.m_face.StopALL();
             //リザルト処理開始
-            board.m_resultGroup.alpha = 1.0f;
+            board.m_result.ResultStart(board.playerManager.PlayerRank, board.FalseUpdate);
         }
 
         public override void Exit()
@@ -180,6 +192,13 @@ public class FightSceneManager : MyUpdater
 
         public override FightSceneType Update()
         {
+            if (!board.m_result.isEndRank) return FightSceneType.RESULT;
+
+            if(MyRapperInput.Instance.AnyKey())
+            {
+                SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene);
+            }
+
             return FightSceneType.RESULT;
         }
     }
@@ -192,5 +211,10 @@ public class FightSceneManager : MyUpdater
 
         playerManager.gameObject.GetComponent<MyUpdaterList>().SetUpdate(_doUpdate);
         itemManager.gameObject.GetComponent<MyUpdaterList>().SetUpdate(_doUpdate);
+    }
+
+    private void FalseUpdate()
+    {
+        SetGameUpdate(false);
     }
 }

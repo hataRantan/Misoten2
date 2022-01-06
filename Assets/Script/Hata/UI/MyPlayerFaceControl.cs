@@ -46,6 +46,18 @@ public class MyPlayerFaceControl : MyUpdater
         }
     }
 
+    public void StopALL()
+    {
+        StopAllCoroutines();
+        for (int idx = 0; idx < m_targetFaces.Length; ++idx)
+        {
+            for(int shape=0;shape<m_shapeNum;++shape)
+            {
+                m_targetFaces[idx].SetBlendShapeWeight(shape, 0.0f);
+            }
+        }
+    }
+
     /// <summary>
     /// 顔を歪ませるコルーチン
     /// </summary>

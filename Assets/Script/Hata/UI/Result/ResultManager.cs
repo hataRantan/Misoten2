@@ -228,7 +228,7 @@ public class ResultManager : MyUpdater
             //テキスト描画開始
             m_rankTexts[beginRank].gameObject.SetActive(true);
             //位置変更
-            m_rankTexts[beginRank].rectTransform.localPosition = new Vector3(m_players[rank].rectTransform.localPosition.x, m_textY, 0.0f);
+            m_rankTexts[beginRank].rectTransform.localPosition = new Vector3(m_players[_rank[rank]].rectTransform.localPosition.x, m_textY, 0.0f);
 
             float endTime = (m_rankTextTime < m_rankTextSlopeTime) ? m_rankTextSlopeTime : m_rankTextTime;
             timer.Restart();
@@ -274,15 +274,6 @@ public class ResultManager : MyUpdater
         obj = Instantiate(m_ConfettiObj, pos + new Vector3(-m_ConfettiOffset, 0, 0), Quaternion.Euler(-90, 0, 0));
         obj.transform.localScale = m_ConfettiSize;
         obj.transform.eulerAngles = m_leftEuler;
-
-        //Vector3 uiPos = m_players[_rank[_rank.Count - 1]].rectTransform.localPosition;
-        //timer.Restart();
-        //while (timer.TotalSeconds < m_upTime)
-        //{
-        //    float pulsY = Mathf.Sign(Mathf.Sin(2 * Mathf.PI * (1.0f / m_upTime) * timer.TotalSeconds)) / 2.0f + 0.5f;
-        //    m_players[_rank[_rank.Count - 1]].rectTransform.localPosition = uiPos + new Vector3(0, pulsY * m_moveYAmount, 0);
-        //    yield return null;
-        //}
 
         Time.timeScale = 1.0f;
         isEndRank = true;

@@ -59,6 +59,7 @@ public class MyPlayerManager : MyUpdater
     //プレイヤーの順位を入れる
     //低い順から代入している
     public List<int> PlayerRank { get; private set; }
+    int m_rank = 0;
 
     //ゲームオーバーテスト
 #if UNITY_EDITOR
@@ -120,6 +121,7 @@ public class MyPlayerManager : MyUpdater
         {
             PlayerRank.Add(idx);
         }
+        m_rank = 0;
 
 #if UNITY_EDITOR
         dead = GetComponent<TestMyPlayerDead>();
@@ -159,7 +161,6 @@ public class MyPlayerManager : MyUpdater
 
         //ゲームオーバー処理呼び出し
         CallGameOver();
-
     }
 
     /// <summary>
@@ -213,7 +214,8 @@ public class MyPlayerManager : MyUpdater
         {
             //要素を一番最初に持ってくる
             PlayerRank.Remove(num);
-            PlayerRank.Insert(0, num);
+            PlayerRank.Insert(m_rank, num);
+            m_rank++;
             //PlayerRank.Add(num);
         }
 

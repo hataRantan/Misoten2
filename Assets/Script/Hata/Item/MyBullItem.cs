@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MyBullItem : MyItemInterface
 {
@@ -26,7 +28,8 @@ public class MyBullItem : MyItemInterface
     private bool isInput = false;
     //アクションキーを押されてるか
     private bool isAction = false;
-
+    private bool isRunning = false;
+    private bool isInside = false;
     public ParticleSystem bullEffectL;
     public ParticleSystem bullEffectR;
     
@@ -41,7 +44,7 @@ public class MyBullItem : MyItemInterface
         m_bullRigid.isKinematic = false;
 
         //ToDo：他の初期化事項
-
+        isInside = true;
         //m_bullRigid.constraints= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
         //パーティクルの情報を獲得
         
@@ -68,7 +71,7 @@ public class MyBullItem : MyItemInterface
 
         GetComponent<bullanimation>().animator.SetBool("Running", true);
 
-        m_bullCol.isTrigger = true;
+        
         
     }
 
@@ -78,9 +81,9 @@ public class MyBullItem : MyItemInterface
         if (isAction)
         {
             //isAction = true;
-            Invoke("Delay", 0.5f);//時間差を作る
+            StartCoroutine(Delay());
         }
-
+        
 
 
         if (isHitWall)
@@ -240,27 +243,42 @@ public class MyBullItem : MyItemInterface
             Destroy(this.gameObject);
         }
 
-        if(_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+        if (isInside)
         {
-            //ダメージ処理
-            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, BullDamage);
-            m_playerInfo.ChangeNormal();
-            Destroy(this.gameObject);
+            if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+            {
+                //ダメージ処理
+                if (isRunning)
+                {
+                    Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, BullDamage);
+                    m_playerInfo.ChangeNormal();
+                    Destroy(this.gameObject);
+                }
+
+               
+            }
         }
+        
     }
 
-    void Delay()
+   
+    IEnumerator Delay()
     {
+        yield return new WaitForSeconds(1.0f);
+        m_bullCol.isTrigger = true;
         m_bullRigid.velocity = bullRotate * bullSpeed;
 
         //パーティクル実行
         bullEffectL.Play();
         bullEffectR.Play();
-    }
 
+        isRunning = true;
+        
+    }
+    
     private void BullDamage()
     {
-
+        
     }
     
 }

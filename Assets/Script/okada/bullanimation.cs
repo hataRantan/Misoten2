@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class bullanimation : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
     MyBullItem m_mybull;
     void Start()
     {

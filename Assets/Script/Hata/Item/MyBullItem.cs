@@ -12,7 +12,7 @@ public class MyBullItem : MyItemInterface
     private Vector3 bullRotate = Vector3.zero;
     private Vector3 bullMove = Vector3.zero;
     private Vector3 bullRotation = Vector3.zero;
-    private Vector3 nowPos = Vector3.zero;
+    
 
     private float lastRotation = 0;
     private float rotateAcceleration = 0.0f;
@@ -30,6 +30,7 @@ public class MyBullItem : MyItemInterface
     public ParticleSystem bullEffectL;
     public ParticleSystem bullEffectR;
     
+    
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
@@ -40,9 +41,10 @@ public class MyBullItem : MyItemInterface
         m_bullRigid.isKinematic = false;
 
         //ToDo：他の初期化事項
-        nowPos = m_bullRigid.position;
+
         //m_bullRigid.constraints= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
         //パーティクルの情報を獲得
+        
         bullEffectL = transform.GetChild(4).GetComponent<ParticleSystem>();
         bullEffectR = transform.GetChild(5).GetComponent<ParticleSystem>();
         //アニメーションのスクリプトを有効化する
@@ -60,7 +62,14 @@ public class MyBullItem : MyItemInterface
         //ToDo：アクション初期化
         //m_playerInfo.ChangeNormal();
 
+        //m_bullRigid.freezeRotation = true;
+
         bullRotate = m_bullRigid.transform.forward;
+
+        GetComponent<bullanimation>().animator.SetBool("Running", true);
+
+        m_bullCol.isTrigger = true;
+        
     }
 
     public override void FiexdAction()
@@ -78,9 +87,11 @@ public class MyBullItem : MyItemInterface
         {
             m_bullCol.enabled = false;
             m_bullRigid.isKinematic = true;
+            isEndAntion = true;
         }
 
-        isEndAntion = true;
+        
+        
     }
 
     public override void Action(Vector2 _input)
@@ -220,13 +231,20 @@ public class MyBullItem : MyItemInterface
 
     private void OnTriggerEnter(Collider _other)
     {
-        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Wall") && isAction) 
         {
+            
+          
             isHitWall = true;
-
-            //Debug.Log("hit wall");
             m_playerInfo.ChangeNormal();
+            Destroy(this.gameObject);
+        }
 
+        if(_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+        {
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, BullDamage);
+            
             Destroy(this.gameObject);
         }
     }
@@ -240,5 +258,9 @@ public class MyBullItem : MyItemInterface
         bullEffectR.Play();
     }
 
+    private void BullDamage()
+    {
+
+    }
     
 }

@@ -21,7 +21,7 @@ public class MyMoaiItem : MyItemInterface
     [Header("Euler角修正用")]
     [SerializeField] Transform thisTrs = null;
     private float rot = 0.0f;                       // 座標移動による顔の振り向き角度
-    private float lastRot = 0.0f;                   // 前回の角度
+    private float lastRotValue = 0.0f;                   // 前回の角度
     private float afterRot = 0.0f;                  // 顔が振り向いた角度
     private Vector3 normalInput = Vector3.zero;     // 入力値を正規化
     private Vector3 moaiVelocity = Vector3.zero;    // 移動
@@ -57,6 +57,8 @@ public class MyMoaiItem : MyItemInterface
         //モアイの剛体等開始
         m_moaiCol.enabled = true;
         m_moaiRigid.isKinematic = false;
+        //他オブジェクトの当たり判定を無効
+        m_moaiCol.isTrigger = true;
 
         //ToDo：他の初期化事項
         // 移動更新前の座標
@@ -112,6 +114,9 @@ public class MyMoaiItem : MyItemInterface
         }
         if (jumpRizeFlg)
         {//下降中
+            //BoxCollider有効
+            m_moaiCol.isTrigger = false;
+            //軸の固定
             m_moaiRigid.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             if (timer < downTime)
             {
@@ -161,7 +166,7 @@ public class MyMoaiItem : MyItemInterface
         {//前回のPosと座標が違えば
             Vector2 vec = new Vector2(diff.z, diff.x).normalized;
             rot = Mathf.Atan2(vec.y, vec.x) * 180 / Mathf.PI;
-            afterRot = rot - lastRot;
+            afterRot = rot - lastRotValue;
             if (rot > 180) rot -= 360;
             if (rot < -180) rot += 360;
             Quaternion euler = Quaternion.Euler(0, afterRot, 0);
@@ -170,8 +175,8 @@ public class MyMoaiItem : MyItemInterface
         }
         //移動前の座標
         lastPos = m_moaiRigid.position;
-        //移動前の顔の向き
-        lastRot = rot;
+        //移動前の顔の向きの値
+        lastRotValue = rot;
     }
 
     public override void Move(Vector2 _direct)
@@ -184,10 +189,9 @@ public class MyMoaiItem : MyItemInterface
 
     private void OnCollisionEnter(Collision _other)
     {
-        if (!isAction) return;
-
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
+            if (!isAction) return;
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MoaiDamage);
         }

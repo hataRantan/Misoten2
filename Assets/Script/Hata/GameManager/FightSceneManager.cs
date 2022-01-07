@@ -11,7 +11,10 @@ public class FightSceneManager : MyUpdater
     [SerializeField] MyPlayerManager playerManager = null;
 
     [Header("アイテム管理クラス")]
-    [SerializeField] MyItemManager2 itemManager = null;
+    [SerializeField] MyItemManager2 itemManager =  null;
+
+    [Header("プレイヤーのHPを管理するだけ")]
+    [SerializeField] OnlyCheckHP m_onlyHp = null;
 
     //[Header("リザルトグループ")]
     //[SerializeField]
@@ -149,6 +152,7 @@ public class FightSceneManager : MyUpdater
             timer = 0.0f;
 
             board.m_standbyGroup.alpha = 0.0f;
+            board.m_onlyHp.SwitchUpdate(true);
         }
 
         public override void Exit() { }
@@ -164,8 +168,7 @@ public class FightSceneManager : MyUpdater
                 return FightSceneType.RESULT;
             }
 
-            if (board.playerManager.GetDropPlayerNum() >= GameInPlayerNumber.Instance.CurrentPlayerNum - 1&&
-                !board.playerManager.isProcessEnd)
+            if (board.m_onlyHp.isEndGame)
             {
                 return FightSceneType.RESULT;
             }

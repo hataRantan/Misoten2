@@ -637,7 +637,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &182229297
 GameObject:
@@ -963,11 +963,7 @@ MonoBehaviour:
   m_isUpdate: 0
   m_normalItems:
   - rank: 4
-    item: {fileID: 1514447779658181118, guid: 6a642844550f77b43a08242a98e9ee6d, type: 3}
-  - rank: 4
-    item: {fileID: 5413885038345510565, guid: ac66daa8c3c7198488d49a63ae7533a8, type: 3}
-  - rank: 4
-    item: {fileID: 7861812785811138699, guid: f38b9c656d9d19547a084cf144d2fa62, type: 3}
+    item: {fileID: 5803675886069868657, guid: 8e07dd524074a704ca6ebb8efa786720, type: 3}
   m_powerfulItems:
   - {fileID: 1514447779658181118, guid: a5c3fdd167eef2043bb3cb524b028a54, type: 3}
   m_weights:
@@ -1037,6 +1033,7 @@ MonoBehaviour:
   m_face: {fileID: 1964054909}
   m_nextScene:
     m_SceneName: PlayerCertification
+  m_fadeCamera: {fileID: 1559668884}
 --- !u!4 &385562975
 Transform:
   m_ObjectHideFlags: 0
@@ -2839,7 +2836,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1375071071
 MonoBehaviour:
@@ -3548,7 +3545,7 @@ RectTransform:
   - {fileID: 182229298}
   - {fileID: 1165072564}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3586,11 +3583,13 @@ MonoBehaviour:
   - {fileID: 1429810602}
   - {fileID: 1114107601}
   m_post: {fileID: 1375071069}
+  m_file: {fileID: 11400000, guid: 71b1d619266e16745b296e18383e554a, type: 2}
   m_maxLength: 300
   m_endText: {fileID: 1780977916}
   m_endGroup: {fileID: 182229299}
   m_playerGroup: {fileID: 1433375424}
   m_uiGroup: {fileID: 1925817690}
+  m_to0ScaleTime: 1
   m_maxTextSize: {x: 1.5, y: 1.5, z: 1}
   m_minTextSize: {x: 1, y: 1, z: 1}
   m_textTime: 0.8
@@ -3769,7 +3768,7 @@ Camera:
   m_Depth: 11
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 131072
+    m_Bits: 393216
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4076,7 +4075,7 @@ RectTransform:
   - {fileID: 536784976}
   - {fileID: 1294758578}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4914,7 +4913,7 @@ RectTransform:
   - {fileID: 993430426}
   - {fileID: 440814034}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

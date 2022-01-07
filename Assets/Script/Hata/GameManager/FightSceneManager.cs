@@ -47,6 +47,8 @@ public class FightSceneManager : MyUpdater
 
     [Header("次のシーン"), SerializeField]
     SceneObject m_nextScene = null;
+    [Header("フェード描画用カメラ")]
+    [SerializeField] Camera m_fadeCamera = null;
 
     //シーンの状態一覧
     enum FightSceneType
@@ -196,7 +198,8 @@ public class FightSceneManager : MyUpdater
 
             if(MyRapperInput.Instance.AnyKey())
             {
-                SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene);
+                board.m_result.ResetDepth();
+                SceneLoader.Instance.CallLoadSceneDefault(board.m_nextScene, board.m_fadeCamera);
             }
 
             return FightSceneType.RESULT;

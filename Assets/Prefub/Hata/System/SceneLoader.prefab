@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2207796630302231275}
   - component: {fileID: 2207796630302231274}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SceneLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}

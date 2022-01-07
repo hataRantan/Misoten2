@@ -10,6 +10,7 @@ TagManager:
   - FloorManager
   - PlayerManager
   - ItemManager
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - DepthPost
   - Face
   - Result
-  - 
+  - Fade
   - 
   - 
   - 

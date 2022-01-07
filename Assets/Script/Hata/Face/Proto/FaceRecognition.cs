@@ -216,7 +216,9 @@ namespace Face
 
             // カスケード分類器の準備
             //CascadeClassifier haarCascade = new CascadeClassifier("Assets/OpenCV+Unity/Demo/Face_Detector/haarcascade_frontalface_default.xml");
-            string app = "Assets/StreamingAssets/haarcascade_frontalface_default1.xml";
+
+            //string app = Application.dataPath + "/OpenCV+Unity/Demo/Face_Detector/haarcascade_frontalface_default.xml";
+            string app = Application.streamingAssetsPath + "/haarcascade_frontalface_default1.xml";
             CascadeClassifier haarCascade = new CascadeClassifier(app);
 
             // 顔検出

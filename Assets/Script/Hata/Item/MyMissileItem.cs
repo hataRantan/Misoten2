@@ -8,8 +8,7 @@ public class MyMissileItem : MyItemInterface
     [SerializeField] BoxCollider m_missileCol = null;
 
     [Header("ミサイルの剛体")]
-    [SerializeField]
-    Rigidbody m_missileRigid = null;
+    [SerializeField] Rigidbody m_missileRigid = null;
 
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
@@ -26,7 +25,6 @@ public class MyMissileItem : MyItemInterface
 
     [Header("回転速度")]
     [SerializeField] private float rotateSpeed = 70.0f;
-
     // 壁との衝突判定
     private bool isHitWall = false;
     //アクション中
@@ -37,11 +35,11 @@ public class MyMissileItem : MyItemInterface
         //プレイヤー情報の受け取り等
         base.Init(_info);
 
-        //牛自体の剛体等開始
+        //ミサイル自体の剛体等開始
         m_missileCol.enabled = true;
         m_missileRigid.isKinematic = false;
-
-
+        //他オブジェクトの当たり判定を無効
+        m_missileCol.isTrigger = true;
     }
 
     public override void ActionInit()
@@ -51,6 +49,10 @@ public class MyMissileItem : MyItemInterface
         isAction = true;
 
         //アクション初期化
+        //BoxCollider有効
+        m_missileCol.isTrigger = false;
+        //発射音
+        MyAudioManeger.Instance.PlaySE("Rocket_Fring");
         // 回転停止
         m_missileRigid.freezeRotation = true;
         // オブジェクトのZ軸の向き取得
@@ -61,13 +63,12 @@ public class MyMissileItem : MyItemInterface
     public override void FiexdAction()
     {
         //ToDo：アクション中
-        // 壁にぶつかったらendactonをtrueにする
         // 移動処理
         m_missileRigid.velocity = missileRotate * GetSpeed();
 
         if (isHitWall)
         {
-            //牛自体の剛体等停止
+            //ミサイル自体の剛体等停止
             m_missileCol.enabled = false;
             m_missileRigid.isKinematic = true;
         }

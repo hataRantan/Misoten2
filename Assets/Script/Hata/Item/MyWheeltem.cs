@@ -35,8 +35,9 @@ public class MyWheeltem : MyItemInterface
     [Header("当たり判定拡大時間")]
     [SerializeField] private int hitboxExpansionTime = 1;
 
-    //壁との衝突判定
-    private bool isHitWall = false;
+    [Header("offSetの値")]
+    [SerializeField] private float offSet = 9.0f;
+
     //アクション中
     private bool isAction = false;
 
@@ -48,15 +49,16 @@ public class MyWheeltem : MyItemInterface
         //モアイの剛体等開始
         m_wheelCol.enabled = true;
         m_wheelRigid.isKinematic = false;
+        //他オブジェクトの当たり判定を無効
+        m_wheelCol.isTrigger = true;
+        //ステージに沈むため無効にする
+        m_wheelRigid.useGravity = false;
 
         //ToDo：他の初期化事項
         //現在の座標取得
         nowPos = m_wheelRigid.position;
         //角度の固定
         m_wheelRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-        //当たり判定拡大の変数の調整
-        hitboxExpansion = (hitMaxSize - m_wheelCol.size.x) / hitboxExpansionTime;
-
     }
 
     public override void ActionInit()
@@ -64,6 +66,9 @@ public class MyWheeltem : MyItemInterface
         //アクション完了フラグ初期化
         isEndAntion = false;
         isAction = true;
+        //BoxCollider有効
+        m_wheelCol.isTrigger = false;
+
         //ToDo：アクション初期化
         //爆発音
         MyAudioManeger.Instance.PlaySE("Explosion");
@@ -71,25 +76,25 @@ public class MyWheeltem : MyItemInterface
         GameObject obj = Instantiate(particle, m_wheelRigid.position, Quaternion.identity);
         obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
         particleClone = obj.GetComponent<ParticleSystem>();
+        //プレイヤーを戻した際、アイテムとの当たり判定をとらない
+        m_wheelRigid.isKinematic = true;
+        //パーティクルの再生
+        StartCoroutine(DestroyCoroutine());
+        //プレイヤーを通常状態に変更
+        m_playerInfo.ChangeNormal();
+        //本体の描画を削除
+        m_wheelRenderer.enabled = false;
     }
 
     public override void FiexdAction()
     {
         //ToDo：アクション中
-        //パーティクルの再生
-        StartCoroutine(DestroyCoroutine());
-        //プレイヤーを戻した際、アイテムとの当たり判定をとらない
-        m_wheelRigid.isKinematic = true;
-        //プレイヤーを通常状態に変更
-        m_playerInfo.ChangeNormal();
-        //本体の描画を削除
-        this.gameObject.SetActive(false);
     }
 
     public override void FiexdMove()
     {
         //ToDo：
-        //ここが強制的に各方向の軸へと移動の処理を行ってしまっている
+        //ここが強制的に各方向の軸へと移動の処理を行ってしまっている(酔っ払い歩行)
         m_wheelRigid.velocity = wheelVelocity * moveSpeed;
 
         //進行方向の取得
@@ -111,6 +116,9 @@ public class MyWheeltem : MyItemInterface
         }
         //座標の更新
         nowPos = m_wheelRigid.position;
+        //操作アイテムがステージ内かどうか
+        m_wheelRigid.InsideStage(m_wheelRigid.position, 0.1f, offSet);
+
     }
 
     public override void Move(Vector2 _direct)
@@ -150,14 +158,18 @@ public class MyWheeltem : MyItemInterface
     /// <returns></returns>
     private IEnumerator DestroyCoroutine()
     {
+        float timer = 0.0f;
         if (particleClone != null)
         {
-            for (int i = 0; i < hitboxExpansionTime; i++)
+            while (timer < hitboxExpansionTime)
             {
                 //当たり判定の拡大スタート
-                m_wheelCol.size += new Vector3(hitboxExpansion, 0.0000f, hitboxExpansion);
-                // 1秒停止
-                yield return new WaitForSeconds(1.0f); ;
+                hitboxExpansion = Easing.CubicOut(timer, hitboxExpansionTime, m_wheelCol.size.x, hitMaxSize);
+                m_wheelCol.size = new Vector3(hitboxExpansion, hitboxExpansion, hitboxExpansion);
+
+                timer += Time.deltaTime;
+                // 1フレーム停止
+                yield return null;
             }
             //エフェクトの削除
             Destroy(particleClone.gameObject);

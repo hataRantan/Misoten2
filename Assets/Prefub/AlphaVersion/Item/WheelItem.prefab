@@ -257,13 +257,14 @@ MonoBehaviour:
   isUser: 0
   m_wheelCol: {fileID: 5179300185023439864}
   m_wheelRigid: {fileID: 5179300185023439863}
-  m_wheelRenderer: {fileID: 0}
+  m_wheelRenderer: {fileID: 5773904658683494256}
   particle: {fileID: 176258283326857901, guid: e863cc2bab2bca84b965e8daa26a99ee, type: 3}
   explosionSize: 6
   moveSpeed: 0.2
   rotChange: 5
   hitMaxSize: 0.055
   hitboxExpansionTime: 1
+  offSet: 9
 --- !u!1001 &3197350066763870435
 PrefabInstance:
   m_ObjectHideFlags: 0

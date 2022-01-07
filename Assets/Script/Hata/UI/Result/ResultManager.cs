@@ -52,6 +52,10 @@ public class ResultManager : MyUpdater
 
     //順位発表の関係--------------------------------
     [SerializeField]
+    float m_toAnnouncementTime = 1.0f;
+    [SerializeField]
+    float m_toRankIntervel = 0.5f;
+    [SerializeField]
     float m_rankIntervel = 0.8f;
     [SerializeField]
     float m_intervelTime = 1.0f;
@@ -156,6 +160,7 @@ public class ResultManager : MyUpdater
         m_endGroup.alpha = 1.0f;
         m_playerGroup.alpha = 0.0f;
 
+        MyAudioManeger.Instance.PlaySE("GameEnd");
         
         timer.Restart();
         Vector3 textSize = m_maxTextSize;
@@ -170,6 +175,7 @@ public class ResultManager : MyUpdater
         }
         m_endText.rectTransform.localScale = m_minTextSize;
 
+       
         //他のUpdaterを停止
         _action();
 
@@ -184,6 +190,12 @@ public class ResultManager : MyUpdater
         //値変更を通達
         //PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
 
+        timer.Restart();
+        while (timer.TotalSeconds < m_toRankIntervel)
+        {
+            yield return null;
+        }
+        MyAudioManeger.Instance.PlayBGMSpot("ResultBGM");
         //--------------------------------------------------------------------
         // 順位発表へと遷移
         //--------------------------------------------------------------------
@@ -210,6 +222,11 @@ public class ResultManager : MyUpdater
         m_depth.focalLength.Override(m_maxLength);
         //m_volume = PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
 
+        timer.Restart();
+        while (timer.TotalSeconds < m_toAnnouncementTime)
+        {
+            yield return null;
+        }
         //---------------------------------------------------------------------------
         //ランク発表
         //---------------------------------------------------------------------------
@@ -229,6 +246,15 @@ public class ResultManager : MyUpdater
             m_rankTexts[beginRank].gameObject.SetActive(true);
             //位置変更
             m_rankTexts[beginRank].rectTransform.localPosition = new Vector3(m_players[_rank[rank]].rectTransform.localPosition.x, m_textY, 0.0f);
+
+            if (rank < _rank.Count - 1)
+            {
+                MyAudioManeger.Instance.PlaySE("ResultSecond");
+            }
+            else
+            {
+                MyAudioManeger.Instance.PlaySE("ResultFirst");
+            }
 
             float endTime = (m_rankTextTime < m_rankTextSlopeTime) ? m_rankTextSlopeTime : m_rankTextTime;
             timer.Restart();

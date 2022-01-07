@@ -235,7 +235,19 @@ public class MyAudioManeger : Singleton<MyAudioManeger>
         }
 
     }
+    public void PlayBGMSpot(string bgmName)
+    {
+        if (!_bgmDic.ContainsKey(bgmName))
+        {
+            Debug.Log(bgmName + "という名前のBGMがありません");
+            return;
+        }
 
+        _nextBGMName = "";
+        _bgmSource.clip = _bgmDic[bgmName] as AudioClip;
+        _bgmSource.Play();
+        _isFadeOut = false;
+    }
  
     //=================================================================================
     //音量変更

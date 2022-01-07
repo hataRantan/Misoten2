@@ -254,6 +254,10 @@ public class MyNormalItem : MyItemInterface
         //移動先がステージ内か確認する
         m_playerInfo.Rigid.InsideStage(m_playerInfo.Trans.position);
 
+        //if(m_playerInfo.Rigid.velocity.magnitude>0.6f)
+        //{
+        //    MyAudioManeger.Instance.PlaySE("Player_Floating");
+        //}
     //    if (m_playerInfo.Number == 1)
     //        Debug.Log("kita");
     }

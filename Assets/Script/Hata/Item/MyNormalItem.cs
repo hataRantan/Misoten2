@@ -125,7 +125,6 @@ public class MyNormalItem : MyItemInterface
             return;
         }
 
-
         //アイテム取得のための連打
         if (MyRapperInput.Instance.GetItem(m_playerInfo.Number))
         //if (Input.GetMouseButton(0))

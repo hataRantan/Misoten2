@@ -44,6 +44,7 @@ public class MyPlayerObject : MyUpdater
         DAMAGE,
         DEAD,
         END,
+        WARP,
         NONE    //通常は使わない
     }
     //現在の状態

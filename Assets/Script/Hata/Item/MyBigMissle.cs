@@ -23,12 +23,19 @@ public class MyBigMissle : MyItemInterface
     [SerializeField] GameObject m_explosion = null;
     [SerializeField] Vector3 m_explosionSize = new Vector3(1, 1, 1);
 
+    [SerializeField] 
+    GameObject m_jetObj = null;
+    ParticleSystem m_jet = null;
+    [Header("パーティクルのサイズ"), SerializeField] Vector3 m_jetScale = new Vector3(10, 10, 10);
+    [Header("生成位置"), SerializeField] Vector3 m_jetPos = new Vector3(0, 0, -0.018f);
+
     // 壁との衝突判定
     private bool isHitWall = false;
     //アクション中
     private bool isAction = false;
 
     static List<GameObject> m_havePlayers = new List<GameObject>();
+    
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
@@ -53,6 +60,13 @@ public class MyBigMissle : MyItemInterface
         m_missileRigid.freezeRotation = true;
         // オブジェクトのZ軸の向き取得
         missileRotate = m_missileRigid.transform.forward;
+
+        MyAudioManeger.Instance.PlaySE("Rocket_Fring");
+
+        GameObject obj = Instantiate(m_jetObj, gameObject.transform.position, Quaternion.identity);
+        obj.transform.parent = gameObject.transform;
+        obj.transform.localScale = m_jetScale;
+        obj.transform.localPosition += m_jetPos;
     }
 
 
@@ -84,7 +98,7 @@ public class MyBigMissle : MyItemInterface
         // 回転速度
         rotateAcceleration = -rotateSpeed * _direct.x;
     }
-    private void OnCollisionEnter(Collision _other)
+    private void OnTriggerEnter(Collider _other)
     {
         if (!isAction) return;
 
@@ -102,7 +116,7 @@ public class MyBigMissle : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
-        else if(_other.gameObject.layer==LayerMask.NameToLayer("Wall"))
+        else if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             StopSE();
             //プレイヤーを通常状態に変更
@@ -110,8 +124,35 @@ public class MyBigMissle : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
-        
     }
+    //private void OnCollisionEnter(Collision _other)
+    //{
+    //    if (!isAction) return;
+
+    //    if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+    //    {
+    //        StopSE();
+    //        //爆発音
+    //        MyAudioManeger.Instance.PlaySE("Explosion");
+    //        GameObject ex = Instantiate(m_explosion, _other.gameObject.transform.position, Quaternion.identity);
+    //        ex.transform.localScale = m_explosionSize;
+    //        //ダメージ処理
+    //        Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
+    //        //プレイヤーを通常状態に変更
+    //        m_playerInfo.ChangeNormalFromPowerful();
+    //        //自身の消失
+    //        Destroy(this.gameObject);
+    //    }
+    //    else if(_other.gameObject.layer==LayerMask.NameToLayer("Wall"))
+    //    {
+    //        StopSE();
+    //        //プレイヤーを通常状態に変更
+    //        m_playerInfo.ChangeNormalFromPowerful();
+    //        //自身の消失
+    //        Destroy(this.gameObject);
+    //    }
+        
+    //}
 
     /// <summary>
     /// 画面外に出た際の処理

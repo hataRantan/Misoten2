@@ -27,6 +27,9 @@ public class ResultManager : MyUpdater
     CanvasGroup m_uiGroup = null;
     public bool isEndRank { get; private set; }
 
+    [SerializeField]
+    private float m_to0ScaleTime = 1.0f;
+
     //テキスト関係-----------------------------------
     [SerializeField]
     Vector3 m_maxTextSize;
@@ -134,6 +137,14 @@ public class ResultManager : MyUpdater
 
     private IEnumerator Result(List<int> _rank, UnityEngine.Events.UnityAction _action)
     {
+        ProcessTimer timer = new ProcessTimer();
+        timer.Restart();
+        while (timer.TotalSeconds < m_to0ScaleTime)
+        {
+            float scale = -Easing.CubicOut(timer.TotalSeconds, m_to0ScaleTime, -1, 0);
+            Time.timeScale = scale;
+            yield return null;
+        }
         Time.timeScale = 0.0f;
         //------------------------------------------------------------------
         // テキスト出現
@@ -142,7 +153,7 @@ public class ResultManager : MyUpdater
         m_endGroup.alpha = 1.0f;
         m_playerGroup.alpha = 0.0f;
 
-        ProcessTimer timer = new ProcessTimer();
+        
         timer.Restart();
         Vector3 textSize = m_maxTextSize;
         //テキストサイズ変更

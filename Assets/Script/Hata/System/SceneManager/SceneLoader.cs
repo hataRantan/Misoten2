@@ -45,9 +45,9 @@ public class SceneLoader : Singleton<SceneLoader>
     /// デフォルトのフェード処理でシーン読み込み
     /// </summary>
     /// <param name="_scene"> 読みこむシーン名 </param>
-    public void CallLoadSceneDefault(string _scene)
+    public void CallLoadSceneDefault(string _scene,Camera _target=null)
     {
-        StartCoroutine(LoadScene(_scene, 0, 0));
+        StartCoroutine(LoadScene(_scene, 0, 0, _target));
     }
 
     /// <summary>
@@ -85,8 +85,10 @@ public class SceneLoader : Singleton<SceneLoader>
     /// <param name="_scene"> 読みこむシーン名 </param>
     /// <param name="_fadeInIdx"> フェードインの番号 </param>
     /// <param name="_fadeOutIdx"> フェードアウトの番号 </param>
-    private IEnumerator LoadScene(string _scene,int _fadeInIdx,int _fadeOutIdx)
+    private IEnumerator LoadScene(string _scene,int _fadeInIdx,int _fadeOutIdx,Camera _target=null)
     {
+        if (!_target) _target = Camera.main;
+
         //現在シーンを前回シーンとして記憶
         m_lastScene = SceneManager.GetActiveScene().name;
 
@@ -94,6 +96,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
         //キャンバスを生成
         FadeBase fader = Instantiate(faderCanves[_fadeInIdx]).GetComponent<FadeBase>();
+        fader.gameObject.GetComponent<Canvas>().worldCamera = _target;
         //フェードイン処理
         if (fader == null)
         {
@@ -136,6 +139,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
         //フェードアウト処理
         fader = fader = Instantiate(faderCanves[_fadeOutIdx]).GetComponent<FadeBase>();
+        fader.gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
         if (fader == null)
         {
             Debug.LogError("フェードキャンバスにFadeBaseが存在しない");

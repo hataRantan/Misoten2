@@ -10,7 +10,10 @@ public class ResultManager : MyUpdater
 
     [Header("ポストプロセス"), SerializeField]
     GameObject m_post = null;
+    [Header("ポストプロファイル"), SerializeField]
+    PostProcessProfile m_file = null;
     DepthOfField m_depth = null;
+    PostProcessVolume m_volume = null;
     [SerializeField, Range(1, 300)] int m_maxLength = 300;
     const int m_minLength = 1;
 
@@ -104,7 +107,7 @@ public class ResultManager : MyUpdater
         m_playerNum = GameInPlayerNumber.Instance.CurrentPlayerNum;
         m_group = GetComponent<CanvasGroup>();
         m_group.alpha = 0.0f;
-
+        m_volume = null;
         //2人だと3分割
         //3人だと4分割
         //4人だと5分割
@@ -171,14 +174,15 @@ public class ResultManager : MyUpdater
         _action();
 
         //ポストプロセス取得
-        m_depth = ScriptableObject.CreateInstance<DepthOfField>();
+        m_depth = m_file.GetSetting<DepthOfField>();
+        //m_depth = ScriptableObject.CreateInstance<DepthOfField>();
         m_depth.active = true;
         //書き換えOKに変更
         m_depth.enabled.Override(true);
         //値書き換え
         m_depth.focalLength.Override(m_minLength);
         //値変更を通達
-        PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
+        //PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
 
         //--------------------------------------------------------------------
         // 順位発表へと遷移
@@ -197,14 +201,14 @@ public class ResultManager : MyUpdater
 
             length = Easing.QuartOut(timer.TotalSeconds, m_nextToRnakTime, m_minLength, m_maxLength);
             m_depth.focalLength.Override(length);
-            PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
+            //PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
 
             yield return null;
         }
         m_endGroup.alpha = 0.0f;
         m_playerGroup.alpha = 1.0f;
         m_depth.focalLength.Override(m_maxLength);
-        PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
+        //m_volume = PostProcessManager.instance.QuickVolume(m_post.layer, 1, m_depth);
 
         //---------------------------------------------------------------------------
         //ランク発表
@@ -282,6 +286,11 @@ public class ResultManager : MyUpdater
 
         Time.timeScale = 1.0f;
         isEndRank = true;
+    }
+
+    public void ResetDepth()
+    {
+        m_depth.focalLength.Override(m_minLength);
     }
 
     public override void MyUpdate()

@@ -925,7 +925,7 @@ MonoBehaviour:
   - 5
   - 5
   - 2
-  m_powerfulCreateNum: 10
+  m_powerfulCreateNum: 0
   m_itemSelecter: {fileID: 363954779}
   m_itemAppear: {fileID: 363954778}
   m_generate: {fileID: 363954780}

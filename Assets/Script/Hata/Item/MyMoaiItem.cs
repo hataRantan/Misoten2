@@ -65,8 +65,6 @@ public class MyMoaiItem : MyItemInterface
         lastPos = m_moaiRigid.position;
         // 角度の固定
         m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-        // 当たり判定拡大の変数の調整
-        hitboxExpansion = (hitMaxSize - m_moaiCol.size.x) / hitboxExpansionTime;
     }
 
     public override void ActionInit()
@@ -211,14 +209,17 @@ public class MyMoaiItem : MyItemInterface
     /// <returns></returns>
     private IEnumerator DestroyCoroutine()
     {
+        float timer = 0.0f;
         if (particleClone != null)
         {
-            for (int i = 0; i < hitboxExpansionTime; i++)
+            while (timer < hitboxExpansionTime)
             {
                 //当たり判定の拡大スタート
-                m_moaiCol.size += new Vector3(hitboxExpansion, hitboxExpansion, 0.000f);
+                hitboxExpansion = Easing.CubicOut(timer, hitboxExpansionTime, m_moaiCol.size.x, hitMaxSize);
+                m_moaiCol.size = new Vector3(hitboxExpansion, hitboxExpansion, 0.0f);
+                timer += Time.deltaTime;
                 // 1秒停止
-                yield return new WaitForSeconds(1.0f); ;
+                yield return null;
             }
             //エフェクトの削除
             Destroy(particleClone.gameObject);

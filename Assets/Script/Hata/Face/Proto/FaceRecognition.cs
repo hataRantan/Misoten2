@@ -215,7 +215,9 @@ namespace Face
             Cv2.CvtColor(mat, gray, ColorConversionCodes.BGR2GRAY);
 
             // カスケード分類器の準備
-            CascadeClassifier haarCascade = new CascadeClassifier("Assets/OpenCV+Unity/Demo/Face_Detector/haarcascade_frontalface_default.xml");
+            //CascadeClassifier haarCascade = new CascadeClassifier("Assets/OpenCV+Unity/Demo/Face_Detector/haarcascade_frontalface_default.xml");
+            string app = "Assets/StreamingAssets/haarcascade_frontalface_default1.xml";
+            CascadeClassifier haarCascade = new CascadeClassifier(app);
 
             // 顔検出
             OpenCvSharp.Rect[] faces = haarCascade.DetectMultiScale(gray);

@@ -4268,6 +4268,11 @@ PrefabInstance:
       propertyPath: m_camImage
       value: 
       objectReference: {fileID: 1437953207}
+    - target: {fileID: 2443602336569801905, guid: 00fb110e71b5f6a49af2cd59fe0024d6,
+        type: 3}
+      propertyPath: defaultAsset
+      value: 
+      objectReference: {fileID: 4900000, guid: 6b25a0e0227666d40b282be78b80780c, type: 3}
     - target: {fileID: 2443602336569801907, guid: 00fb110e71b5f6a49af2cd59fe0024d6,
         type: 3}
       propertyPath: m_Name

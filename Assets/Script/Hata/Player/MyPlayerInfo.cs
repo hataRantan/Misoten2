@@ -104,7 +104,7 @@ public class MyPlayerInfo
         //減少分を反映
         Hp = currentHp;
 
-        Debug.Log("来たぞ、ダメージ");
+        //Debug.Log("来たぞ、ダメージ");
 
         //状態変更
         if (Hp > 0) NextState = MyPlayerObject.MyPlayerState.DAMAGE;

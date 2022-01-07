@@ -3593,15 +3593,15 @@ MonoBehaviour:
   m_uiGroup: {fileID: 1925817690}
   m_maxTextSize: {x: 1.5, y: 1.5, z: 1}
   m_minTextSize: {x: 1, y: 1, z: 1}
-  m_textTime: 1
-  m_nextToRnakTime: 1
+  m_textTime: 0.8
+  m_nextToRnakTime: 0.5
   m_rankTexts:
   - {fileID: 1145729933}
   - {fileID: 1824534594}
   - {fileID: 1922924752}
   - {fileID: 1823557899}
   m_rankIntervel: 0.65
-  m_intervelTime: 1
+  m_intervelTime: 0.5
   m_appearTime: 0.3
   m_textY: -310
   m_rankTextMaxSize: {x: 8, y: 8}

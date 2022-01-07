@@ -213,6 +213,25 @@ namespace MyPlayerStateClass
             return MyPlayerObject.MyPlayerState.END;
         }
     }
+
+    public class WarpState : IStateSpace.IState<MyPlayerObject.MyPlayerState, MyPlayerObject>
+    {
+        public override void Entry()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Exit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override MyPlayerObject.MyPlayerState Update()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
 }
 
 

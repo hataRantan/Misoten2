@@ -244,7 +244,7 @@ public class MyBullItem : MyItemInterface
         {
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, BullDamage);
-            
+            m_playerInfo.ChangeNormal();
             Destroy(this.gameObject);
         }
     }

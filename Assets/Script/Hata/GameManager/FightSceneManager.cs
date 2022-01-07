@@ -107,13 +107,15 @@ public class FightSceneManager : MyUpdater
     private class InitState : IStateSpace.IState<FightSceneType, FightSceneManager>
     {
         float timer = 0.0f;
+        float lastTimer = 0.0f;
         public override void Entry()
         {
             //board.m_resultGroup.alpha = 0.0f;
 
             board.SetGameUpdate(false);
 
-            MyAudioManeger.Instance.PlayBGM("Battle_BGM");
+            MyAudioManeger.Instance.PlayBGM("BattleBGM2");
+            MyAudioManeger.Instance.PlaySE("GameCount");
         }
 
         public override void Exit()
@@ -128,6 +130,12 @@ public class FightSceneManager : MyUpdater
                 timer += Time.deltaTime;
 
                 board.m_standBytext.text = ((int)board.m_standByTime - (int)timer).ToString();
+
+                if ((int)timer - (int)lastTimer >= 1)
+                {
+                    lastTimer = timer;
+                    MyAudioManeger.Instance.PlaySE("GameCount");
+                }
             }
             else
             {
@@ -155,7 +163,11 @@ public class FightSceneManager : MyUpdater
             board.m_onlyHp.SwitchUpdate(true);
         }
 
-        public override void Exit() { }
+        public override void Exit() 
+        {
+            MyAudioManeger.Instance.StopLoopSE();
+            
+        }
 
         public override FightSceneType Update()
         {

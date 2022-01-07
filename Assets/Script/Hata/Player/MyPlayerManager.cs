@@ -144,7 +144,10 @@ public class MyPlayerManager : MyUpdater
         //プレイヤーの更新
         foreach (var player in m_players)
         {
-            if (player.IsSurvival && player.IsUpdate) player.MyUpdate();
+            if (player.IsSurvival && player.IsUpdate)
+            {
+                player.MyUpdate();
+            }
         }
 
     }

@@ -66,10 +66,17 @@ public class MyItemManager2 : MyUpdater
 
     public override void MyUpdate()
     {
+        //DebugFile.Instance.WriteLog("ItemManager2-Updater開始");
+
         //アイテム出現許可を取得
         CreateLicensePublish();
+
+        //DebugFile.Instance.WriteLog("ItemManager2-許可終了");
+
         //アイテム生成
         CreateItem();
+
+        //DebugFile.Instance.WriteLog("ItemManager2-生成終了");
     }
 
     private void CreateItem()
@@ -78,6 +85,7 @@ public class MyItemManager2 : MyUpdater
         if (!m_license) return;
 
         //Debug.Log("アイテム作成関数");
+        //DebugFile.Instance.WriteLog("ItemManager2-生成開始");
 
         //通常アイテムの生成
         if (m_currentCreateNum < m_powerfulCreateNum)
@@ -86,11 +94,12 @@ public class MyItemManager2 : MyUpdater
 
             //アイテム生成をカウント
             m_currentCreateNum++;
+
         }
         //強力なアイテムの生成
         else
         {
-            CreatePowerfulItem();
+            //CreatePowerfulItem();
 
             //Debug.Log("個数リセット");
             m_currentCreateNum = 0;
@@ -101,22 +110,31 @@ public class MyItemManager2 : MyUpdater
     private void CreateNormalItem()
     {
         testNum++;
-        //Debug.Log("回数：" + testNum);
-        //ToDo：アイテムの出現方法の選択　ランダムかプレイヤーの近くか
 
         //生成可能場所があるか確認する
         if (!m_generate.IsOpenPlace()) return;
 
+        //DebugFile.Instance.WriteLog("生成位置はある");
+      
         //アイテムの生成位置を取得
         List<Vector3> floatPos = new List<Vector3>();
 
         //アイテムに渡す生成位置
         List<Vector2Int> IntPos = new List<Vector2Int>();
 
-        for(int idx=0;idx<m_createItemNum;idx++)
+        int createNum = m_createItemNum;
+        int place = m_generate.IsAllOpenPlace();
+        //生成可能位置を確認
+        if (createNum > place)
+        {
+            createNum = place;
+        }
+
+        for(int idx=0;idx < createNum; idx++)
         {
             floatPos.Add(m_generate.GetGeneratePos(ref IntPos));
         }
+
 
         //アイテムの生成
         List<GameObject> created = m_itemSelecter.CreateNormalItems(floatPos);
@@ -131,6 +149,8 @@ public class MyItemManager2 : MyUpdater
             //アイテム初期化
             ItemInit(created[idx]);
         }
+
+        //DebugFile.Instance.WriteLog("アイテムの初期化終了");
     }
 
 
@@ -180,14 +200,15 @@ public class MyItemManager2 : MyUpdater
         //時間進行
         m_gameTimer += Time.deltaTime;
 
-        if (m_phaze + 1 > m_phaseInterval.Count) return;
-
-        //フェーズ進行具合を確認
-        if (m_phaseInterval[m_phaze + 1] <= m_gameTimer)
+        if (m_phaze + 1 < m_phaseInterval.Count)
         {
-            ++m_phaze;
-            m_lastCreatedTime = m_phaseInterval[m_phaze];
-            //Debug.Log("フェーズ進行");
+            //フェーズ進行具合を確認
+            if (m_phaseInterval[m_phaze + 1] <= m_gameTimer)
+            {
+                ++m_phaze;
+                m_lastCreatedTime = m_phaseInterval[m_phaze];
+                //Debug.Log("フェーズ進行");
+            }
         }
 
         //次のフェーズで無ければ、排出しない

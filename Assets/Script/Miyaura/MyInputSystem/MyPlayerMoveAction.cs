@@ -54,53 +54,53 @@ public class MyPlayerMoveAction : MonoBehaviour
     private void Awake()
     {
         // オブジェクトの情報取得
-        playerObject = this.gameObject.transform;
+        //playerObject = this.gameObject.transform;
         // オブジェクトのデフォルト角度をセット
-        defaultRotation = playerObject.rotation;
+        //defaultRotation = playerObject.rotation;
     }
 
     public void MoveMode(int _moveNum, Vector2 _input)
     {
-        NumClamp(ref _moveNum);
-        myMoveType = (MyMoveType)_moveNum;
-        sec += Time.deltaTime;
+        //NumClamp(ref _moveNum);
+        //myMoveType = (MyMoveType)_moveNum;
+        //sec += Time.deltaTime;
 
-        switch (myMoveType)
-        {
-            case MyMoveType.JUMP:
-                if (!jumpFlg)
-                {
-                    StartCoroutine(MoveJumpCoroutine());
-                }
-                break;
+        //switch (myMoveType)
+        //{
+        //    case MyMoveType.JUMP:
+        //        if (!jumpFlg)
+        //        {
+        //            StartCoroutine(MoveJumpCoroutine());
+        //        }
+        //        break;
 
-            case MyMoveType.WIDE_WALK:
-                if (!wideFlg)
-                {
-                    StartCoroutine(WideCoroutine());
-                }
-                break;
+        //    case MyMoveType.WIDE_WALK:
+        //        if (!wideFlg)
+        //        {
+        //            StartCoroutine(WideCoroutine());
+        //        }
+        //        break;
 
-            case MyMoveType.BOW:
-                if (!bowFlg)
-                {
-                    StartCoroutine(BowCoroutine());
-                }
-                break;
+        //    case MyMoveType.BOW:
+        //        if (!bowFlg)
+        //        {
+        //            StartCoroutine(BowCoroutine());
+        //        }
+        //        break;
 
-            case MyMoveType.ROWLING:
-                if (!rowlingFlg)
-                {
-                    StartCoroutine(RowlingCoroutine(_input));
-                }
-                break;
+        //    case MyMoveType.ROWLING:
+        //        if (!rowlingFlg)
+        //        {
+        //            StartCoroutine(RowlingCoroutine(_input));
+        //        }
+        //        break;
 
-            default:
-                defaultRotation.w = 1.0f;
-                playerObject.rotation = defaultRotation;
-                return;
+        //    default:
+        //        defaultRotation.w = 1.0f;
+        //        playerObject.rotation = defaultRotation;
+        //        return;
 
-        }
+        //}
 
     }
 
@@ -130,83 +130,84 @@ public class MyPlayerMoveAction : MonoBehaviour
     }
     private IEnumerator WideCoroutine()
     {
-        wideFlg = true;
-        int cnt = 0;
-        int wideRight = (int)wideAngleZ;
-        int wideLeft = (int)wideAngleZ * 2;
-        while (wideFlg)
-        {
-            if (cnt == 0)
-            {
-                for (float i = 0; i < wideRight; i += wideSpeed)
-                {
-                    playerObject.Rotate(new Vector3(0f, 0f, -wideSpeed), Space.World);
-                    yield return null;
-                }
-                cnt++;
-            }
-            else if (cnt == 1)
-            {
-                for (float i = 0; i < wideLeft; i += wideSpeed)
-                {
-                    playerObject.Rotate(new Vector3(0f, 0f, wideSpeed), Space.World);
-                    yield return null;
-                }
-                cnt++;
-            }
-            else if (cnt == 2)
-            {
-                for (float i = 0; i < wideRight; i += wideSpeed)
-                {
-                    playerObject.Rotate(new Vector3(0f, 0f, -wideSpeed), Space.World);
-                    yield return null;
-                }
-                break;
-            }
-        }
-        playerObject.rotation = defaultRotation;
-        wideFlg = false;
+        //wideFlg = true;
+        //int cnt = 0;
+        //int wideRight = (int)wideAngleZ;
+        //int wideLeft = (int)wideAngleZ * 2;
+        //while (wideFlg)
+        //{
+        //    if (cnt == 0)
+        //    {
+        //        for (float i = 0; i < wideRight; i += wideSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(0f, 0f, -wideSpeed), Space.World);
+        //            yield return null;
+        //        }
+        //        cnt++;
+        //    }
+        //    else if (cnt == 1)
+        //    {
+        //        for (float i = 0; i < wideLeft; i += wideSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(0f, 0f, wideSpeed), Space.World);
+        //            yield return null;
+        //        }
+        //        cnt++;
+        //    }
+        //    else if (cnt == 2)
+        //    {
+        //        for (float i = 0; i < wideRight; i += wideSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(0f, 0f, -wideSpeed), Space.World);
+        //            yield return null;
+        //        }
+        //        break;
+        //    }
+        //}
+        //playerObject.rotation = defaultRotation;
+        //wideFlg = false;
+        yield return null;
     }
 
     private IEnumerator BowCoroutine()
     {
-        bowFlg = true;
-        int cnt = 0;
-        int bowForward = (int)bowAngleX;
-        int bowBack = (int)bowAngleX * 2;
-        while (bowFlg)
-        {
-            if (cnt == 0)
-            {
-                for (float i = 0; i < bowForward; i += bowSpeed)
-                {
-                    playerObject.Rotate(new Vector3(bowSpeed, 0f, 0f), Space.World);
-                    yield return null;
-                }
-                cnt++;
-            }
-            else if (cnt == 1)
-            {
-                for (float i = 0; i < bowBack; i += bowSpeed)
-                {
-                    playerObject.Rotate(new Vector3(-bowSpeed, 0f, 0f), Space.World);
-                    yield return null;
-                }
-                cnt++;
-            }
-            else if (cnt == 2)
-            {
-                for (float i = 0; i < bowForward; i += bowSpeed)
-                {
-                    playerObject.Rotate(new Vector3(bowSpeed, 0f, 0f), Space.World);
-                    yield return null;
-                }
-                break;
-            }
-        }
-        playerObject.rotation = defaultRotation;
-        bowFlg = false;
-
+        //bowFlg = true;
+        //int cnt = 0;
+        //int bowForward = (int)bowAngleX;
+        //int bowBack = (int)bowAngleX * 2;
+        //while (bowFlg)
+        //{
+        //    if (cnt == 0)
+        //    {
+        //        for (float i = 0; i < bowForward; i += bowSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(bowSpeed, 0f, 0f), Space.World);
+        //            yield return null;
+        //        }
+        //        cnt++;
+        //    }
+        //    else if (cnt == 1)
+        //    {
+        //        for (float i = 0; i < bowBack; i += bowSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(-bowSpeed, 0f, 0f), Space.World);
+        //            yield return null;
+        //        }
+        //        cnt++;
+        //    }
+        //    else if (cnt == 2)
+        //    {
+        //        for (float i = 0; i < bowForward; i += bowSpeed)
+        //        {
+        //            playerObject.Rotate(new Vector3(bowSpeed, 0f, 0f), Space.World);
+        //            yield return null;
+        //        }
+        //        break;
+        //    }
+        //}
+        //playerObject.rotation = defaultRotation;
+        //bowFlg = false;
+        yield return null;
     }
     private IEnumerator RowlingCoroutine(Vector2 _input)
     {

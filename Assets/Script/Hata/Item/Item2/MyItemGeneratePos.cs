@@ -30,6 +30,8 @@ public class MyItemGeneratePos : MyUpdater
     Dictionary<SplitArea, List<GeneratePos>> m_generatablePos = new Dictionary<SplitArea, List<GeneratePos>>();
     //Dictionary<SplitArea, List<Vector2Int>> m_generatablePos = new Dictionary<SplitArea, List<Vector2Int>>();
 
+    int testNum =0;
+
     enum SplitArea
     {
         LEFT_DOWN,
@@ -144,6 +146,8 @@ public class MyItemGeneratePos : MyUpdater
             m_subWeights[key] = m_areaWeights[key];
         }
 
+        testNum++;
+        //DebugFile.Instance.WriteLog("生成位置の取得開始");
         while (!isDecision)
         {
             //エリア選択
@@ -153,11 +157,13 @@ public class MyItemGeneratePos : MyUpdater
             {
                 Debug.Log("そんなスクリプトのつもりない");
                 //UnityEditor.EditorApplication.isPlaying = false;
+                return Vector3.zero;
             }
             if (m_subWeights.Count == 0)
             {
                 Debug.Log("場所がない");
                 //UnityEditor.EditorApplication.isPlaying = false;
+                return Vector3.zero;
             }
 
             //指定エリアに生成可能位置があるか確認する
@@ -173,9 +179,10 @@ public class MyItemGeneratePos : MyUpdater
                 isDecision = true;
             }
         }
+        //DebugFile.Instance.WriteLog("生成位置の取得終了");
 
         //エリアの重みを変更する
-        foreach(SplitArea areaNum in Enum.GetValues(typeof(SplitArea)))
+        foreach (SplitArea areaNum in Enum.GetValues(typeof(SplitArea)))
         {
             //選択したエリアの重みを減少
             if (areaNum == area) m_areaWeights[areaNum] -= m_basicWeight;
@@ -189,6 +196,7 @@ public class MyItemGeneratePos : MyUpdater
         //選択したエリアから生成可能な位置をリストする
         ///List<int> generateIdx = new List<int>();
         var generateIdxs = m_generatablePos[area].Select((e, i) => new { element = e, index = i }).Where(value => value.element.isUser == true).Select(value => value.index).ToList();
+        Debug.Log(testNum + "リストのセレクト終了");
 
         //選択したエリアからフロアを取得する
         int idx = UnityEngine.Random.Range(0, generateIdxs.Count);
@@ -213,6 +221,7 @@ public class MyItemGeneratePos : MyUpdater
         createPos.x += offset.x;
         createPos.z += offset.y;
 
+        //DebugFile.Instance.WriteLog("生成位置の返却");
         return createPos;
     }
     
@@ -235,6 +244,28 @@ public class MyItemGeneratePos : MyUpdater
         if (openPlace > 0) return true;
 
         return false;
+    }
+
+    /// <summary>
+    /// 生成可能位置があるか全てのエリアから確認する
+    /// </summary>
+    public int IsAllOpenPlace()
+    {
+        int place = 0;
+
+        var keys = m_generatablePos.Keys;
+        foreach (var key in keys)
+        {
+            for (int idx = 0; idx < m_generatablePos[key].Count; ++idx)
+            {
+                if (m_generatablePos[key][idx].isUser)
+                {
+                    ++place;
+                }
+            }
+        }
+
+        return place;
     }
 
     /// <summary>

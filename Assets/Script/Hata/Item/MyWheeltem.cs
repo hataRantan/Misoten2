@@ -146,6 +146,21 @@ public class MyWheeltem : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
+        else if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            if (!isAction) return;
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, WheelDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider _other)
+    {
+        if (!isAction) return;
+
         if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
         {
             if (!isAction) return;

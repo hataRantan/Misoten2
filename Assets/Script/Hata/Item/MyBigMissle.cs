@@ -46,7 +46,7 @@ public class MyBigMissle : MyItemInterface
         m_missileRigid.isKinematic = false;
 
         //こいつのレイヤーを変更
-        gameObject.layer = LayerMask.NameToLayer("Possess");
+        gameObject.layer = LayerMask.NameToLayer("BigPossess");
         if (m_havePlayers.Count == 0) MyAudioManeger.Instance.PlayLoopSE("SuperItemGet");
         m_havePlayers.Add(_info.Player);
     }
@@ -132,43 +132,8 @@ public class MyBigMissle : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
-        else if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            StopSE();
-            //プレイヤーを通常状態に変更
-            m_playerInfo.ChangeNormalFromPowerful();
-            //自身の消失
-            Destroy(this.gameObject);
-        }
+        
     }
-    //private void OnCollisionEnter(Collision _other)
-    //{
-    //    if (!isAction) return;
-
-    //    if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
-    //    {
-    //        StopSE();
-    //        //爆発音
-    //        MyAudioManeger.Instance.PlaySE("Explosion");
-    //        GameObject ex = Instantiate(m_explosion, _other.gameObject.transform.position, Quaternion.identity);
-    //        ex.transform.localScale = m_explosionSize;
-    //        //ダメージ処理
-    //        Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MissileDamage);
-    //        //プレイヤーを通常状態に変更
-    //        m_playerInfo.ChangeNormalFromPowerful();
-    //        //自身の消失
-    //        Destroy(this.gameObject);
-    //    }
-    //    else if(_other.gameObject.layer==LayerMask.NameToLayer("Wall"))
-    //    {
-    //        StopSE();
-    //        //プレイヤーを通常状態に変更
-    //        m_playerInfo.ChangeNormalFromPowerful();
-    //        //自身の消失
-    //        Destroy(this.gameObject);
-    //    }
-
-    //}
 
     /// <summary>
     /// 画面外に出た際の処理

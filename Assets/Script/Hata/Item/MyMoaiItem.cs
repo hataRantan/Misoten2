@@ -189,16 +189,23 @@ public class MyMoaiItem : MyItemInterface
 
     private void OnCollisionEnter(Collision _other)
     {
-
+        if (!isAction) return;
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
-            if (!isAction) return;
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MoaiDamage);
         }
+        else if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, MoaiDamage);
+        }
+    }
+    private void OnTriggerEnter(Collider _other)
+    {
+        if (!isAction) return;
         if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
         {
-            if (!isAction) return;
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, MoaiDamage);
         }

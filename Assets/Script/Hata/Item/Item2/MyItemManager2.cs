@@ -99,7 +99,7 @@ public class MyItemManager2 : MyUpdater
         //強力なアイテムの生成
         else
         {
-            //CreatePowerfulItem();
+            CreatePowerfulItem();
 
             //Debug.Log("個数リセット");
             m_currentCreateNum = 0;

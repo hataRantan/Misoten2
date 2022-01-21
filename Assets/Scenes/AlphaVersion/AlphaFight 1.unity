@@ -483,7 +483,7 @@ Camera:
   m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 65335
+    m_Bits: 1638199
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -854,12 +854,12 @@ MonoBehaviour:
   - 181
   - 241
   m_itemIntervel:
-  - 1
+  - 8
   - 8
   - 5
   - 5
   - 2
-  m_powerfulCreateNum: 10
+  m_powerfulCreateNum: 1
   m_itemSelecter: {fileID: 363954779}
   m_itemAppear: {fileID: 363954778}
   m_generate: {fileID: 363954780}
@@ -898,6 +898,12 @@ MonoBehaviour:
   m_normalItems:
   - rank: 4
     item: {fileID: 5803675886069868657, guid: 8e07dd524074a704ca6ebb8efa786720, type: 3}
+  - rank: 4
+    item: {fileID: 1514447779658181118, guid: 6a642844550f77b43a08242a98e9ee6d, type: 3}
+  - rank: 4
+    item: {fileID: 7861812785811138699, guid: f38b9c656d9d19547a084cf144d2fa62, type: 3}
+  - rank: 4
+    item: {fileID: 5413885038345510565, guid: ac66daa8c3c7198488d49a63ae7533a8, type: 3}
   m_powerfulItems:
   - {fileID: 1514447779658181118, guid: a5c3fdd167eef2043bb3cb524b028a54, type: 3}
   m_weights:

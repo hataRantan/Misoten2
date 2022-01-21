@@ -31,11 +31,11 @@ public class MyRapperInput : Singleton<MyRapperInput>
 
     public int GetConnectNum()
     {
-#if UNITY_EDITOR
-        int num = gameObject.transform.childCount;
-        if (num > 0) return 4;
-        else return 0;
-#endif
+//#if UNITY_EDITOR
+//        int num = gameObject.transform.childCount;
+//        if (num > 0) return 4;
+//        else return 0;
+//#endif
 
         return gameObject.transform.childCount;
     }
@@ -44,10 +44,10 @@ public class MyRapperInput : Singleton<MyRapperInput>
     {
         NumClamp(ref _playerIdx);
 
-#if UNITY_EDITOR
-        if (controlls[0] == null) return MyPlayerInput.Type.PS4;
-        return controlls[0].InputType;
-#endif
+//#if UNITY_EDITOR
+//        if (controlls[0] == null) return MyPlayerInput.Type.PS4;
+//        return controlls[0].InputType;
+//#endif
         return controlls[_playerIdx].InputType;
     }
 
@@ -64,10 +64,10 @@ public class MyRapperInput : Singleton<MyRapperInput>
         if (_num < 0 || _num > 3)
             Debug.LogError("NumClampError:0～3以外の値が入っています");
 
-#if UNITY_EDITOR
-        _num = 0;
-        return;
-#endif
+//#if UNITY_EDITOR
+//        _num = 0;
+//        return;
+//#endif
 
         //  最小値以下なら０、最大値以上なら３を返す
         _num = Mathf.Clamp(_num, 0, 4);
@@ -108,9 +108,9 @@ public class MyRapperInput : Singleton<MyRapperInput>
         NumClamp(ref _playerNum);
         if (controlls[_playerNum] == null) return Vector2.zero;
 
-#if UNITY_EDITOR
-        return controlls[0].move;
-#endif
+//#if UNITY_EDITOR
+//        return controlls[0].move;
+//#endif
 
         return controlls[_playerNum].move;
     }
@@ -131,9 +131,9 @@ public class MyRapperInput : Singleton<MyRapperInput>
         NumClamp(ref _playerNum);
         if (controlls[_playerNum] == null) return false;
 
-#if UNITY_EDITOR
-        return controlls[0].submit;
-#endif
+//#if UNITY_EDITOR
+//        return controlls[0].submit;
+//#endif
 
         return controlls[_playerNum].submit;
     }
@@ -145,9 +145,9 @@ public class MyRapperInput : Singleton<MyRapperInput>
         NumClamp(ref _playerNum);
         if (controlls[_playerNum] == null) return false;
 
-#if UNITY_EDITOR
-        return controlls[0].getItem;
-#endif
+//#if UNITY_EDITOR
+//        return controlls[0].getItem;
+//#endif
 
         return controlls[_playerNum].getItem;
     }
@@ -159,9 +159,9 @@ public class MyRapperInput : Singleton<MyRapperInput>
         NumClamp(ref _playerNum);
         if (controlls[_playerNum] == null) return false;
 
-#if UNITY_EDITOR
-        return controlls[0].actionItem;
-#endif
+//#if UNITY_EDITOR
+//        return controlls[0].actionItem;
+//#endif
 
         return controlls[_playerNum].actionItem;
     }

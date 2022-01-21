@@ -265,10 +265,35 @@ public class MyBullItem : MyItemInterface
                 }
             }
         }
-        
+    }
+    private void OnCollisionEnter(Collision _other)
+    {
+        if (isInside)
+        {
+            if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
+            {
+                //ダメージ処理
+                if (isRunning)
+                {
+                    Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, BullDamage);
+                    m_playerInfo.ChangeNormal();
+                    Destroy(this.gameObject);
+                }
+            }
+            if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+            {
+                //ダメージ処理
+                if (isRunning)
+                {
+                    Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, BullDamage);
+                    m_playerInfo.ChangeNormal();
+                    Destroy(this.gameObject);
+                }
+            }
+        }
     }
 
-   
+
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1.0f);

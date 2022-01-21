@@ -11,7 +11,7 @@ public class TestFace : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        render.material.SetTexture("_MainTex", SavingFace.Instance.GetFace(0));
+        render.materials[1].SetTexture("_MainTex", SavingFace.Instance.GetFace(0));
     }
 
 }

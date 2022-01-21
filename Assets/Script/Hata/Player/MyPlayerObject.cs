@@ -87,7 +87,14 @@ public class MyPlayerObject : MyUpdater
         //初期状態に変更
         m_machine.InitState(MyPlayerState.MOVE);
 
-        GetComponent<Outline>().OutlineColor = _outLine;
+
+        //顔を貼り付け
+        //m_playerRender.materials[1].SetTexture("_MainTex", SavingFace.Instance.GetFace(_playerNum));
+        m_playerRender.material.SetTexture("_MainTex", SavingFace.Instance.GetFace(_playerNum));
+
+        Outline line = gameObject.AddComponent<Outline>();
+        line.OutlineColor = _outLine;
+        line.OutlineMode = Outline.Mode.OutlineAll;
 
         //情報をセットする
         m_info.SetPlayer(this, _outLine);
@@ -98,6 +105,8 @@ public class MyPlayerObject : MyUpdater
         ChangeNormalItem();
         //床位置を合わせる
         AdjustFloor();
+
+        
     }
 
     /// <summary>

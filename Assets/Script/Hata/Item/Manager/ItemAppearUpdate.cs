@@ -95,7 +95,7 @@ public class ItemAppearUpdate : MyUpdater
     public override void MyUpdate()
     {
         if (m_nowAppearItem.Count <= 0) return;
-
+        //DebugFile.Instance.WriteLog("ItemAppearUpdate開始");
         for (int idx = m_nowAppearItem.Count - 1; idx >= 0; idx--)
         {
             //パーティクルの終了確認
@@ -147,6 +147,7 @@ public class ItemAppearUpdate : MyUpdater
                 }
             }
         }
+        //DebugFile.Instance.WriteLog("ItemAppearUpdate終了");
     }
 
 

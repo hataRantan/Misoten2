@@ -61,6 +61,8 @@ public class MyPlayerManager : MyUpdater
     public List<int> PlayerRank { get; private set; }
     int m_rank = 0;
 
+    const float m_firstPlayerYUP = 60.0f;
+
     //ゲームオーバーテスト
 #if UNITY_EDITOR
     TestMyPlayerDead dead = null;
@@ -89,11 +91,11 @@ public class MyPlayerManager : MyUpdater
 
             //プレイヤーの生成
             //ToDo：現在の出現位置を四隅のみ、プレイヤーの人数によって変更させる必要あり
-            GameObject playerObj = Instantiate(createPlayer, floor.GetFourCornersPos(idx) + Vector3.up * 10.0f, Quaternion.identity);
+            GameObject playerObj = Instantiate(createPlayer, floor.GetFourCornersPos(idx) + Vector3.up * m_firstPlayerYUP, Quaternion.identity);
             playerObj.name = m_playerName[idx];
 
             //アウトライン変更
-            playerObj.GetComponent<Outline>().OutlineColor = m_playerColor[idx];
+            //playerObj.GetComponent<Outline>().OutlineColor = m_playerColor[idx];
 
             MyPlayerObject player = playerObj.GetComponent<MyPlayerObject>();
 

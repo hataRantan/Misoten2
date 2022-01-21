@@ -92,6 +92,7 @@ public class FightSceneManager : MyUpdater
     {
         //状態更新
         m_machine.UpdateState();
+
     }
 
     public override void MyLateUpdate()

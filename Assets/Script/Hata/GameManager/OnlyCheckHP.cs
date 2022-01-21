@@ -16,7 +16,7 @@ public class OnlyCheckHP : MyUpdater
 
     public override void MyUpdate()
     {
-
+        Debug.Log("Check");
     }
     public override void MyLateUpdate()
     {

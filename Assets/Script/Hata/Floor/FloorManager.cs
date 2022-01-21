@@ -433,7 +433,9 @@ public class FloorManager : MyUpdater
     }
 
 
-    public override void MyUpdate() { }
+    public override void MyUpdate()
+    {
+    }
 
     /// <summary>
     /// 指定の番号の床の四隅の位置を知る 0:左下、 1:右下、2:左上、3:右上

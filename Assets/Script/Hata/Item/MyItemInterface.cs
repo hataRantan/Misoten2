@@ -33,6 +33,7 @@ public abstract class MyItemInterface : MonoBehaviour
 
     //プレイヤー情報
     protected MyPlayerInfo m_playerInfo = null;
+    public MyPlayerInfo GetInfo { get { return m_playerInfo; } }
 
     //出現位置
     private Vector2Int m_appearPos = Vector2Int.zero;

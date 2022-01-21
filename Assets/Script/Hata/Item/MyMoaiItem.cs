@@ -65,6 +65,8 @@ public class MyMoaiItem : MyItemInterface
         lastPos = m_moaiRigid.position;
         // 角度の固定
         m_moaiRigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        //こいつのレイヤーを変更
+        gameObject.layer = LayerMask.NameToLayer("Possess");
     }
 
     public override void ActionInit()
@@ -187,11 +189,18 @@ public class MyMoaiItem : MyItemInterface
 
     private void OnCollisionEnter(Collision _other)
     {
+
         if (_other.gameObject.layer == LayerMask.NameToLayer("Player") && m_playerInfo.Player != _other.gameObject)
         {
             if (!isAction) return;
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, MoaiDamage);
+        }
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            if (!isAction) return;
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, MoaiDamage);
         }
     }
 

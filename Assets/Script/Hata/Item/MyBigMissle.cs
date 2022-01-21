@@ -23,7 +23,7 @@ public class MyBigMissle : MyItemInterface
     [SerializeField] GameObject m_explosion = null;
     [SerializeField] Vector3 m_explosionSize = new Vector3(1, 1, 1);
 
-    [SerializeField] 
+    [SerializeField]
     GameObject m_jetObj = null;
     ParticleSystem m_jet = null;
     [Header("パーティクルのサイズ"), SerializeField] Vector3 m_jetScale = new Vector3(10, 10, 10);
@@ -35,7 +35,7 @@ public class MyBigMissle : MyItemInterface
     private bool isAction = false;
 
     static List<GameObject> m_havePlayers = new List<GameObject>();
-    
+
     public override void Init(MyPlayerInfo _info)
     {
         //プレイヤー情報の受け取り等
@@ -45,6 +45,8 @@ public class MyBigMissle : MyItemInterface
         m_missileCol.enabled = true;
         m_missileRigid.isKinematic = false;
 
+        //こいつのレイヤーを変更
+        gameObject.layer = LayerMask.NameToLayer("Possess");
         if (m_havePlayers.Count == 0) MyAudioManeger.Instance.PlayLoopSE("SuperItemGet");
         m_havePlayers.Add(_info.Player);
     }
@@ -116,6 +118,20 @@ public class MyBigMissle : MyItemInterface
             //自身の消失
             Destroy(this.gameObject);
         }
+        else if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            StopSE();
+            //爆発音
+            MyAudioManeger.Instance.PlaySE("Explosion");
+            GameObject ex = Instantiate(m_explosion, _other.gameObject.transform.position, Quaternion.identity);
+            ex.transform.localScale = m_explosionSize;
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, MissileDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormalFromPowerful();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
         else if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             StopSE();
@@ -151,7 +167,7 @@ public class MyBigMissle : MyItemInterface
     //        //自身の消失
     //        Destroy(this.gameObject);
     //    }
-        
+
     //}
 
     /// <summary>
@@ -164,7 +180,7 @@ public class MyBigMissle : MyItemInterface
             StopSE();
             m_playerInfo.ChangeNormalFromPowerful();
         }
-        
+
         Destroy(this.gameObject);
     }
 
@@ -173,7 +189,7 @@ public class MyBigMissle : MyItemInterface
         if (m_playerInfo != null)
             m_havePlayers.Remove(m_playerInfo.Player);
 
-        if(m_havePlayers.Count==0)
+        if (m_havePlayers.Count == 0)
         {
             MyAudioManeger.Instance.StopLoopSE();
         }

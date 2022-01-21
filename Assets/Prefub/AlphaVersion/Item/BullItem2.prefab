@@ -760,8 +760,6 @@ MonoBehaviour:
     type: 3}
   bullEffectR: {fileID: 1766085516271621716, guid: 11c33ad0c6dbf9f42aedab3e7e5cf0e8,
     type: 3}
-  HitEffect: {fileID: 1844871472079996945, guid: 18e95b1990c996849b1cb46fb9e89717,
-    type: 3}
 --- !u!95 &4974442802520396059
 Animator:
   serializedVersion: 3

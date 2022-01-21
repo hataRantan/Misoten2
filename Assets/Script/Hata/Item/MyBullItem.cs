@@ -52,9 +52,8 @@ public class MyBullItem : MyItemInterface
         bullEffectR = transform.GetChild(5).GetComponent<ParticleSystem>();
         //アニメーションのスクリプトを有効化する
         GetComponent<bullanimation>().enabled = true;
-
-
-       
+        //こいつのレイヤーを変更
+        gameObject.layer = LayerMask.NameToLayer("Possess");
     }
 
     public override void ActionInit()
@@ -152,7 +151,7 @@ public class MyBullItem : MyItemInterface
         else if (_direct.x < 0 && _direct.y < 0)
         {
             rotateAcceleration = (-90.0f - -_direct.y * 90.0f) ;
-            Debug.Log(rotateAcceleration);
+            //Debug.Log(rotateAcceleration);
         }
         if (rotateAcceleration != 0)
         {
@@ -222,7 +221,7 @@ public class MyBullItem : MyItemInterface
         }
 
 
-        Debug.Log(_direct);
+        //Debug.Log(_direct);
         //Debug.Log(isInput);
         //Debug.Log("Action"+isAction);
     }
@@ -254,8 +253,16 @@ public class MyBullItem : MyItemInterface
                     m_playerInfo.ChangeNormal();
                     Destroy(this.gameObject);
                 }
-
-               
+            }
+            if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+            {
+                //ダメージ処理
+                if (isRunning)
+                {
+                    Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, BullDamage);
+                    m_playerInfo.ChangeNormal();
+                    Destroy(this.gameObject);
+                }
             }
         }
         

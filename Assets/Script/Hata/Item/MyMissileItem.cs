@@ -40,6 +40,8 @@ public class MyMissileItem : MyItemInterface
         m_missileRigid.isKinematic = false;
         //他オブジェクトの当たり判定を無効
         m_missileCol.isTrigger = true;
+        //こいつのレイヤーを変更
+        gameObject.layer = LayerMask.NameToLayer("Possess");
     }
 
     public override void ActionInit()
@@ -121,7 +123,36 @@ public class MyMissileItem : MyItemInterface
                 }
             }
         }
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            //爆発音
+            MyAudioManeger.Instance.PlaySE("Explosion");
+            //パーティクル開始
+            GameObject obj = Instantiate(particle, m_missileRigid.position, Quaternion.identity);
+            obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
+            particleClone = obj.GetComponent<ParticleSystem>();
+            //本体の描画を削除
+            this.gameObject.SetActive(false);
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, MissileDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
 
+            if (particleClone != null)
+            {
+                if (deadTime < 2.0f)
+                {
+                    deadTime += Time.fixedDeltaTime;
+                }
+                else
+                {
+                    //エフェクトの削除
+                    Destroy(particleClone.gameObject);
+                    //自身の消失
+                    Destroy(this.gameObject);
+                }
+            }
+        }
         if (_other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             isHitWall = true;

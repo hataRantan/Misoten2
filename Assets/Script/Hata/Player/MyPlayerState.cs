@@ -59,10 +59,18 @@ namespace MyPlayerStateClass
             {
                 if (InputFlg.RapperOn)
                 {
+#if UNITY_EDITOR
+                    if (MyRapperInput.Instance.GetItem(0))
+                    {
+                        return MyPlayerObject.MyPlayerState.ACTION;
+                    }
+#else
                     if (MyRapperInput.Instance.GetItem(board.PlayerNumber))
                     {
                         return MyPlayerObject.MyPlayerState.ACTION;
                     }
+#endif
+
                 }
                 else
                 {

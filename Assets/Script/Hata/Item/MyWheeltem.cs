@@ -13,6 +13,8 @@ public class MyWheeltem : MyItemInterface
     [Header("車輪のレンダラー")]
     [SerializeField] private Renderer m_wheelRenderer = null;
 
+    [Header("憑依中の当たり判定")]
+    [SerializeField] GameObject possess;
     [Header("パーティクルの種類")]
     [SerializeField] GameObject particle;
     private ParticleSystem particleClone;
@@ -53,6 +55,8 @@ public class MyWheeltem : MyItemInterface
         m_wheelCol.isTrigger = true;
         //ステージに沈むため無効にする
         m_wheelRigid.useGravity = false;
+        //こいつのレイヤーを変更
+        gameObject.layer = LayerMask.NameToLayer("Possess");
 
         //ToDo：他の初期化事項
         //現在の座標取得
@@ -137,6 +141,16 @@ public class MyWheeltem : MyItemInterface
         {
             //ダメージ処理
             Damage(_other.gameObject.GetComponent<MyPlayerObject>().PlayerInfo, WheelDamage);
+            //プレイヤーを通常状態に変更
+            m_playerInfo.ChangeNormal();
+            //自身の消失
+            Destroy(this.gameObject);
+        }
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Possess") && m_playerInfo.Player != _other.gameObject)
+        {
+            if (!isAction) return;
+            //ダメージ処理
+            Damage(_other.gameObject.GetComponent<MyItemInterface>().GetInfo, WheelDamage);
             //プレイヤーを通常状態に変更
             m_playerInfo.ChangeNormal();
             //自身の消失

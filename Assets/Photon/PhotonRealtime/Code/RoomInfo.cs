@@ -33,6 +33,7 @@ namespace Photon.Realtime
     /// This class resembles info about available rooms, as sent by the Master server's lobby.
     /// Consider all values as readonly. None are synced (only updated by events by server).
     /// </remarks>
+    //ルームの設定
     public class RoomInfo
     {
         /// <summary>Used in lobby, to mark rooms that are no longer listed (for being full, closed or hidden).</summary>
@@ -42,9 +43,11 @@ namespace Photon.Realtime
         private Hashtable customProperties = new Hashtable();
 
         /// <summary>Backing field for property.</summary>
+        /// // protected byte maxPlayers = 0;
         protected byte maxPlayers = 0;
 
         /// <summary>Backing field for property.</summary>
+        //protected int emptyRoomTtl = 0;
         protected int emptyRoomTtl = 0;
 
         /// <summary>Backing field for property.</summary>
@@ -124,6 +127,7 @@ namespace Photon.Realtime
         /// As part of RoomInfo this can't be set.
         /// As part of a Room (which the player joined), the setter will update the server and all clients.
         /// </remarks>
+        //プレイヤーが参加した
         public bool IsOpen
         {
             get

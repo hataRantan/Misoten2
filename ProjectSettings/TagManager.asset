@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - UI
+  - Item
+  - SceneManager
+  - FloorManager
+  - PlayerManager
+  - ItemManager
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -14,17 +20,17 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Item
+  - ItemHitbox
+  - Player
+  - Wall
+  - PlayerItem
+  - Floor
+  - PostProcess
+  - DepthPost
+  - Face
+  - Result
+  - Fade
   - 
   - 
   - 

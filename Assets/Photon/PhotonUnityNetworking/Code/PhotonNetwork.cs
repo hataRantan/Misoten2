@@ -2558,7 +2558,7 @@ namespace Photon.Pun
 
 
         private static readonly HashSet<string> PrefabsWithoutMagicCallback = new HashSet<string>();
-
+        //ゲームオブジェクト生成？？
         private static GameObject NetworkInstantiate(Pun.InstantiateParameters parameters, bool roomObject = false, bool instantiateEvent = false)
         {
             //Instantiate(name, pos, rot)
@@ -3193,7 +3193,10 @@ namespace Photon.Pun
                 return;
             }
 
-            string punResourcesDirectory = PhotonNetwork.FindPunAssetFolder() + "Resources/";
+            //ゲームオブジェクト格納場所
+            //string punResourcesDirectory = PhotonNetwork.FindPunAssetFolder() + "Resources/";
+            string punResourcesDirectory = PhotonNetwork.FindPunAssetFolder() + "Prehub/Hata/Proto/";
+            string punResourcesDirectoryItem = PhotonNetwork.FindPunAssetFolder() + "Prehub/Hata/Proto/Item/";
             string serverSettingsAssetPath = punResourcesDirectory + PhotonNetwork.ServerSettingsFileName + ".asset";
             string serverSettingsDirectory = Path.GetDirectoryName(serverSettingsAssetPath);
 
@@ -3222,6 +3225,7 @@ namespace Photon.Pun
         /// </summary>
         /// <returns>The asset path.</returns>
         /// <param name="asset">Asset.</param>
+        /// Assetの取得
         public static string FindAssetPath(string asset)
         {
             string[] guids = AssetDatabase.FindAssets (asset, null);

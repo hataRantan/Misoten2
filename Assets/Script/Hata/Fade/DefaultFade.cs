@@ -76,7 +76,7 @@ public class DefaultFade : FadeBase
             yield return null;
         }
 
-        Debug.Log("終了時間：" + timer.TotalSeconds);
+        //Debug.Log("終了時間：" + timer.TotalSeconds);
 
         yield return null;
     }
@@ -108,7 +108,7 @@ public class DefaultFade : FadeBase
                 }
                 startIdx--;
 
-                Debug.Log("呼び出し自機：" + timer.TotalSeconds + " 、カウント:" + (rightImages.Count - 1 - startIdx));
+                //Debug.Log("呼び出し自機：" + timer.TotalSeconds + " 、カウント:" + (rightImages.Count - 1 - startIdx));
             }
 
             yield return null;

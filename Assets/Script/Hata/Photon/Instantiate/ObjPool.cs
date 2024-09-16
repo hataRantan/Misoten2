@@ -7,7 +7,7 @@ namespace Pun2
     /// <summary>
     /// WrapperInstantiate用に調整したオブジェクトプール
     /// </summary>
-    public class ObjPool : MonoBehaviour
+    public class ObjPool
     {
         //スタック
         private Stack<GameObject> pools = new Stack<GameObject>();
